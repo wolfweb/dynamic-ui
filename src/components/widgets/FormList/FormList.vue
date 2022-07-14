@@ -6,7 +6,7 @@
   </el-table>
 </template>
 <script lang="ts">
-  import { remove, reduce } from 'lodash-es';
+  import { some } from 'lodash-es';
   import { defineComponent, watch }  from 'vue';
   import { useEditModel } from '@/models/schema';
 
@@ -20,25 +20,26 @@
 
       const tableData = [formModel.value];
 
-      const updateColumns = (widget) => {
-        remove(widget.columns);
+      const addOrUpdateColumns = (widget) => {
         const fields = recursionFind(widget.formSchema, x => x.hasOwnProperty('dataBinder') && x.hasOwnProperty('validation'));
         for(var i=0; i<fields.length; i++){
-          widget.columns.push({
-            id: fields[i].id,
-            label: fields[i].attributes.label,
-            name: fields[i].dataBinder.name,
-            enable: true
-          });
+          if(!some(widget.columns, x=> x.id == fields[i].id)){
+            widget.columns.push({
+              id: fields[i].id,
+              label: fields[i].attributes.label,
+              name: fields[i].dataBinder.name,
+              enable: true
+            });
+          }
         }
       }
 
-      updateColumns(props.meta);
+      addOrUpdateColumns(props.meta);
 
       watch(
         ()=> props.meta.formSchema,
         (v)=>{
-          updateColumns(props.meta);
+          addOrUpdateColumns(props.meta);
         },{deep: true}
       );
 
