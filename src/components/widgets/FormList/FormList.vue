@@ -39,7 +39,6 @@
         ()=> props.meta.formSchema,
         (v)=>{
           updateColumns(props.meta);
-          console.log(tableData);
         },{deep: true}
       );
 
