@@ -1,0 +1,68 @@
+body {
+  overflow: hidden;
+  user-select: none;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #bfbfbf;
+  border-radius: 10px;
+}
+
+.placeholder {
+  color: #c8c9cc;
+}
+
+img {
+  image-rendering: pixelated;
+}
+
+.el-dialog__body {
+  max-height: 66vh;
+  overflow: auto;
+}
+
+.edit-main{
+  background-size: calc(10 * 1px) calc(10 * 1px);
+  background-color: #fff;
+  width: 100%;
+  min-height: 100%;
+  height: auto;
+  display: flex;  
+}
+
+.is-mobile {
+  border: 15px solid #3a4051;
+  border-radius: 30px;
+  width: 375px;
+  height: 812px;
+  flex-grow: unset;
+  min-height: unset;
+  margin: 0 auto;
+  min-width: unset;
+  margin-top: 40px;
+  padding: 0;
+  position: relative;
+  overflow: visible;
+}
+
+.sortable{
+  margin-bottom: 10px;
+  
+  &_handle {
+    display: flex;
+    align-items: center;
+    height: 28px;
+    cursor: move;
+  }
+}
+
+.form-element-block{
+  display: flex;
+  flex-direction: row;
+  min-height: 24px;
+}

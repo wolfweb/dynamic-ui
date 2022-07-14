@@ -1,0 +1,62 @@
+<template>  
+  <div :class="containerStyle()">
+    <div :class="[styles.floatingActionBtn]" @click="()=>isOpen = !isOpen">
+      <i :class="[`fa fa-angle-double-${isOpen ? 'right' : 'left'}`]"></i>
+    </div>
+    <div :class="[styles.attrs]">
+      <el-tabs v-model="activeName" type="border-card" :class="[styles.tabs]" stretch>
+        <el-tab-pane v-for="(setting,i) in settings" :label="getWidgetSettingName(setting['name'])" :name="setting['name']">
+          <keep-alive>
+            <component :is="setting['name']" />
+          </keep-alive>
+        </el-tab-pane>
+      </el-tabs>
+    </div>
+  </div>
+</template>
+<script lang="tsx">
+  import { isEmpty } from "lodash-es";
+  import styles from './index.module.scss';
+  import { useEditModel } from '@/models/schema';
+  import { defineComponent, reactive, watch, toRefs } from 'vue';
+  import { findWidgetSettings, getWidgetSettingName } from '@/components/component.config';
+
+  export default defineComponent({
+    name: "RightPanel",
+    setup(props, context) {
+      const { currentWidget } = useEditModel();
+
+      const state = reactive({
+        activeName: '',
+        isOpen: false,
+        settings: []
+      })
+
+      const containerStyle  = () => [styles.drawer, { [styles.isOpen]: state.isOpen }]
+
+      watch(
+        ()=> currentWidget.value,
+        (v)=>{
+          if(v && v && !isEmpty(v)){
+            if(state.activeName && state.activeName.startsWith(v.key)) return;
+
+            state.isOpen = true;
+            state.settings = findWidgetSettings(v);
+            state.activeName = state.settings[0]['name'];
+          }else{
+            state.isOpen = false;
+            state.settings = [];
+            state.activeName = '';
+          }
+        }
+      )
+
+      return { 
+        ...toRefs(state),
+        getWidgetSettingName,
+        containerStyle,
+        styles,
+      }
+    }
+  })
+</script>
