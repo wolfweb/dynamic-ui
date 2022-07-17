@@ -16,16 +16,16 @@ $boxShadow: -2px 0 4px 0 rgb(0 0 0 / 10%);
   &.is-open {
     transform: translateX(0);
 
-    .floating-action-btn {
-      transform: translateX(0);
-    }
+    // .floating-action-btn {
+    //   transform: translateX(0);
+    // }
   }
 
-  &:hover {
-    .floating-action-btn {
-      transform: translateX(-20px);
-    }
-  }
+  // &:hover {
+  //   .floating-action-btn {
+  //     transform: translateX(-20px);
+  //   }
+  // }
 }
 
 .floating-action-btn {

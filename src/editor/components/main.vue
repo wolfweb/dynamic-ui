@@ -112,6 +112,7 @@
   .editMainContent{
     flex: 1;
     height: 100%;
+    min-height: 460px;
     transform: translate(0);
     box-shadow: 0 8px 12px #ebedf0;
 
