@@ -1,8 +1,8 @@
 <template>
   <div class="edit-main">
     <el-tabs type="card" v-model="activeName" style="min-width: 70%;">
-      <el-tab-pane label="表单" name="forms" @click.stop="clearCurrentWidget">
-        <el-form label-width="16%">
+      <el-tab-pane label="表单" name="forms" @click.stop="clearCurrentWidget" style="height:100%;">
+        <el-form label-width="16%" style="height:100%;">
           <draggable
             class="editMainContent"
             v-model="formSchema"
@@ -112,7 +112,6 @@
   .editMainContent{
     flex: 1;
     height: 100%;
-    min-height: 460px;
     transform: translate(0);
     box-shadow: 0 8px 12px #ebedf0;
 

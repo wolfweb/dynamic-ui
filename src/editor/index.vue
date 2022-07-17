@@ -51,5 +51,7 @@
       overflow-x: hidden;
     }
   }
+  .el-tabs__content{ height: 100%; }
+  
 </style>
   

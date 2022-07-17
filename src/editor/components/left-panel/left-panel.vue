@@ -1,28 +1,35 @@
 <template>
   <el-tabs v-model="activeName" tab-position="left" type="border-card" :style="{height:'100%'}">
-    <el-tab-pane v-for="(tab,i) in tabs" :name="tab.name" :label="tab.label" lazy>
+    <el-tab-pane v-for="(tab,i) in tabs" :name="tab.name" :label="tab.label" lazy style="height: 100%;">
       <template #label>
         <div class="tab-item">
           <i :class="tab.icon"></i>
           {{ tab.label }}
         </div>
       </template>
-      <draggable
-        class="dragArea list-group"
-        v-bind="{ group: { name: 'widget', pull: 'clone', put: false }, sort: false, ...dragOptions }"
-        :clone="cloneWidget"
-        :list="widgets"
-        :item-key="itemKey"
-        @start="isDrag = true"
-        @end="isDrag = false"
-      >
-        <template #item="item">
-          <div :class="styles.widget">
-            <i :class="`${item.element.attributes.icon}`"></i>
-            <span> {{item.element.display}} </span>
-          </div>
-        </template>
-      </draggable>
+      <div :class="styles.componentContainer">
+        <div :class="styles.header">
+          <el-input :prefix-icon="Search" />
+        </div>
+        <div :class="styles.body">
+          <draggable
+            class="dragArea list-group"
+            v-bind="{ group: { name: 'widget', pull: 'clone', put: false }, sort: false, ...dragOptions }"
+            :clone="cloneWidget"
+            :list="widgets"
+            :item-key="itemKey"
+            @start="isDrag = true"
+            @end="isDrag = false"
+          >
+            <template #item="item">
+              <div :class="styles.widget">
+                <i :class="`${item.element.attributes.icon}`"></i>
+                <span> {{item.element.display}} </span>
+              </div>
+            </template>
+          </draggable>
+        </div>
+      </div>
     </el-tab-pane>
   </el-tabs>
 </template>
@@ -32,6 +39,7 @@
   import draggable from 'vuedraggable';
   import { cloneDeep } from 'lodash-es';
   import { nanoid, customAlphabet } from 'nanoid';
+  import { Search } from '@element-plus/icons-vue'
   import { getWidgets } from '@/components/component.config';
   import { useSchemaStore } from '@/store/modules/schemaStore';
   import { defineComponent, reactive, toRefs, watch, computed } from 'vue';
@@ -94,6 +102,7 @@
         ...toRefs(state),
         dragOptions,
         tabs,
+        Search,
         styles
       }
     }
