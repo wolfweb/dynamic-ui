@@ -11,7 +11,7 @@ import MonacoEditor from '@/editor/components/monaco-editor/MonacoEditor';
 export const actions = () =>{
   const app = useAppStore().AppContext;
   const router = useRouter();
-  const { clearModelContext, formSchema, appendFormSchema } = useEditModel();
+  const { clearModelContext, formSchema, listSchema, detailSchema, appendFormSchema } = useEditModel();
   const schemaStore = useSchemaStore(formSchema.value);
   const state = reactive({
     jsonValue: JSON.stringify(schemaStore.Schema)
@@ -36,7 +36,7 @@ export const actions = () =>{
           content: () => (
             <>
               <MonacoEditor
-                code={JSON.stringify(formSchema.value)}
+                code={JSON.stringify({ formSchema: formSchema.value, listSchema: listSchema.value, detailSchema: detailSchema.value })}
                 layout={{ width: 700, height: 600 }}
               />
             </>
