@@ -32,7 +32,7 @@ export { widgetMetas, widgets, widgetFuncs}
 export default defineComponent({
   name: "widgets",
   label: "部件",
-  icon: "el-icon-reading",
+  icon: "Collection",
   metas: widgetMetas,
   schemaModel: SchemaMode.Design
 })

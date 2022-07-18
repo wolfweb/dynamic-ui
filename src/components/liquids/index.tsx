@@ -31,8 +31,8 @@ export { widgetMetas, widgets, widgetFuncs}
 
 export default defineComponent({
   name: "liquids",
-  label: "liquids",
-  icon: "el-icon-reading",
+  label: "liquid布局",
+  icon: "Reading",
   metas: widgetMetas,
   schemaModel: SchemaMode.Design
 })

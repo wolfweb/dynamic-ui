@@ -3,20 +3,19 @@
     <el-tab-pane v-for="(tab,i) in tabs" :name="tab.name" :label="tab.label" lazy style="height: 100%;">
       <template #label>
         <div class="tab-item">
-          <i :class="tab.icon"></i>
-          {{ tab.label }}
+          <el-icon :title="tab.label"><component :is="tab.icon" /></el-icon>
         </div>
       </template>
       <div :class="styles.componentContainer">
         <div :class="styles.header">
-          <el-input :prefix-icon="Search" />
+          <el-input v-model="searchKey" :prefix-icon="Search" size="small" />
         </div>
         <div :class="styles.body">
           <draggable
             class="dragArea list-group"
             v-bind="{ group: { name: 'widget', pull: 'clone', put: false }, sort: false, ...dragOptions }"
             :clone="cloneWidget"
-            :list="widgets"
+            :list="filterWidgets(searchKey)"
             :item-key="itemKey"
             @start="isDrag = true"
             @end="isDrag = false"
@@ -42,7 +41,7 @@
   import { Search } from '@element-plus/icons-vue'
   import { getWidgets } from '@/components/component.config';
   import { useSchemaStore } from '@/store/modules/schemaStore';
-  import { defineComponent, reactive, toRefs, watch, computed } from 'vue';
+  import { defineComponent, reactive, toRefs, watch, computed, ref } from 'vue';
   export default defineComponent({
     components: { draggable },
     props:{
@@ -71,39 +70,48 @@
       }
     },
     setup(props, context) {
-      var schemaStore = useSchemaStore();
+      const searchKey = ref('');
+      const schemaStore = useSchemaStore();
       const plugins = getWidgets(schemaStore.Mode);
-      const tabs = Object.keys(plugins)
-      .map((name) => {
+      
+      const tabs = Object.keys(plugins).map((name) => {
         const { label, icon, order, metas} = plugins[name]
         const widgets = Object.keys(metas).map(x=>metas[x])
         return { label, name, icon , order, widgets}
-      })
-      .sort((a, b) => a.order - b.order)
+      }).sort((a, b) => a.order - b.order);
 
       const dragOptions = computed(() => ({
         animation: 200,
         disabled: false,
         scroll: true,
         ghostClass: 'ghost'
-      }))
+      }));
       
       const state = reactive({
         activeName: tabs[0].name,
         widgets: tabs[0].widgets,
         isDrag: false,
-      })
+      });
+
+      const filterWidgets = (key)=>{
+        if(key && key.length > 0){
+          return state.widgets.filter(x=>x.display.includes(key) || x.key.toLowerCase().includes(key));
+        };
+        return state.widgets;
+      };
 
       watch(()=> state.activeName, (v)=>{
         state.widgets = tabs.find(x=>x.name == v)?.widgets || []
-      })      
+      });
 
       return {
         ...toRefs(state),
-        dragOptions,
         tabs,
+        styles,
+        searchKey,
+        dragOptions,
+        filterWidgets,
         Search,
-        styles
       }
     }
   })

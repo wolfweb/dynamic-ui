@@ -32,7 +32,7 @@ export { widgetMetas, widgets, widgetFuncs}
 export default defineComponent({
   name: "layouts",
   label: "布局",
-  icon: "el-icon-menu",
+  icon: "Menu",
   metas: widgetMetas,
   schemaModel: SchemaMode.Layout
 })
