@@ -1,5 +1,5 @@
 import { ElInput, ElForm, ElFormItem } from "element-plus";
-import { showDialog } from '@/components/vDialog';
+import { showDialog } from '@/hooks/web/useDialog';
 
 class Integer implements ValidationRule {
   readonly type = "integer";

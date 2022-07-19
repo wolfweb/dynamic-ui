@@ -1,10 +1,5 @@
 <template>
   <el-config-provider :locale="zhCn">
-    <div style="display: flex;">
-      <router-link to="/">home</router-link>
-      <router-link to="/design">design</router-link>
-      <router-link to="/layout">layout</router-link>
-    </div>
     <router-view #="{ Component, route }">
       <component :is="Component" :key="route.path" />
     </router-view>

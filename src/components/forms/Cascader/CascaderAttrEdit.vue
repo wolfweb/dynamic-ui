@@ -78,7 +78,7 @@
   import draggable from 'vuedraggable';
   import { useEditModel } from '@/models/schema';
   import { defineComponent, reactive } from 'vue';
-  import { showDialog } from '@/components/vDialog';
+  import { showDialog } from '@/hooks/web/useDialog';
   import { ElForm, ElFormItem, ElInput } from 'element-plus';
   import { useContextMenu } from '@/hooks/web/useContextMenu';
 

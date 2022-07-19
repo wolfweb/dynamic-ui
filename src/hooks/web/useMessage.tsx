@@ -1,4 +1,4 @@
-import { DialogOptions, showDialog } from "@/components/vDialog";
+import { DialogOptions, showDialog } from "./useDialog";
 
 import { ElAlert, ElNotification, ElMessage, ElMessageBox, ElPopconfirm } from "element-plus";
 import { isString } from "lodash-es";

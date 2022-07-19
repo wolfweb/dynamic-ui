@@ -1,11 +1,12 @@
 import { reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import httpFactory from '@/utils/http';
-import { showDialog } from '@/components/vDialog';
+import { showDialog } from '@/hooks/web/useDialog';
 import { useEditModel } from '@/models/schema';
 import { useAppStore } from '@/store/modules/appStore';
 import { useSchemaStore } from '@/store/modules/schemaStore';
 import { getWidgetCode } from '@/components/component.config';
+import { createAsyncComponent } from '@/components/createAsyncComponent';
 import MonacoEditor from '@/editor/components/monaco-editor/MonacoEditor';
 
 export const actions = () =>{
@@ -48,7 +49,14 @@ export const actions = () =>{
       title:'导出结构',
       icon: 'fa fa-upload',
       onClick: () => {
-
+        const code = JSON.stringify({ formSchema: formSchema.value, listSchema: listSchema.value, detailSchema: detailSchema.value });
+        const blob = new Blob([code], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'schema.json';
+        a.click();
+        URL.revokeObjectURL(url);
       }
     },
     {
@@ -111,6 +119,24 @@ export const actions = () =>{
       icon: 'fa fa-eraser',
       onClick: () => {
         clearModelContext();
+      }
+    },
+    {
+      title:'预览',
+      icon: 'fa fa-location-arrow',
+      onClick: async () => {        
+        const preview = await createAsyncComponent(()=> import('@/views/index.vue'));
+        showDialog({
+          title: '预览',
+          props: {
+            width: 660
+          },
+          content: () => (
+            <>
+              <preview />
+            </>
+          )
+        });
       }
     }
   ]

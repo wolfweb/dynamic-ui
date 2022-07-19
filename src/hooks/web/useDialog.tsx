@@ -48,7 +48,7 @@ const Dialog = defineComponent({
       }
     }
 
-    Object.assign(instance.proxy, methods)
+    Object.assign(instance.proxy!, methods)
 
     return () => (
       <ElDialog
