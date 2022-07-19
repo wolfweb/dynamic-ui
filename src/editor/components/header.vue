@@ -6,7 +6,7 @@
     </el-col>
     <el-col class="flex items-center" :span="12">
       <el-menu mode="horizontal">
-        <el-menu-item v-for="(item,index) in tools" :key="index">
+        <el-menu-item v-for="(item,index) in tools" :key="index" @click.native="item.onClick">
           <template #title>
             <el-icon>
               <component :is="item.icon" />
