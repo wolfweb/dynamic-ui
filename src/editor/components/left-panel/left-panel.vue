@@ -6,29 +6,26 @@
           <el-icon :title="tab.label"><component :is="tab.icon" /></el-icon>
         </div>
       </template>
-      <div :class="styles.componentContainer">
-        <div :class="styles.header">
-          <el-input v-model="searchKey" :prefix-icon="Search" size="small" />
-        </div>
-        <div :class="styles.body">
-          <draggable
-            class="dragArea list-group"
-            v-bind="{ group: { name: 'widget', pull: 'clone', put: false }, sort: false, ...dragOptions }"
-            :clone="cloneWidget"
-            :list="filterWidgets(searchKey)"
-            :item-key="itemKey"
-            @start="isDrag = true"
-            @end="isDrag = false"
-          >
-            <template #item="item">
-              <div :class="styles.widget">
-                <i :class="`${item.element.attributes.icon}`"></i>
-                <span> {{item.element.display}} </span>
-              </div>
-            </template>
-          </draggable>
-        </div>
-      </div>
+      <el-input v-model="searchKey" :prefix-icon="Search" size="small" />
+      <el-divider style="margin: 6px 0;" />
+      <el-scrollbar>
+        <draggable
+          class="dragArea list-group"
+          v-bind="{ group: { name: 'widget', pull: 'clone', put: false }, sort: false, ...dragOptions }"
+          :clone="cloneWidget"
+          :list="filterWidgets(searchKey)"
+          :item-key="itemKey"
+          @start="isDrag = true"
+          @end="isDrag = false"
+        >
+          <template #item="item">
+            <div :class="styles.widget">
+              <i :class="`${item.element.attributes.icon}`"></i>
+              <span> {{item.element.display}} </span>
+            </div>
+          </template>
+        </draggable>
+      </el-scrollbar>
     </el-tab-pane>
   </el-tabs>
 </template>

@@ -8,6 +8,7 @@ import { useSchemaStore } from '@/store/modules/schemaStore';
 import { getWidgetCode } from '@/components/component.config';
 import { createAsyncComponent } from '@/components/createAsyncComponent';
 import MonacoEditor from '@/editor/components/monaco-editor/MonacoEditor';
+import { Cellphone, Document, Download, Refrigerator, TakeawayBox, Upload, View } from '@element-plus/icons-vue';
 
 export const actions = () =>{
   const app = useAppStore().AppContext;
@@ -27,7 +28,7 @@ export const actions = () =>{
   return [
     {
       title:'查看结构',
-      icon: 'fa fa-eye',
+      icon: View,
       onClick: () => {
         showDialog({
           title: '表单结构',
@@ -47,7 +48,7 @@ export const actions = () =>{
     },
     {
       title:'导出结构',
-      icon: 'fa fa-upload',
+      icon: Upload,
       onClick: () => {
         const code = JSON.stringify({ formSchema: formSchema.value, listSchema: listSchema.value, detailSchema: detailSchema.value });
         const blob = new Blob([code], { type: 'application/json' });
@@ -61,7 +62,7 @@ export const actions = () =>{
     },
     {
       title:'导入结构',
-      icon: 'fa fa-download',
+      icon: Download,
       onClick: () => {
         showDialog({
           title: '导入结构',
@@ -82,7 +83,7 @@ export const actions = () =>{
     },
     {
       title:'生成源码',
-      icon: 'fa fa-code',
+      icon: Document,
       onClick: () => {
         const schema = formSchema.value;
         const codes:Array<string> = [];
@@ -108,7 +109,7 @@ export const actions = () =>{
     },
     {
       title:'保存',
-      icon: 'fa fa-save',
+      icon: Cellphone,
       onClick: () => {
         const schema = formSchema.value;
         schemaStore.updateSchema(schema);
@@ -116,14 +117,14 @@ export const actions = () =>{
     },
     {
       title:'清空',
-      icon: 'fa fa-eraser',
+      icon: Refrigerator,
       onClick: () => {
         clearModelContext();
       }
     },
     {
       title:'预览',
-      icon: 'fa fa-location-arrow',
+      icon: TakeawayBox,
       onClick: async () => {        
         const preview = await createAsyncComponent(()=> import('@/views/index.vue'));
         showDialog({
