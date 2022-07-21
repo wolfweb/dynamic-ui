@@ -11,6 +11,11 @@
     props: {
       meta:null
     },
+    computed:{
+      descriptor(){
+        return this.meta.validation.map(x=>x.rule);
+      }
+    },
     setup(props, context) {
       const { formModel, ensureFormModelInit } = useEditModel()
 
@@ -18,11 +23,8 @@
         ensureFormModelInit(props.meta)
       }
 
-      const descriptor = reactive(props.meta.validation.map(x=>x.rule));
-
       return {
         formModel,
-        descriptor
       }
     }
   })

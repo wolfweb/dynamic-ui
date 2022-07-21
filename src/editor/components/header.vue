@@ -49,9 +49,5 @@
       background-repeat: no-repeat;
       background-size: contain;
     }
-
-    .el-button {
-      font-size: 22px;
-    }
   }
 </style>

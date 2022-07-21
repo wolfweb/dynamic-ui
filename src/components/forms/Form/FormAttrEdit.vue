@@ -16,7 +16,7 @@
     </el-row>
     <el-row>
       <el-col :span="24">
-        <el-form-item label="标签位置" prop="attributes['size']">
+        <el-form-item label="组件尺寸" prop="attributes['size']">
           <el-radio-group v-model="currentWidget!.attributes.size">
             <el-radio-button label="large">large</el-radio-button>
             <el-radio-button label="default">default</el-radio-button>

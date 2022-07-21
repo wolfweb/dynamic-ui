@@ -24,6 +24,11 @@
     props: {
       meta:null
     },
+    computed:{
+      descriptor(){
+        return this.meta.validation.map(x=>x.rule);
+      }
+    },
     setup(props, context) {
       const { formModel, ensureFormModelInit } = useEditModel();
 
@@ -32,8 +37,6 @@
       if(props.meta){
         ensureFormModelInit(props.meta);
       }
-
-      const descriptor = reactive(props.meta.validation.map(x=>x.rule));
 
       const handleRemove = (file, fileList) => {
         console.log(file, fileList);
@@ -44,12 +47,11 @@
       }
 
       const handleSuccess = (res, file) => {
-        console.log(URL.createObjectURL(file.raw!));
+        console.log(URL.createObjectURL(file.raw));
       }
 
       return {
         formModel,
-        descriptor,
         handleRemove,
         handleSuccess,
       }

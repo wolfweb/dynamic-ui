@@ -4,7 +4,7 @@
   </el-form-item>
 </template>
 <script lang="ts">
-  import { defineComponent, ref } from 'vue'
+  import { defineComponent } from 'vue'
   import { useEditModel } from '@/models/schema'
   
   export default defineComponent({
@@ -15,6 +15,11 @@
     props: {
       meta:null
     },
+    computed:{
+      descriptor(){
+        return this.meta.validation.map(x=>x.rule);
+      }
+    },
     setup(props, context) {
       const { formModel, ensureFormModelInit } = useEditModel();
 
@@ -22,15 +27,12 @@
         ensureFormModelInit(props.meta);
       }
 
-      const descriptor = reactive(props.meta.validation.map(x=>x.rule));
-
       const updateHandler = ({html, json}) => {
 
       }
 
       return {
         formModel,
-        descriptor,
         updateHandler
       }
     }

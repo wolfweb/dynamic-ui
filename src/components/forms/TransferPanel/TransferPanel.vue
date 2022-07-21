@@ -12,6 +12,11 @@
     props: {
       meta:null
     },
+    computed:{
+      descriptor(){
+        return this.meta.validation.map(x=>x.rule);
+      }
+    },
     setup(props, context) {
       const { formModel, ensureFormModelInit } = useEditModel();
 
@@ -19,15 +24,12 @@
         ensureFormModelInit(props.meta);
       }
 
-      const descriptor = reactive(props.meta.validation.map(x=>x.rule));
-
       const filterItems = (query, item) => {
         return item.key.indexOf(query) > -1 || item.label.indexOf(query) > -1;
       }
 
       return {
         filterItems,
-        descriptor,
         formModel
       }
     }
