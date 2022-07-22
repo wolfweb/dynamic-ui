@@ -51,7 +51,7 @@
     },
     computed: {
       widget() {
-        return this.currentWidget as IFormElementMetadata;
+        return this.currentWidget as ILayoutElementMetadata;
       }
     },
     methods:{

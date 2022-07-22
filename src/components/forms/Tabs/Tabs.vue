@@ -9,18 +9,39 @@
       :editable="meta.attributes.editable"
       :tab-position="meta.attributes['tab-position']" 
       :stretch="meta.attributes.stretch">
-      <el-tab-pane v-for="(child, index) in meta.attributes.options" :key="index" :label="child.label" :name="child.label" style="min-height: 80px;">
-        
+      <el-tab-pane v-for="(item, index) in meta.childes" :key="index" :label="item.display" :name="item.label" style="min-height: 80px;">
+        <draggable 
+          class="form-element-block"
+          animation="200" 
+          v-model="item.childes" 
+          v-bind="{
+            group: {
+              name: 'widget',
+            },
+            ghostClass: 'ghost',
+          }"
+          :item-key='itemKey'
+        >
+        <template #item="{element,index}">
+          <dynamic-component :meta="element" />
+        </template>
+      </draggable>
       </el-tab-pane>
     </el-tabs>
   </el-form-item>
 </template>
 <script lang="ts">
+  import draggable from 'vuedraggable';
   import { defineComponent } from 'vue'
   export default defineComponent({
     name: "Tabs",
+    components: { draggable },
     props: {
-      meta: null
+      meta: null,
+      itemKey: {
+        type: String,
+        default: 'id'
+      },
     },
     setup(props, context) {
       if (props.meta) {
