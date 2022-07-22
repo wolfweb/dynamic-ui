@@ -1,5 +1,12 @@
 <template>
-  <el-form ref="form" :model="widget!">
+  <el-form ref="form" :model="widget!" label-width="20%">
+    <el-row :gutter="10">
+      <el-col :span="24">
+        <el-form-item label="手风琴效果" prop="attributes.accordion">
+          <el-switch v-model="widget.attributes.accordion" />
+        </el-form-item>
+      </el-col>
+    </el-row>
     <el-row :gutter="10">
       <el-col :span="2"><el-form-item label=""><br /><el-icon><Sort /></el-icon></el-form-item></el-col>
       <el-col :span="10"><el-form-item label="">名称</el-form-item></el-col>
