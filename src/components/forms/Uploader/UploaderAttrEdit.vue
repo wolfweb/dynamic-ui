@@ -16,15 +16,29 @@
     </el-row>
     <el-row :gutter="20">
       <el-col :span="24">
-        <el-form-item label="上传地址" prop="attributes.action">
+        <el-form-item label="上传接口" prop="attributes.action">
           <el-input v-model="app.uploadUrl" />
         </el-form-item>
       </el-col>
     </el-row>
     <el-row :gutter="20">
       <el-col :span="24">
+        <el-form-item label="上传接口" prop="attributes.removeApi">
+          <el-input v-model="app.mediaRemoveApi" />
+        </el-form-item>
+      </el-col>
+    </el-row>
+    <el-row :gutter="20">
+      <el-col :span="24">
         <el-form-item label="上传类型" prop="attributes.accept">
-          <el-input v-model="widget!.attributes.accept" autosize type="textarea" />
+          <el-input v-model="widget!.attributes.accept" type="textarea" :rows="2" />
+        </el-form-item>
+      </el-col>
+    </el-row>
+    <el-row :gutter="20">
+      <el-col :span="24">
+        <el-form-item label="上传提示" prop="attributes.accept">
+          <el-input v-model="widget!.attributes.tip" autosize />
         </el-form-item>
       </el-col>
     </el-row>
@@ -87,6 +101,7 @@
   import draggable from 'vuedraggable';
   import { defineComponent } from 'vue';
   import { useEditModel } from '@/models/schema';
+  import { useMessage } from '@/hooks/web/useMessage';
   import { useAppStore } from '@/store/modules/appStore';
   import Validation from '@/components/common/Validation.vue';
   export default defineComponent({
@@ -111,7 +126,13 @@
     setup(props, context) {
       const { currentWidget, requireChangeHandler } = useEditModel();
 
+      const { message } = useMessage();
+
       const app = useAppStore().AppContext;
+
+      if(app == null){
+        message.error("请先配置应用信息");
+      }
 
       return {
         requireChangeHandler,

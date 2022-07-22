@@ -78,6 +78,7 @@ declare interface AppContext{
   uploadUrl: string;
   cacheType: CacheType;
   themeMode: 'light' | 'dark';
+  mediaRemoveApi?: string;
 }
 
 //

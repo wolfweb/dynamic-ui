@@ -5,7 +5,7 @@ meta.id = "";
 meta.key = "Uploader";
 meta.display = "文件上传";
 meta.attributes = {
-  icon: "fa fa-cloud-upload",
+  icon: "fa fa-fw fa-cloud-upload",
   label: "文件上传",
   limit: 5,
   accept: "image/png,image/jpeg,image/gif,image/bmp",
