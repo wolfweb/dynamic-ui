@@ -9,7 +9,7 @@
       :editable="meta.attributes.editable"
       :tab-position="meta.attributes['tab-position']" 
       :stretch="meta.attributes.stretch">
-      <el-tab-pane v-for="(item, index) in meta.childes" :key="index" :label="item.display" :name="item.label" style="min-height: 80px;">
+      <el-tab-pane v-for="(item, index) in meta.childes" :key="index" :label="item.display" :name="item.name" style="min-height: 80px;">
         <draggable 
           class="form-element-block"
           animation="200" 
@@ -45,7 +45,7 @@
     },
     setup(props, context) {
       if (props.meta) {
-        props.meta.attributes.active = props.meta.attributes.options[0].label
+        props.meta.attributes.active = props.meta.childes[0].name;
       }
       return {
         

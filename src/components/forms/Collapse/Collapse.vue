@@ -1,7 +1,7 @@
 <template>
   <el-form-item :label="meta.attributes.label">
     <el-collapse v-model="meta.attributes.active" :accordion="meta.attributes.accordion" style="width: 100%;">
-      <el-collapse-item v-for="(item,index) in meta.childes" :title="item.display" :name="item.name">
+      <el-collapse-item v-for="(item, index) in meta.childes" :key="index" :title="item.display" :name="item.name">
         <draggable 
           class="form-element-block"
           animation="200" 
@@ -37,7 +37,7 @@
     },
     setup(props, context) {      
       if(props.meta){
-        props.meta.attributes.active = props.meta.childes[0].name
+        props.meta.attributes.active = props.meta.childes[0].name;
       }
 
       return {
