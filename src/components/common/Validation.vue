@@ -74,7 +74,7 @@
         // @ts-ignore
         () => currentWidget.value.validation, 
         (newValue) => {
-          if (newValue && newValue.length > 0) {
+          if (newValue) {
             validatorRules.forEach(x=>{
               const rule = newValue.find(m=>m.provider===x.serverType);
               if( rule && !x.reused) {
