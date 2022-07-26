@@ -13,21 +13,21 @@ const editInjectKey: InjectionKey<ReturnType<typeof ModelContext>> = Symbol();
 const appInjectKey: InjectionKey<AppContext> = Symbol();
 
 export class FormElementMetadata implements IFormElementMetadata {
-  id: string
-  key: string
-  display: string
-  attributes: Dictionary<any>
-  dataBinder: Nullable<WidgetDataBinder>
-  validation: Array<WidgetValidation>
-  childes?: Array<IFormElementChildGroupMetadata>
+  id: string;
+  key: string;
+  display: string;
+  attributes: Dictionary<any>;
+  dataBinder: Nullable<WidgetDataBinder>;
+  validation: Array<WidgetValidation>;
+  childes?: Array<IFormElementChildGroupMetadata>;
 }
 
 export class LayoutElementMetadata implements ILayoutElementMetadata {
-  id: string
-  key: string
-  display: string
-  attributes: Dictionary<any>
-  childes: Array<IFormElementChildGroupMetadata>
+  id: string;
+  key: string;
+  display: string;
+  attributes: Dictionary<any>;
+  childes: Array<IFormElementChildGroupMetadata>;
 }
 
 export class DisplayElementMetadata implements IDisplayElementMetadata{

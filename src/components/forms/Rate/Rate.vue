@@ -4,8 +4,8 @@
   </el-form-item>
 </template>
 <script lang="ts">
-  import { defineComponent } from 'vue'
-  import { useEditModel } from '@/models/schema'
+  import { defineComponent } from 'vue';
+  import { useEditModel } from '@/models/schema';
   export default defineComponent({
     name: "Rate",
     props: {

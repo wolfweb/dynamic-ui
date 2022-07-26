@@ -65,13 +65,8 @@
     },
     setup(props, context){
       const { currentWidget } = useEditModel();
-      
-      const abc = (it) => {
-        console.log(it);
-      }
 
       return {
-        abc,
         currentWidget
       }
     }

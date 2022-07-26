@@ -1,14 +1,15 @@
-import fs from "fs"
-import { ConfigEnv, loadEnv, UserConfig, Plugin } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import vueJsx from '@vitejs/plugin-vue-jsx'
-import legacy from '@vitejs/plugin-legacy'
-import { resolve } from 'path'
-import { ElementPlusResolver, VantResolver } from 'unplugin-vue-components/resolvers'
-import AutoImport from 'unplugin-auto-import/vite'
-import Components from 'unplugin-vue-components/vite'
-import WindiCSS from 'vite-plugin-windicss'
-import {dataToEsm} from "rollup-pluginutils"
+import fs from "fs";
+import { resolve } from 'path';
+import vue from '@vitejs/plugin-vue';
+import legacy from '@vitejs/plugin-legacy';
+import vueJsx from '@vitejs/plugin-vue-jsx';
+import WindiCSS from 'vite-plugin-windicss';
+import {dataToEsm} from "rollup-pluginutils";
+import AutoImport from 'unplugin-auto-import/vite';
+import Components from 'unplugin-vue-components/vite';
+import DefineOptions from 'unplugin-vue-define-options/vite';
+import { ConfigEnv, loadEnv, UserConfig, Plugin } from 'vite';
+import { ElementPlusResolver, VantResolver } from 'unplugin-vue-components/resolvers';
 
 const CWD = process.cwd()
 
@@ -43,7 +44,6 @@ export default ({ mode }: ConfigEnv): UserConfig => {
           charset: false,
         }
       },
-      charset: false,
       postcss:{
         plugins: [
           {
@@ -63,6 +63,7 @@ export default ({ mode }: ConfigEnv): UserConfig => {
       vue(),
       vueJsx(),
       WindiCSS(),
+      DefineOptions(),
       legacy({
         targets: ['defaults', 'not IE 11']
       }),
@@ -84,7 +85,7 @@ export default ({ mode }: ConfigEnv): UserConfig => {
     ],
     resolve: {
       alias: {
-        '@': resolve(__dirname, 'src')
+        '@': resolve(__dirname, './src')
       }
     },
     build: {
@@ -93,6 +94,7 @@ export default ({ mode }: ConfigEnv): UserConfig => {
       target: 'modules',
       chunkSizeWarningLimit: 550,
       assetsInlineLimit: 4096,
+      minify: 'terser',
       terserOptions:{
         compress: {
           drop_console: true, // 生产环境去除console
@@ -101,8 +103,7 @@ export default ({ mode }: ConfigEnv): UserConfig => {
       },
       rollupOptions: {
         input: {
-          main: resolve(__dirname, 'index.html'),
-          //preview: resolve(__dirname, 'preview/index.html')
+          main: resolve(__dirname, 'index.html')
         },
         output: {
           manualChunks: {
@@ -134,16 +135,6 @@ export default ({ mode }: ConfigEnv): UserConfig => {
       port: 8000, // 设置服务启动端口号
       open: false, // 设置服务启动时是否自动打开浏览器
       cors: true, // 允许跨域
-
-      // 设置代理，根据项目实际情况配置
-      proxy: {
-        '/api': {
-          target: 'http://29135jo738.zicp.vip/api/v1',
-          changeOrigin: true,
-          secure: false,
-          rewrite: (path) => path.replace('/api/', '/')
-        }
-      }
     }
   }
 }

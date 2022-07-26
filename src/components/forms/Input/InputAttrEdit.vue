@@ -129,6 +129,14 @@
         return this.currentWidget as IFormElementMetadata;
       }
     },
+    methods:{
+      typeChangeHandle(v){
+        if(v != 'password'){
+          this.widget.attributes['show-password'] = false;
+          this.widget.attributes['show-word-limit'] = false;
+        }
+      }
+    },
     setup(props, context) {
       const { currentWidget, requireChangeHandler } = useEditModel();
 
@@ -142,18 +150,10 @@
         { value: "hidden"  , label: "隐藏域" },
       ]
 
-      const typeChangeHandle = (v) => {
-        if(v != 'password'){
-          widget!.attributes['show-password'] = false;
-          widget!.attributes['show-word-limit'] = false;
-        }
-      };
-
       return {
         Icons,
         typeList,
         currentWidget,
-        typeChangeHandle,
         requireChangeHandler
       }
     }
