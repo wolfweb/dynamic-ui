@@ -23,7 +23,7 @@
     </el-row>
     <el-row :gutter="20">
       <el-col :span="24">
-        <el-form-item label="上传接口" prop="attributes.removeApi">
+        <el-form-item label="资源移除接口" prop="attributes.removeApi">
           <el-input v-model="app.mediaRemoveApi" />
         </el-form-item>
       </el-col>
@@ -32,6 +32,23 @@
       <el-col :span="24">
         <el-form-item label="上传类型" prop="attributes.accept">
           <el-input v-model="widget!.attributes.accept" type="textarea" :rows="2" />
+        </el-form-item>
+      </el-col>
+    </el-row>
+    <el-row :gutter="20">
+      <el-col :span="24">
+        <el-form-item label="上传图标" prop="attributes.uploadIcon">
+          <el-select v-model="widget!.attributes.uploadIcon" filterable placeholder="请选择" style="width: 100%;">
+            <el-option key="" value="">无</el-option>
+            <el-option v-for="item in Icons" :value="item.name">
+              <span>
+                <el-icon>
+                  <component :is="item.name" />
+                </el-icon>
+                {{item.name}}
+              </span>
+            </el-option>
+          </el-select>
         </el-form-item>
       </el-col>
     </el-row>
@@ -100,6 +117,7 @@
 <script lang="ts">
   import draggable from 'vuedraggable';
   import { defineComponent } from 'vue';
+  import { Icons } from '@/models/common';
   import { useEditModel } from '@/models/schema';
   import { useMessage } from '@/hooks/web/useMessage';
   import { useAppStore } from '@/store/modules/appStore';
@@ -137,6 +155,7 @@
       return {
         requireChangeHandler,
         currentWidget,
+        Icons,
         app
       }
     }

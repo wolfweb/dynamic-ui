@@ -9,6 +9,7 @@ meta.attributes = {
   label: "文件上传",
   limit: 5,
   accept: "image/png,image/jpeg,image/gif,image/bmp",
+  uploadIcon: "upload-filled",
   required: false,
   multiple: false,
 };

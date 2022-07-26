@@ -3,8 +3,8 @@
     <el-upload
       :on-remove="handleRemove"
       :on-success="handleSuccess"
+      :before-upload="beforeUpload"
       :drag="meta.attributes.drag"
-      :limit="meta.attributes.limit"
       :accept="meta.attributes.accept"
       :action="meta.attributes.action"
       :multiple="meta.attributes.multiple"
@@ -17,7 +17,7 @@
           {{ meta.attributes.tip }}
         </div>
       </template>
-      <el-icon class="el-icon--upload"><upload-filled /></el-icon>
+      <el-icon class="el-icon--upload"><component :is="meta.attributes.uploadIcon" /></el-icon>
     </el-upload>
   </el-form-item>
 </template>
@@ -39,21 +39,23 @@
     setup(props, context) {
       const { formModel, ensureFormModelInit } = useEditModel();
 
-      const { messageBox } = useMessage();
+      const { message, messageBox } = useMessage();
 
       if(props.meta){
         ensureFormModelInit(props.meta);
       }
 
       const handleRemove = (file, fileList) => {
-        messageBox.confirm('确定删除文件吗？', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          //todo: 删除文件
-          formModel[props.meta.dataBinder.name] = fileList;
-        });
+        if (file && file.status==="success") {
+          messageBox.confirm('确定删除文件吗？', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            //todo: 删除文件
+            formModel[props.meta.dataBinder.name] = fileList;
+          });
+        }
       }
 
       const handleSuccess = (res, file) => {
@@ -64,8 +66,17 @@
         }
       }
 
+      const beforeUpload = (file) => {
+        if (file.size / 1024 / 1024 > props.meta.attributes.limit) {
+          message.error(`最大上传文件质量 ${props.meta.attributes.limit}MB!`);
+          return false;
+        }
+        return true;
+      }
+
       return {
         formModel,
+        beforeUpload,
         handleRemove,
         handleSuccess,
       }
