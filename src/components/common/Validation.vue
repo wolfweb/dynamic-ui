@@ -1,7 +1,7 @@
 <template>
   <el-row v-for="(item,index) in widget.validation">
     <el-form-item v-if="item.provider !=='Required'">
-      <el-tag closable @close="tagRemove(item)"> 
+      <el-tag closable @close="validationRemove(item)"> 
         {{getValidator(item.provider).display}}
       </el-tag>      
     </el-form-item>
@@ -20,7 +20,7 @@
   </el-row>
 </template>
 <script lang="ts">
-  import { filter, some } from 'lodash-es';
+  import { filter, some, isEqual } from 'lodash-es';
   import validators from '@/utils/validators';
   import { useEditModel } from '@/models/schema';
   import { defineComponent, watch, reactive } from 'vue';
@@ -66,8 +66,15 @@
         return filter(validators, x=>x.serverType===provider)[0];
       }
 
-      const tagRemove = (rule) => {
-        removeValidation(rule.provider);
+      const validationRemove = (rule) => {
+        removeValidation(validation=> {
+          let res = validation.provider === rule.provider;
+          if(validation.args){
+            res = res && isEqual(validation.args, rule.args);
+          }
+
+          return res;
+        });
       }
 
       watch(
@@ -87,11 +94,11 @@
       },{ deep: true });
 
       return {
-        tagRemove,
         getValidator,
         currentWidget,
         handleCommand,
-        validatorRules
+        validatorRules,
+        validationRemove,
       }
     }
   })

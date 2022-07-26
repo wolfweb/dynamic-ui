@@ -257,9 +257,9 @@ const ModelContext = ({ title, callback }) => {
     }
   }
 
-  const removeValidation = (provider: string) => {
+  const removeValidation = ( predict : (validation: WidgetValidation) => Boolean) => {
     if (state.currentWidget && state.currentWidget instanceof FormElementMetadata) {
-      remove(state.currentWidget.validation, x => x?.rule.name == provider);
+      remove(state.currentWidget.validation, x => predict(x));
     }
   }
 
@@ -267,7 +267,7 @@ const ModelContext = ({ title, callback }) => {
     if (v) {
       addValidation({ provider: "Required", rule: {name: "Required"} });
     } else {
-      removeValidation("Required");
+      removeValidation(validation=> validation.provider === "Required");
     }
   }
 
