@@ -81,8 +81,8 @@
 </template>
 <script lang="ts">
   import draggable from 'vuedraggable';
-  import { defineComponent } from 'vue';
   import { useEditModel } from '@/models/schema';
+  import { defineComponent, computed } from 'vue';
   import Validation from '@/components/common/Validation.vue';
   export default defineComponent({
     name: "CheckboxAttrEdit",
@@ -90,24 +90,25 @@
       draggable,
       Validation
     },
-    computed: {
-      widget() {
-        return this.currentWidget as IFormElementMetadata;
-      }
-    },
     methods: {
       removeChild(idx)  {
-        this.widget!.attributes.options.splice(idx, 1)
+        this.widget.attributes.options.splice(idx, 1)
       },
       addChild() {
-        this.widget!.attributes.options.push({ text: "" })
+        this.widget.attributes.options.push({ text: "" })
       }
     },
     setup(props, context) {
       const { currentWidget, requireChangeHandler } = useEditModel();
+
+      const widget = computed(()=> {
+        // @ts-ignore
+        return currentWidget as IFormElementMetadata;
+      }).value;
+
       return {
         requireChangeHandler,
-        currentWidget
+        widget
       }
     }
   })

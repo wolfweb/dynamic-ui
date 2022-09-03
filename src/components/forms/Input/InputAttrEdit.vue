@@ -115,19 +115,14 @@
   </el-form>
 </template>
 <script lang="ts">
-  import { defineComponent } from 'vue';
   import { Icons } from '@/models/common';
   import { useEditModel } from '@/models/schema';
+  import { defineComponent, computed } from 'vue';
   import Validation from '@/components/common/Validation.vue';
   export default defineComponent({
     name: "InputAttrEdit",
     components:{
       Validation
-    },
-    computed: {
-      widget() {
-        return this.currentWidget as IFormElementMetadata;
-      }
     },
     methods:{
       typeChangeHandle(v){
@@ -148,12 +143,17 @@
         { value: "url"     , label: "URL"    },
         { value: "number"  , label: "数字"   },
         { value: "hidden"  , label: "隐藏域" },
-      ]
+      ];
+
+      const widget = computed(()=> {
+        // @ts-ignore
+        return currentWidget as IFormElementMetadata;
+      }).value;
 
       return {
         Icons,
+        widget,
         typeList,
-        currentWidget,
         requireChangeHandler
       }
     }

@@ -39,7 +39,7 @@
     </el-row>
     <el-row :gutter="20">
       <el-col :span="24">
-        <el-button size="small" style="width:100%;" type="default" @click="addChild">
+        <el-button size="small" style="width:100%;" type="default" @click="(e)=> addChild(e, null) ">
           <el-icon><plus /></el-icon>
           <span>新增</span>
         </el-button>
@@ -62,8 +62,8 @@
 </template>
 <script lang="tsx">
   import { useEditModel } from '@/models/schema';
-  import { defineComponent, reactive } from 'vue';
   import { showDialog } from '@/hooks/web/useDialog';
+  import { defineComponent, reactive, computed } from 'vue';
   import { ElForm, ElFormItem, ElInput } from 'element-plus';
   import { useContextMenu } from '@/hooks/web/useContextMenu';
   
@@ -73,11 +73,6 @@
     name: "CascaderPanelAttrEdit",
     components:{
       Validation
-    },
-    computed: {
-      widget() {
-        return this.currentWidget as IFormElementMetadata;
-      }
     },
     methods:{
       remove(node, data){
@@ -89,7 +84,7 @@
       removeChild(idx) {
         this.widget.attributes.options.splice(idx, 1);
       },
-      addChild(treeNode: Tree) {
+      addChild(e: MouseEvent, treeNode: Nullable<Tree>) {
         const item = reactive({
           label: "选项",
           value: "option",
@@ -130,7 +125,7 @@
             icon: 'Plus',
             label:'新建',
             handler: ()=> {
-              this.addChild(data);
+              this.addChild(null, data);
             }
           },
           {
@@ -148,9 +143,14 @@
       const { currentWidget, requireChangeHandler } = useEditModel();
 
       const [createContextMenu] = useContextMenu();
+
+      const widget = computed(()=> {
+        // @ts-ignore
+        return currentWidget as IFormElementMetadata;
+      }).value;
       
       return {
-        currentWidget,
+        widget,
         createContextMenu,
         requireChangeHandler
       }

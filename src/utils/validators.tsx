@@ -7,19 +7,19 @@ class Integer implements ValidationRule {
   readonly message = "请输入整数";
   readonly serverType = "Integer";
 
-  validator (rule, value, callback){
-    if(value && value.length > 0){
+  validator(rule, value, callback) {
+    if (value && value.length > 0) {
       return /^\d+$/.test(value) ? callback() : callback(new Error(this.message));
     }
     return false;
   }
 
   clientRule() {
-    return { name: "Integer", type: this.type, message: this.message, validator: this.validator , trigger: 'blur' };
+    return { name: "Integer", type: this.type, message: this.message, validator: this.validator, trigger: 'blur' };
   }
   serverRule(): Nullable<WidgetValidation> {
     return { provider: this.serverType, rule: this.clientRule() };
-  }  
+  }
 }
 
 class MaxLength implements ValidationRule {
@@ -36,7 +36,7 @@ class MaxLength implements ValidationRule {
         width: 660
       },
       content: () => (
-        <>  
+        <>
           <ElForm>
             <ElFormItem label="最大长度">
               <ElInput type="number" placeholder="请输入最大长度" v-model={obj.max} />
@@ -54,7 +54,7 @@ class MaxLength implements ValidationRule {
   }
   serverRule(): Nullable<WidgetValidation> {
     return {
-      provider: this.serverType, args: { "Length": this.max }, rule : this.clientRule()
+      provider: this.serverType, args: { "Length": this.max }, rule: this.clientRule()
     }
   }
 }
@@ -69,11 +69,11 @@ class Required implements ValidationRule {
     return { name: "Required", required: this.required, message: this.message };
   }
   serverRule(): Nullable<WidgetValidation> {
-    return { provider: this.serverType, rule: this.clientRule()}
+    return { provider: this.serverType, rule: this.clientRule() }
   }
 }
 
-class StringLength implements ValidationRule  {
+class StringLength implements ValidationRule {
   min = 0;
   max = 255;
 
@@ -82,22 +82,22 @@ class StringLength implements ValidationRule  {
   readonly message = "请输入正确的内容长度";
   readonly serverType = "StringLength";
 
-  render (obj: StringLength, confirm: (value: ValidationRule) => void) {
+  render(obj: StringLength, confirm: (value: ValidationRule) => void) {
     showDialog({
       title: '设置',
       props: {
         width: 660
       },
       content: () => (
-        <>  
-        <ElForm>
-          <ElFormItem label="最小长度">
-            <ElInput type="number" placeholder="请输入最小长度" v-model={obj.min} />
-          </ElFormItem>
-          <ElFormItem label="最大长度">
-            <ElInput type="number" placeholder="请输入最大长度" v-model={obj.max} />
-          </ElFormItem>
-        </ElForm>
+        <>
+          <ElForm>
+            <ElFormItem label="最小长度">
+              <ElInput type="number" placeholder="请输入最小长度" v-model={obj.min} />
+            </ElFormItem>
+            <ElFormItem label="最大长度">
+              <ElInput type="number" placeholder="请输入最大长度" v-model={obj.max} />
+            </ElFormItem>
+          </ElForm>
         </>
       ),
       onConfirm: () => {
@@ -107,57 +107,57 @@ class StringLength implements ValidationRule  {
   }
 
   clientRule() {
-    return { name:"StringLength", type: this.type, min: this.min, max: this.max, message: this.message };
+    return { name: "StringLength", type: this.type, min: this.min, max: this.max, message: this.message };
   }
   serverRule(): Nullable<WidgetValidation> {
-    return { provider: this.serverType , args: { "MaximumLength": this.max, "MinimumLength": this.min }, rule: this.clientRule() }
+    return { provider: this.serverType, args: { "MaximumLength": this.max, "MinimumLength": this.min }, rule: this.clientRule() }
   }
 }
 
-class EmailAddress implements ValidationRule  {
+class EmailAddress implements ValidationRule {
   readonly type = "email";
   readonly display = "邮箱";
   readonly message = "请输入正确的邮箱地址";
   readonly serverType = "EmailAddress";
 
   clientRule() {
-    return { name:"EmailAddress", type: this.type, message: this.message };
+    return { name: "EmailAddress", type: this.type, message: this.message };
   }
-  serverRule (): Nullable<WidgetValidation> {
+  serverRule(): Nullable<WidgetValidation> {
     return { provider: this.serverType, rule: this.clientRule() }
   }
 }
 
-class Year implements ValidationRule  {
-  max:number = 0;
-  min:number = 0;
+class Year implements ValidationRule {
+  max: number = 0;
+  min: number = 0;
 
   readonly type = "integer";
   readonly display = "年份";
   readonly message = "请输入正确的年份";
   readonly serverType = "Year";
 
-  constructor(){
+  constructor() {
     this.max = new Date().getFullYear();
     this.min = 1970;
   }
 
-  render (obj: Year, confirm: (value: ValidationRule) => void) {
+  render(obj: Year, confirm: (value: ValidationRule) => void) {
     showDialog({
       title: '设置',
       props: {
         width: 660
       },
       content: () => (
-        <>  
-        <ElForm>
-          <ElFormItem label="最小年份">
-            <ElInput type="number" placeholder="请输入最小年份" v-model={obj.min} />
-          </ElFormItem>
-          <ElFormItem label="最大年份">
-            <ElInput type="number" placeholder="请输入最大年份" v-model={obj.max} />
-          </ElFormItem>
-        </ElForm>
+        <>
+          <ElForm>
+            <ElFormItem label="最小年份">
+              <ElInput type="number" placeholder="请输入最小年份" v-model={obj.min} />
+            </ElFormItem>
+            <ElFormItem label="最大年份">
+              <ElInput type="number" placeholder="请输入最大年份" v-model={obj.max} />
+            </ElFormItem>
+          </ElForm>
         </>
       ),
       onConfirm: () => {
@@ -167,11 +167,11 @@ class Year implements ValidationRule  {
   }
 
   clientRule() {
-    return { name:"Year", type: this.type, min: this.min, max: this.max, message: this.message };
+    return { name: "Year", type: this.type, min: this.min, max: this.max, message: this.message };
   }
 
-  serverRule (): Nullable<WidgetValidation> {
-    return { provider: this.serverType , "args": { "Start": this.max, "End": this.min }, rule: this.clientRule()}
+  serverRule(): Nullable<WidgetValidation> {
+    return { provider: this.serverType, "args": { "Start": this.max, "End": this.min }, rule: this.clientRule() }
   }
 }
 
@@ -182,7 +182,7 @@ class DateTime implements ValidationRule {
   readonly serverType = "Date";
 
   clientRule() {
-    return { name:"DateTime", type: this.type, message: this.message };
+    return { name: "DateTime", type: this.type, message: this.message };
   }
 
   serverRule(): Nullable<WidgetValidation> {
@@ -197,10 +197,10 @@ class Numeric implements ValidationRule {
   readonly serverType = "Numeric";
 
   clientRule() {
-    return { name:"Numeric", type: this.type, message: this.message };
+    return { name: "Numeric", type: this.type, message: this.message };
   }
 
-  serverRule(): Nullable<WidgetValidation>{
+  serverRule(): Nullable<WidgetValidation> {
     return { provider: this.serverType, rule: this.clientRule() }
   }
 }
@@ -214,27 +214,27 @@ class Range implements ValidationRule {
   readonly message = "请输入有效值";
   readonly serverType = "Range";
 
-  constructor(){
+  constructor() {
     this.max = 100;
     this.min = 0;
   }
 
-  render (obj: Range, confirm: (value: ValidationRule) => void) {
+  render(obj: Range, confirm: (value: ValidationRule) => void) {
     showDialog({
       title: '设置',
       props: {
         width: 660
       },
       content: () => (
-        <> 
-        <ElForm>
-          <ElFormItem label="最小值">
-            <ElInput type="number" placeholder="请输入最小值" v-model={obj.min} />
-          </ElFormItem>
-          <ElFormItem label="最大值">
-            <ElInput type="number" placeholder="请输入最大值" v-model={obj.max} />
-          </ElFormItem>
-        </ElForm>
+        <>
+          <ElForm>
+            <ElFormItem label="最小值">
+              <ElInput type="number" placeholder="请输入最小值" v-model={obj.min} />
+            </ElFormItem>
+            <ElFormItem label="最大值">
+              <ElInput type="number" placeholder="请输入最大值" v-model={obj.max} />
+            </ElFormItem>
+          </ElForm>
         </>
       ),
       onConfirm: () => {
@@ -244,10 +244,10 @@ class Range implements ValidationRule {
   }
 
   clientRule() {
-    return { name:"Range", type: this.type, min: this.min, max: this.max, message: this.message };
+    return { name: "Range", type: this.type, min: this.min, max: this.max, message: this.message };
   }
   serverRule(): Nullable<WidgetValidation> {
-    return { provider: this.serverType , args: { "Minimum": this.min, "Maximum": this.max }, rule: this.clientRule() }
+    return { provider: this.serverType, args: { "Minimum": this.min, "Maximum": this.max }, rule: this.clientRule() }
   }
 }
 
@@ -259,7 +259,7 @@ class MinLength implements ValidationRule {
   readonly message = "最小长度{0}";
   readonly serverType = "MinLength";
 
-  render (obj: MinLength, confirm: (value: ValidationRule) => void) {
+  render(obj: MinLength, confirm: (value: ValidationRule) => void) {
     showDialog({
       title: '设置',
       props: {
@@ -267,11 +267,11 @@ class MinLength implements ValidationRule {
       },
       content: () => (
         <>
-        <ElForm>
-          <ElFormItem label="最小长度">
-            <ElInput type="number" placeholder="请输入最小长度" v-model={obj.min} />
-          </ElFormItem>
-        </ElForm>
+          <ElForm>
+            <ElFormItem label="最小长度">
+              <ElInput type="number" placeholder="请输入最小长度" v-model={obj.min} />
+            </ElFormItem>
+          </ElForm>
         </>
       ),
       onConfirm: () => {
@@ -281,10 +281,10 @@ class MinLength implements ValidationRule {
   }
 
   clientRule() {
-    return { name:"MinLength", type: this.type, min: this.min, message: this.message };
+    return { name: "MinLength", type: this.type, min: this.min, message: this.message };
   }
-  serverRule (): Nullable<WidgetValidation>{
-    return { provider: this.serverType , args: { "Length": this.min }, rule: this.clientRule() }
+  serverRule(): Nullable<WidgetValidation> {
+    return { provider: this.serverType, args: { "Length": this.min }, rule: this.clientRule() }
   }
 }
 
@@ -297,7 +297,7 @@ class RegularExpression implements ValidationRule {
   readonly message = "请输入正确的格式";
   readonly serverType = "RegularExpression";
 
-  render (obj: RegularExpression, confirm: (value: ValidationRule) => void) {
+  render(obj: RegularExpression, confirm: (value: ValidationRule) => void) {
     showDialog({
       title: '设置',
       props: {
@@ -305,11 +305,11 @@ class RegularExpression implements ValidationRule {
       },
       content: () => (
         <>
-        <ElForm>
-          <ElFormItem label="正则表达式">
-            <ElInput type="text" placeholder="请输入正则表达式" v-model={obj.pattern} />
-          </ElFormItem>
-        </ElForm>
+          <ElForm>
+            <ElFormItem label="正则表达式">
+              <ElInput type="text" placeholder="请输入正则表达式" v-model={obj.pattern} />
+            </ElFormItem>
+          </ElForm>
         </>
       ),
       onConfirm: () => {
@@ -319,10 +319,10 @@ class RegularExpression implements ValidationRule {
   }
 
   clientRule() {
-    return { name:"RegularExpression", type: this.type, pattern: this.pattern, message: this.message };
+    return { name: "RegularExpression", type: this.type, pattern: this.pattern, message: this.message };
   }
   serverRule(): Nullable<WidgetValidation> {
-    return { provider: this.serverType, args: { "Pattern": this.pattern }, rule: this.clientRule()}
+    return { provider: this.serverType, args: { "Pattern": this.pattern }, rule: this.clientRule() }
   }
 }
 
@@ -332,7 +332,7 @@ class Url implements ValidationRule {
   readonly message = "请输入正确的网址";
   readonly serverType = "Url";
   clientRule() {
-    return { name:"Url", type: this.type, message: this.message };
+    return { name: "Url", type: this.type, message: this.message };
   }
   serverRule(): Nullable<WidgetValidation> {
     return { provider: this.serverType, rule: this.clientRule() }
@@ -345,15 +345,15 @@ class Phone implements ValidationRule {
   readonly message = "请输入正确的电话号码";
   readonly serverType = "Phone";
 
-  validator (rule, value, callback){
-    if(value && value.length > 0){
+  validator(rule, value, callback) {
+    if (value && value.length > 0) {
       return /^1[3456789]\d{9}$/.test(value);
     }
     return false;
   }
 
   clientRule() {
-    return { name:"Phone", type: this.type, message: this.message, validator: this.validator };
+    return { name: "Phone", type: this.type, message: this.message, validator: this.validator };
   }
 
   serverRule(): Nullable<WidgetValidation> {
@@ -369,19 +369,19 @@ class EnumDataType implements ValidationRule {
   readonly message = "请输入正确的值";
   readonly serverType = "EnumDataType";
 
-  render (obj: EnumDataType, confirm: (value: ValidationRule) => void) {
+  render(obj: EnumDataType, confirm: (value: ValidationRule) => void) {
     showDialog({
       title: '设置',
       props: {
         width: 660
       },
       content: () => (
-        <>  
-        <ElForm>
-          <ElFormItem label="枚举">
-            <ElInput type="text" placeholder="请输入枚举值" v-model={obj.enum} />
-          </ElFormItem>
-        </ElForm>
+        <>
+          <ElForm>
+            <ElFormItem label="枚举">
+              <ElInput type="text" placeholder="请输入枚举值" v-model={obj.enum} />
+            </ElFormItem>
+          </ElForm>
         </>
       ),
       onConfirm: () => {
@@ -391,10 +391,10 @@ class EnumDataType implements ValidationRule {
   }
 
   clientRule() {
-    return { name:"EnumDataType", type: this.type, enum: this.enum, message: this.message };
+    return { name: "EnumDataType", type: this.type, enum: this.enum, message: this.message };
   }
 
-  serverRule (): Nullable<WidgetValidation> {
+  serverRule(): Nullable<WidgetValidation> {
     return { provider: null, rule: this.clientRule() }
   }
 }
@@ -405,19 +405,19 @@ class CreditCard implements ValidationRule {
   readonly message = "请输入正确的信用卡号";
   readonly serverType = "CreditCard";
 
-  validator(rule, value, callback){
-    if(value && value.length > 0){
+  validator(rule, value, callback) {
+    if (value && value.length > 0) {
       return /^\d{16,19}$/.test(value);
     }
     return false;
   }
 
   clientRule() {
-    return { name:"CreditCard", type: this.type, message: this.message, validator: this.validator };
+    return { name: "CreditCard", type: this.type, message: this.message, validator: this.validator };
   }
 
-  serverRule(): Nullable<WidgetValidation>{
-    return { provider: this.serverType, rule: this.clientRule()}
+  serverRule(): Nullable<WidgetValidation> {
+    return { provider: this.serverType, rule: this.clientRule() }
   }
 }
 
@@ -427,14 +427,14 @@ class FileExtensions implements ValidationRule {
   readonly display = "文件类型";
   readonly message = "请输入正确的文件类型";
   readonly serverType = "FileExtensions";
-  validator(rule, value, callback){
-    if(this.extensions && value && value.length > 0){
+  validator(rule, value, callback) {
+    if (this.extensions && value && value.length > 0) {
       return this.extensions.indexOf(value) > -1;
     }
     return false;
   }
 
-  render (obj: FileExtensions, confirm: (value: ValidationRule) => void) {
+  render(obj: FileExtensions, confirm: (value: ValidationRule) => void) {
     showDialog({
       title: '设置',
       props: {
@@ -442,11 +442,11 @@ class FileExtensions implements ValidationRule {
       },
       content: () => (
         <>
-        <ElForm>
-          <ElFormItem label="文件类型">
-            <ElInput type="text" placeholder="请输入文件类型" v-model={obj.extensions} />
-          </ElFormItem>
-        </ElForm>
+          <ElForm>
+            <ElFormItem label="文件类型">
+              <ElInput type="text" placeholder="请输入文件类型" v-model={obj.extensions} />
+            </ElFormItem>
+          </ElForm>
         </>
       ),
       onConfirm: () => {
@@ -456,10 +456,10 @@ class FileExtensions implements ValidationRule {
   }
 
   clientRule() {
-    return { name:"FileExtensions", type: this.type, message: this.message, validator: this.validator };
+    return { name: "FileExtensions", type: this.type, message: this.message, validator: this.validator };
   }
 
-  serverRule(): Nullable<WidgetValidation>{
+  serverRule(): Nullable<WidgetValidation> {
     return { provider: this.serverType, args: { "Extensions": this.extensions }, rule: this.clientRule() }
   }
 }
@@ -471,11 +471,11 @@ class EqualTo implements ValidationRule {
   readonly serverType = "EqualTo";
 
   clientRule() {
-    return { name:"EqualTo", type: this.type, message: this.message };
+    return { name: "EqualTo", type: this.type, message: this.message };
   }
 
-  serverRule(): Nullable<WidgetValidation>{
-    return { provider: this.serverType, rule: this.clientRule() }
+  serverRule(): Nullable<WidgetValidation> {
+    return { provider: this.serverType, rule: this.clientRule() };
   }
 }
 
@@ -496,5 +496,5 @@ export default [
   CreditCard,
   FileExtensions,
   EqualTo,
-  EnumDataType,  
-].map(x=>new x)
+  EnumDataType
+].map((x) => new x());

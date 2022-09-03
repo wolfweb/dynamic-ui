@@ -107,7 +107,7 @@
           if (!unref(showRef)) return null;
 
           return (
-            <ElSubMenu key={label} disabled={disabled} popupClassName={`${prefixCls}__popup`} onClick={contentProps.handler.bind(null, item)}>
+            <ElSubMenu key={label} disabled={disabled} popupClassName={`${prefixCls}__popup`} onClick={contentProps.handler.bind(null, item)} index={label}>
               {{
                 title: () => <ItemContent {...contentProps} />,
                 default: () => renderMenuItem(children),

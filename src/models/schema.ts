@@ -41,7 +41,7 @@ export class DisplayElementMetadata implements IDisplayElementMetadata{
 }
 
 const primaryKey = () :FormElementMetadata => {
-  var meta = new FormElementMetadata();
+  let meta = new FormElementMetadata();
   meta.id = nanoid();
   meta.key = "Input";
   meta.display = "表单主键id";
@@ -68,7 +68,7 @@ const primaryKey = () :FormElementMetadata => {
 }
 
 const layoutContainer = (): LayoutElementMetadata => {
-  var layout = new LayoutElementMetadata();
+  let layout = new LayoutElementMetadata();
   layout.id = nanoid();
   layout.key = "Layout";
   layout.display = "布局";
@@ -84,7 +84,7 @@ const layoutContainer = (): LayoutElementMetadata => {
 }
 
 const detailContainer = (): DisplayElementMetadata => {
-  var meta = new DisplayElementMetadata();
+  let meta = new DisplayElementMetadata();
   meta.key = "FormDetail";
   meta.display = "详情";
   meta.formSchema = [],
@@ -100,7 +100,7 @@ const detailContainer = (): DisplayElementMetadata => {
 }
 
 const listContainer = (): DisplayElementMetadata => {
-  var meta = new DisplayElementMetadata();
+  let meta = new DisplayElementMetadata();
   meta.key = "FormList";
   meta.display = "列表";
   meta.formSchema = [],
@@ -167,7 +167,7 @@ const ModelContext = ({ title, callback }) => {
   }
 
   const recursionFind = (collection: Array<any> , predict : (block: FormElementMetadata | LayoutElementMetadata) => Boolean) => {
-    var res = collection.map(child=>{
+    let res = collection.map(child=>{
       if(predict(child)) return child;
       if(child.childes && child.childes.length>0) {
         return recursionFind(child.childes, predict);
@@ -180,7 +180,7 @@ const ModelContext = ({ title, callback }) => {
     if(state.currentWidget && state.currentWidget.id == id) return;
 
     const _recursion = (childes, id): FormElementMetadata | LayoutElementMetadata => {
-      var res = childes.map((child) => {
+      let res = childes.map((child) => {
         if (child.id == id) {
           return child;
         } else if (child.childes) {
@@ -201,7 +201,7 @@ const ModelContext = ({ title, callback }) => {
     const _recursion = (childes, id) => {
       let idx = childes.findIndex(x => x.id == id)
       if (idx > -1) {
-        var removed = childes.splice(idx, 1)
+        let removed = childes.splice(idx, 1)
         return removed[0];
       }
       const res = childes.map((child) => {
@@ -211,7 +211,7 @@ const ModelContext = ({ title, callback }) => {
       });
       if(res.length) return res[0];
     }
-    var result = _recursion(state.formSchema, id)
+    let result = _recursion(state.formSchema, id)
     if (result.dataBinder) delete state.formModel[result.dataBinder.name]
     state.currentWidget = null
     return result;

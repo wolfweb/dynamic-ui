@@ -20,17 +20,12 @@
   </el-row>
 </template>
 <script lang="ts">
-  import { filter, some, isEqual } from 'lodash-es';
   import validators from '@/utils/validators';
   import { useEditModel } from '@/models/schema';
-  import { defineComponent, watch, reactive } from 'vue';
+  import { filter, some, isEqual } from 'lodash-es';
+  import { defineComponent, watch, reactive, computed } from 'vue';
   export default defineComponent({
     name: "Validation",
-    computed: {
-      widget() {
-        return this.currentWidget as IFormElementMetadata;
-      }
-    },
     setup(props, context) {
       const { currentWidget, addValidation, removeValidation } = useEditModel();
 
@@ -47,7 +42,7 @@
       }));
 
       const handleCommand = (command) => {
-        var rule = validators.find(x=>x.serverType===command);
+        let rule = validators.find(x=>x.serverType===command);
         if(rule){
           // @ts-ignore
           if(rule.render){
@@ -77,6 +72,11 @@
         });
       }
 
+      const widget = computed(()=> {
+        // @ts-ignore
+        return currentWidget as IFormElementMetadata;
+      }).value;
+
       watch(
         // @ts-ignore
         () => currentWidget.value.validation, 
@@ -94,8 +94,8 @@
       },{ deep: true });
 
       return {
+        widget,
         getValidator,
-        currentWidget,
         handleCommand,
         validatorRules,
         validationRemove,

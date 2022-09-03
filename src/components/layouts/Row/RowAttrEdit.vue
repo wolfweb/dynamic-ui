@@ -39,34 +39,35 @@
   </el-form>
 </template>
 <script lang="ts">
-  import draggable from 'vuedraggable';
   import styles from '../index.module.scss';
+  
+  import draggable from 'vuedraggable';
   import { nanoid } from 'nanoid';
-  import { defineComponent } from 'vue';
   import { useEditModel } from '@/models/schema';
+  import { defineComponent, computed } from 'vue';
   export default defineComponent({
     name: "RowAttrEdit",
     components:{
       draggable,
     },
-    computed: {
-      widget() {
-        return this.currentWidget as ILayoutElementMetadata;
-      }
-    },
     methods: {
       removeChild(idx)  {
-        this.widget!.attributes.cols.splice(idx, 1)
+        this.widget.attributes.cols.splice(idx, 1)
       },
       addChild() {
-        this.widget!.attributes.cols.push({ label: nanoid(16), childes: [] })
+        this.widget.attributes.cols.push({ label: nanoid(16), childes: [] })
       }
     },
     setup(props, context) {
       const { currentWidget } = useEditModel();
 
+      const widget = computed(()=> {
+        // @ts-ignore
+        return currentWidget as ILayoutElementMetadata;
+      }).value;
+
       return {
-        currentWidget,
+        widget,
         styles
       }
     }

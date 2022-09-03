@@ -1,7 +1,6 @@
-import { DialogOptions, showDialog } from "./useDialog";
-
-import { ElAlert, ElNotification, ElMessage, ElMessageBox, ElPopconfirm } from "element-plus";
 import { isString } from "lodash-es";
+import { DialogOptions, showDialog } from "./useDialog";
+import { ElAlert, ElNotification, ElMessage, ElMessageBox, ElPopconfirm } from "element-plus";
 
 export interface ConfirmOptions extends DialogOptions {
   icon: string;

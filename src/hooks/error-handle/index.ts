@@ -19,7 +19,7 @@ function processStackMsg(error: Error) {
   const msg = error.toString()
   
   if (stack.indexOf(msg) < 0) {
-    stack = msg + '@' + stack
+    stack = `${msg}@${stack}`
   }
   return stack
 }
@@ -84,7 +84,7 @@ export function scriptErrorHandler(
     type: ErrorTypeEnum.SCRIPT,
     name: name,
     file: source as string,
-    detail: 'lineno' + lineno,
+    detail: `lineno${lineno}}`,
     url: window.location.href,
     ...(errorInfo as Pick<ErrorLogInfo, 'message' | 'stack'>),
   });
@@ -128,7 +128,7 @@ function registerResourceErrorHandler() {
         }),
         url: window.location.href,
         stack: 'resource is not found',
-        message: (e.target || ({} as any)).localName + ' is load error',
+        message: `${(e.target || ({} as any)).localName} is load error`,
       });
     },
     true

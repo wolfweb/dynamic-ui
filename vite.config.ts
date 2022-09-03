@@ -1,6 +1,7 @@
 import fs from "fs";
 import { resolve } from 'path';
 import vue from '@vitejs/plugin-vue';
+import checker from 'vite-plugin-checker';
 import legacy from '@vitejs/plugin-legacy';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import WindiCSS from 'vite-plugin-windicss';
@@ -9,7 +10,7 @@ import AutoImport from 'unplugin-auto-import/vite';
 import Components from 'unplugin-vue-components/vite';
 import DefineOptions from 'unplugin-vue-define-options/vite';
 import { ConfigEnv, loadEnv, UserConfig, Plugin } from 'vite';
-import { ElementPlusResolver, VantResolver } from 'unplugin-vue-components/resolvers';
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
 
 const CWD = process.cwd()
 
@@ -79,7 +80,10 @@ export default ({ mode }: ConfigEnv): UserConfig => {
       }),
       Components({
         dts: true,
-        resolvers: [ElementPlusResolver(), VantResolver()],
+        resolvers: [ElementPlusResolver()],
+      }),
+      checker({
+        typescript: true,
       }),
       rawSvgPlugin
     ],

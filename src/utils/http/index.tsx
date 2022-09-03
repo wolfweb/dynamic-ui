@@ -65,7 +65,7 @@ const transform: AxiosTransform = {
       } else if (options.errorMessageMode === "message") {
         createMessage({
           message: message,
-          type: "error",
+          type: "error"
         });
       } else {
         throw new Error(message);

@@ -1,5 +1,9 @@
 <template>
   <el-config-provider :locale="zhCn">
+    <!-- 
+      <router-link to="/">view</router-link>
+      <router-link to="/design">design</router-link> 
+    -->
     <router-view #="{ Component, route }">
       <component :is="Component" :key="route.path" />
     </router-view>

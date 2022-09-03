@@ -58,24 +58,24 @@
   </el-form>
 </template>
 <script lang="ts">
-  import { defineComponent } from 'vue';
   import { useEditModel } from '@/models/schema';
+  import { defineComponent, computed } from 'vue';
   import Validation from '@/components/common/Validation.vue';
   export default defineComponent({
     name: "SwitchsAttrEdit",
     components:{
       Validation
     },
-    computed: {
-      widget() {
-        return this.currentWidget as IFormElementMetadata;
-      }
-    },
     setup(props, context) {
       const { currentWidget, requireChangeHandler } = useEditModel();
 
+      const widget = computed(()=> {
+        // @ts-ignore
+        return currentWidget as IFormElementMetadata;
+      }).value;
+
       return {
-        currentWidget,
+        widget,
         requireChangeHandler
       }
     }

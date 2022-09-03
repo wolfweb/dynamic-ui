@@ -1,5 +1,5 @@
-import { isFunction, isUndefined } from 'lodash-es'
-import { ref, unref } from 'vue'
+import { ref, unref } from 'vue';
+import { isFunction, isUndefined } from 'lodash-es';
 
 export interface ScrollToParams {
   el: HTMLElement

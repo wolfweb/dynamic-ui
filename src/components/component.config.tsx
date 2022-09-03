@@ -4,20 +4,20 @@ import { SchemaMode } from "@/enums/schemaMode";
 import { WidgetSettings } from "@/models/common";
 import { DEFAULT_CACHE_TIME } from "@/utils/cache";
 import dynamicComponent from "@/components/dynamicComponent.vue";
-import { FormElementMetadata, LayoutElementMetadata } from "@/models/schema";
+import { FormElementMetadata, LayoutElementMetadata, DisplayElementMetadata } from "@/models/schema";
 import components, { widgetMetas, widgetFuncs, widgets } from "./index";
-import { isObject, isArray, isBoolean, isString, isNumber, isUndefined, indexOf, pickBy, } from "lodash-es";
+import { isObject, isArray, isBoolean, isString, isNumber, isUndefined, indexOf, pickBy, constant, } from "lodash-es";
 
 const cache = new Memory(DEFAULT_CACHE_TIME);
 
 export const getWidgetSettingName = (name: string) => {
-  for (var k in WidgetSettings) {
+  for (const k in WidgetSettings) {
     if (name.endsWith(k)) return WidgetSettings[k];
   }
   return "未知";
 };
 
-export const findWidgetSettings = (meta: FormElementMetadata | LayoutElementMetadata) => {
+export const findWidgetSettings = (meta: FormElementMetadata | LayoutElementMetadata | DisplayElementMetadata) => {
   if (meta && meta.key) {
     return widgets[meta.key].filter(
       (x) => x.name.startsWith(meta.key) && x.name.length > meta.key.length
@@ -34,8 +34,8 @@ export const getWidgetCode = (
 };
 
 export const extractProps = (excludes: Array<string>, props: any) => {
-  let texts: Array<any> = [];
-  for (let key in props) {
+  const texts: Array<any> = [];
+  for (const key in props) {
     if (excludes && indexOf(excludes, key) > -1) continue;
     const value = props[key];
     if (value === "" || value === undefined) {
@@ -71,8 +71,8 @@ export const extractProps = (excludes: Array<string>, props: any) => {
 };
 
 export const initEditorPlus = (app: App) => {
-  for (var k in widgets) {
-    for (var it in widgets[k]) {
+  for (const k in widgets) {
+    for (const it in widgets[k]) {
       const widget = widgets[k][it];
       app.component(widget.name!, widget);
     }

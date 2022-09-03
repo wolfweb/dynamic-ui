@@ -5,17 +5,12 @@
   </el-form-item>
 </template>
 <script lang="ts">
-  import { defineComponent } from 'vue'
-  import { useEditModel } from '@/models/schema'
+  import { useEditModel } from '@/models/schema';
+  import { defineComponent, computed } from 'vue';
   export default defineComponent({
     name: "TransferPanel",
     props: {
       meta:null
-    },
-    computed:{
-      descriptor(){
-        return this.meta.validation.map(x=>x.rule);
-      }
     },
     setup(props, context) {
       const { formModel, ensureFormModelInit } = useEditModel();
@@ -28,8 +23,13 @@
         return item.key.indexOf(query) > -1 || item.label.indexOf(query) > -1;
       }
 
+      const descriptor = computed(()=>{
+        return props.meta.validation.map(x=>x.rule);
+      }).value;
+
       return {
         filterItems,
+        descriptor,
         formModel
       }
     }

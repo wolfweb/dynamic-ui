@@ -11,17 +11,12 @@
   </el-form-item>
 </template>
 <script lang="ts">
-  import { defineComponent } from 'vue'
+  import { defineComponent, computed } from 'vue'
   import { useEditModel } from '@/models/schema'
   export default defineComponent({
     name: "Cascader",
     props: {
       meta:null
-    },
-    computed:{
-      descriptor(){
-        return this.meta.validation.map(x=>x.rule);
-      }
     },
     setup(props, context) {
       const { formModel, ensureFormModelInit } = useEditModel();
@@ -30,8 +25,11 @@
         ensureFormModelInit(props.meta)
       }
 
+      const descriptor = computed(()=>props.meta.validation.map(x=>x.rule)).value;
+
       return {
         formModel,
+        descriptor,
       }
     }
   })

@@ -68,28 +68,23 @@
 </template>
 <script lang="ts">
   import draggable from 'vuedraggable';
-  import { defineComponent } from 'vue';
   import { useEditModel } from '@/models/schema';
+  import { defineComponent, computed } from 'vue';
   export default defineComponent({
     name: "FormDetailAttrEdit",
     components:{
       draggable
     },
-    computed: {
-      widget() {
-        return this.currentWidget as DisplayElementMetadata;
-      }
-    },
     setup(props, context){
       const { currentWidget } = useEditModel();
-      
-      const abc = (it) => {
-        console.log(it);
-      }
+
+      const widget = computed(()=> {
+        // @ts-ignore
+        return currentWidget as DisplayElementMetadata;
+      }).value;
 
       return {
-        abc,
-        currentWidget
+        widget
       }
     }
   })

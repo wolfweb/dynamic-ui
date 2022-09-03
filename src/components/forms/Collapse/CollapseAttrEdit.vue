@@ -47,8 +47,8 @@
 </template>
 <script lang="ts">
   import draggable from 'vuedraggable';
-  import { defineComponent } from 'vue';
   import { useEditModel } from '@/models/schema';
+  import { defineComponent, computed } from 'vue';
   import Validation from '@/components/common/Validation.vue';
   export default defineComponent({
     name: "CollapseAttrEdit",
@@ -56,24 +56,24 @@
       draggable,
       Validation
     },
-    computed: {
-      widget() {
-        return this.currentWidget as ILayoutElementMetadata;
-      }
-    },
     methods:{
       removeChild(idx)  {
-        this.widget!.childes!.splice(idx, 1)
+        this.widget.childes!.splice(idx, 1)
       },
       addChild()  {
-        this.widget!.childes!.push(({ name: '', display: '' } as IFormElementChildGroupMetadata))
+        this.widget.childes!.push(({ name: '', display: '' } as IFormElementChildGroupMetadata))
       }
     },
     setup(props, context) {
       const { currentWidget } = useEditModel();
 
+      const widget = computed(()=> {
+        // @ts-ignore
+        return currentWidget as IFormElementMetadata;
+      }).value;
+
       return {
-        currentWidget
+        widget
       }
     }
   })

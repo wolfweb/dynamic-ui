@@ -17,14 +17,14 @@
     <el-row :gutter="20">
       <el-col :span="24">
         <el-form-item label="上传接口" prop="attributes.action">
-          <el-input v-model="app.uploadUrl" />
+          <el-input v-model="app!.uploadUrl" />
         </el-form-item>
       </el-col>
     </el-row>
     <el-row :gutter="20">
       <el-col :span="24">
         <el-form-item label="资源移除接口" prop="attributes.removeApi">
-          <el-input v-model="app.mediaRemoveApi" />
+          <el-input v-model="app!.mediaRemoveApi" />
         </el-form-item>
       </el-col>
     </el-row>
@@ -116,9 +116,9 @@
 </template>
 <script lang="ts">
   import draggable from 'vuedraggable';
-  import { defineComponent } from 'vue';
   import { Icons } from '@/models/common';
   import { useEditModel } from '@/models/schema';
+  import { defineComponent, computed } from 'vue';
   import { useMessage } from '@/hooks/web/useMessage';
   import { useAppStore } from '@/store/modules/appStore';
   import Validation from '@/components/common/Validation.vue';
@@ -128,17 +128,12 @@
       draggable,
       Validation    
     },
-    computed: {
-      widget() {
-        return this.currentWidget as IFormElementMetadata;
-      }
-    },
     methods:{
       removeChild(idx) {
-        this.widget!.attributes.options.splice(idx, 1)
+        this.widget.attributes.options.splice(idx, 1)
       },
       addChild() {
-        this.widget!.attributes.options.push({ label: "", key: "" })
+        this.widget.attributes.options.push({ label: "", key: "" })
       }
     },
     setup(props, context) {
@@ -148,13 +143,18 @@
 
       const app = useAppStore().AppContext;
 
+      const widget = computed(()=> {
+        // @ts-ignore
+        return currentWidget as IFormElementMetadata;
+      }).value;
+
       if(app == null){
         message.error("请先配置应用信息");
       }
 
       return {
         requireChangeHandler,
-        currentWidget,
+        widget,
         Icons,
         app
       }

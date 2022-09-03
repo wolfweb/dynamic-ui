@@ -77,8 +77,8 @@
 <script lang="tsx">
   import draggable from 'vuedraggable';
   import { useEditModel } from '@/models/schema';
-  import { defineComponent, reactive } from 'vue';
   import { showDialog } from '@/hooks/web/useDialog';
+  import { defineComponent, reactive, computed } from 'vue';
   import { ElForm, ElFormItem, ElInput } from 'element-plus';
   import { useContextMenu } from '@/hooks/web/useContextMenu';
 
@@ -89,11 +89,6 @@
     components:{
       draggable,
       Validation
-    },
-    computed: {
-      widget() {
-        return this.currentWidget as IFormElementMetadata;
-      }
     },
     methods: {
       remove(node, data){
@@ -165,8 +160,13 @@
 
       const [createContextMenu] = useContextMenu();
 
+      const widget = computed(()=> {
+        // @ts-ignore
+        return currentWidget as IFormElementMetadata;
+      }).value;
+
       return {
-        currentWidget,
+        widget,
         createContextMenu,
         requireChangeHandler
       }

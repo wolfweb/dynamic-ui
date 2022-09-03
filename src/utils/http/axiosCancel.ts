@@ -1,6 +1,5 @@
-import axios from 'axios';
 import { isFunction } from 'lodash-es';
-import { AxiosRequestConfig, Canceler } from "axios";
+import axios, { AxiosRequestConfig, Canceler } from 'axios';
 
 let pendingMap = new Map<string, Canceler>();
 
