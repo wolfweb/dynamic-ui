@@ -1,4 +1,5 @@
 import { nanoid } from 'nanoid';
+import { LayoutOne } from '@icon-park/vue-next';
 import { LayoutElementMetadata } from '@/models/schema';
 
 const meta = new LayoutElementMetadata();
@@ -7,7 +8,7 @@ meta.key = "Layout";
 meta.display = "布局";
 meta.attributes = {
   title: nanoid(16),
-  icon: "fa fa-fw fa-tasks",
+  icon: LayoutOne,
   style: 'container-fluid'
 };
 

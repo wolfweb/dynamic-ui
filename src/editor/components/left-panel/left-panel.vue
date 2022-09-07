@@ -20,7 +20,7 @@
         >
           <template #item="item">
             <div :class="styles.widget">
-              <i :class="`${item.element.attributes.icon}`"></i>
+              <component :is="item.element.attributes.icon"></component>
               <span> {{item.element.display}} </span>
             </div>
           </template>
@@ -34,13 +34,15 @@
 
   import draggable from 'vuedraggable';
   import { cloneDeep } from 'lodash-es';
+
+  import * as icons from '@icon-park/vue-next';
   import { nanoid, customAlphabet } from 'nanoid';
   import { Search } from '@element-plus/icons-vue'
   import { getWidgets } from '@/components/component.config';
   import { useSchemaStore } from '@/store/modules/schemaStore';
   import { defineComponent, reactive, toRefs, watch, computed, ref } from 'vue';
   export default defineComponent({
-    components: { draggable },
+    components: { draggable, ...icons },
     props:{
       drag: {
         type: Boolean,

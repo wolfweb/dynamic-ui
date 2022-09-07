@@ -12,7 +12,7 @@
 
 <script setup lang="ts">
   import { isUndefined } from 'lodash-es';
-  import 'font-awesome/css/font-awesome.min.css';
+  import '@icon-park/vue-next/styles/index.css';
   import zhCn from 'element-plus/lib/locale/lang/zh-cn';
   import { useAppStore } from '@/store/modules/appStore';
   import { createBreakpointListen } from '@/hooks/event/useBreakpoint';

@@ -1,3 +1,4 @@
+import { ListCheckbox } from '@icon-park/vue-next';
 import { FormElementMetadata } from '@/models/schema';
 
 const meta = new FormElementMetadata(); 
@@ -6,7 +7,7 @@ meta.key= "CascaderPanel";
 meta.display= "级联面板选择器";
 meta.attributes= {
   label: "级联面板选择器",
-  icon: "fa fa-fw fa-th-list",
+  icon: ListCheckbox,
   required: false,
   multiple: false,
   placeholder: "请选择",

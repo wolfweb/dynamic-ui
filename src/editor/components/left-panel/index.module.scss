@@ -3,10 +3,10 @@
   background: #f6f7fb;
   border: 1px solid #ccc;
   padding: 4px 8px;
-  display: flex;
+  display: grid;
   margin-bottom: 5px;
   align-items: center;
-  flex: 0 0 49%;
   font-size: 12px;
   white-space: nowrap;
+  grid-template-columns: 14% auto;
 }

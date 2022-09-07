@@ -1,3 +1,4 @@
+import { CheckCorrect } from '@icon-park/vue-next';
 import { FormElementMetadata } from '@/models/schema';
 
 const meta = new FormElementMetadata()
@@ -8,7 +9,7 @@ meta.attributes = {
   label: "多选框",
   border: false,
   useButton: false,
-  icon: "fa fa-fw fa-check-square",
+  icon: CheckCorrect,
   required: false,
   options: [
     {

@@ -70,7 +70,7 @@
         <el-form-item label="前置图标" prop="attributes['prefix-icon']">
           <el-select v-model="widget!.attributes['prefix-icon']" filterable placeholder="请选择" style="width: 100%;">
             <el-option key="" value="">无</el-option>
-            <el-option v-for="item in Icons" :value="item.name">
+            <el-option v-for="item in ElIcons" :value="item.name">
               <span>
                 <el-icon>
                   <component :is="item.name" style="color: gainsboro;" />
@@ -87,7 +87,7 @@
         <el-form-item label="后置图标" prop="attributes['suffix-icon']">
           <el-select v-model="widget!.attributes['suffix-icon']" filterable placeholder="请选择" style="width: 100%;">
             <el-option key="" value="">无</el-option>
-            <el-option v-for="item in Icons" :value="item.name">
+            <el-option v-for="item in ElIcons" :value="item.name">
               <span>
                 <el-icon>
                   <component :is="item.name" />
@@ -115,7 +115,7 @@
   </el-form>
 </template>
 <script lang="ts">
-  import { Icons } from '@/models/common';
+  import { ElIcons } from '@/models/common';
   import { useEditModel } from '@/models/schema';
   import { defineComponent, computed } from 'vue';
   import Validation from '@/components/common/Validation.vue';
@@ -151,8 +151,8 @@
       }).value;
 
       return {
-        Icons,
         widget,
+        ElIcons,
         typeList,
         requireChangeHandler
       }

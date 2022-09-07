@@ -1,3 +1,4 @@
+import { SettingConfig } from '@icon-park/vue-next';
 import { FormElementMetadata } from '@/models/schema';
 
 const meta = new FormElementMetadata();
@@ -13,7 +14,7 @@ meta.attributes = {
   'show-tooltip': true,
   range: false,
   vertical: false,
-  icon: "fa fa-fw fa-sliders"
+  icon: SettingConfig
 };
 meta.dataBinder = {
   name: "",

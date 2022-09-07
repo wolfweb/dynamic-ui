@@ -2,10 +2,10 @@
   <fieldset class="editable" @click.stop="()=>findAndSetCurrentWidget(meta.id)" :class="{'active': currentWidget && currentWidget.id == meta.id && schemaMode != 'Preview' && schemaMode != 'Render' }">
     <legend v-if="schemaMode != 'Preview' && schemaMode != 'Render'" class="flex right-0">
       <div class="editable_handle">
-        <i class="fa fa-arrows"></i>
+        <move theme="outline" size="18" fill="#333"/>
       </div>
       <div class="editable_actions">
-        <i class="fa fa-trash-o" @click="removeWidget(meta.id)"></i>
+        <delete theme="outline" size="18" fill="#333" @click="removeWidget(meta.id)"/>
       </div>
     </legend>
     <div class="text-left">
@@ -16,10 +16,14 @@
 <script lang="ts">
   import { defineComponent } from 'vue';
   import { useEditModel } from '@/models/schema';
+  import { Move, Delete } from '@icon-park/vue-next';
   import { useSchemaStore } from '@/store/modules/schemaStore';
 
   export default defineComponent({
     name: "EditWidget",
+    components: {
+      Move, Delete
+    },
     props: {
       meta: null,
     },

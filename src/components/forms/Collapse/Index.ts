@@ -1,3 +1,4 @@
+import { CollapseTextInput } from '@icon-park/vue-next';
 import { LayoutElementMetadata } from '@/models/schema';
 
 const meta = new LayoutElementMetadata();
@@ -6,7 +7,7 @@ meta.key = "Collapse";
 meta.display = "折叠面板";
 meta.attributes = {
   label: "折叠面板",
-  icon: "fa fa-fw fa-compress",
+  icon: CollapseTextInput,
   accordion: false,
   active: ''
 };

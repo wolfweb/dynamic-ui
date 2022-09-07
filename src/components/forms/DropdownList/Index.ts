@@ -1,3 +1,4 @@
+import { Down } from '@icon-park/vue-next';
 import { FormElementMetadata } from '@/models/schema';
 
 const meta = new FormElementMetadata();
@@ -9,7 +10,7 @@ meta.attributes = {
   clearable: true,
   filterable: false,
   placeholder: "",
-  icon: "fa fa-fw fa-angle-down",
+  icon: Down,
   options: [
     {
       label: "选项1",

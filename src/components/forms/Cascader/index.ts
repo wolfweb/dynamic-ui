@@ -1,4 +1,5 @@
 import { FormElementMetadata } from '@/models/schema';
+import { ActivitySource } from '@icon-park/vue-next';
 
 const meta = new FormElementMetadata();
 meta.id = "";
@@ -6,7 +7,7 @@ meta.key = "Cascader";
 meta.display = "级联选择器";
 meta.attributes = {
   label: "级联选择器",
-  icon: "fa fa-fw fa-bars",
+  icon: ActivitySource,
   required: false,
   multiple: false,
   clearable: true,

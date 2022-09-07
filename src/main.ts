@@ -1,11 +1,11 @@
-import { createApp } from 'vue'
-import App from '@/App.vue'
-import router from '@/routes/'
-import { setupStore } from '@/store'
-import { setupRouterGuard } from '@/routes/guard'
-import { setupErrorHandle } from '@/hooks/error-handle'
-import { initElementPlus } from '@/plugins/element-plus'
-import { initEditorPlus } from '@/components/component.config'
+import { createApp } from 'vue';
+import App from '@/App.vue';
+import router from '@/routes/';
+import { setupStore } from '@/store';
+import { setupRouterGuard } from '@/routes/guard';
+import { setupErrorHandle } from '@/hooks/error-handle';
+import { initElementPlus } from '@/plugins/element-plus';
+import { initEditorPlus } from '@/components/component.config';
 
 import 'normalize.css'
 import 'virtual:windi.css'
@@ -13,23 +13,23 @@ import 'virtual:windi-devtools'
 import 'animate.css'
 
 async function bootstrap(){
-  const app = createApp(App)
+  const app = createApp(App);
 
-  setupStore(app)
+  setupStore(app);
   
-  initElementPlus(app)
-
-  initEditorPlus(app)
+  initElementPlus(app);
   
-  app.use(router)
+  initEditorPlus(app);
   
-  setupRouterGuard(router)
+  app.use(router);
+  
+  setupRouterGuard(router);
 
   setupErrorHandle(app);
   
-  await router.isReady()
+  await router.isReady();
   
-  app.mount('#app', true)
+  app.mount('#app', true);
 }
 
 bootstrap()

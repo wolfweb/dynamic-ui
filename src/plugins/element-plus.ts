@@ -1,6 +1,6 @@
 import { App, Component } from 'vue'
 import 'element-plus/dist/index.css'
-import { Icons } from '@/models/common'
+import { ElIcons } from '@/models/common'
 import {
   ElAffix,
   ElSkeleton,
@@ -81,8 +81,8 @@ export function initElementPlus(app: App) {
     app.component(component.name!, component)
   })
 
-  Object.keys(Icons).forEach(key => {
-    app.component(key, Icons[key as keyof typeof Icons])
+  Object.keys(ElIcons).forEach(key => {
+    app.component(key, ElIcons[key as keyof typeof ElIcons])
   })
 
   plugins.forEach((plugin) => {

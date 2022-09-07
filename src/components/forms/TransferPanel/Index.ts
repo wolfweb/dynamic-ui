@@ -1,3 +1,4 @@
+import { TransferData } from '@icon-park/vue-next';
 import { FormElementMetadata } from '@/models/schema';
 
 const meta = new FormElementMetadata();
@@ -6,7 +7,7 @@ meta.key = "TransferPanel";
 meta.display = "穿梭框";
 meta.attributes = {
   label: "穿梭框",
-  icon: "fa fa-fw fa-exchange",
+  icon: TransferData,
   filterable: false,
   options: [
     {

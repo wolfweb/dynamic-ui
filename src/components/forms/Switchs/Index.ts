@@ -1,3 +1,4 @@
+import { SwitchButton } from '@icon-park/vue-next';
 import { FormElementMetadata } from '@/models/schema';
 
 const meta = new FormElementMetadata();
@@ -12,7 +13,7 @@ meta.attributes = {
   'inactive-color': "#C0CCDA",
   'inactive-text': '',
   'active-text': '',
-  icon: "fa fa-fw fa-toggle-on"
+  icon: SwitchButton
 };
 meta.dataBinder = {
   name: "",

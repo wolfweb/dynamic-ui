@@ -39,7 +39,7 @@
         <el-row :gutter="10" class="sortable">
           <el-col :span="2">
             <el-form-item class="sortable_handle">
-              <i class="fa fa-sliders"></i>
+              <el-icon><Operation /></el-icon>
             </el-form-item>
           </el-col>
           <el-col :span="11">

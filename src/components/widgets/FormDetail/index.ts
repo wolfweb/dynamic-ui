@@ -1,3 +1,4 @@
+import { ViewGridDetail } from '@icon-park/vue-next';
 import { DisplayElementMetadata } from '@/models/schema';
 
 const meta = new DisplayElementMetadata();
@@ -9,7 +10,7 @@ meta.attributes = {
   border: true,
   column: 3,
   direction: "horizontal",
-  icon: "fa fa-fw fa-wpforms",
+  icon: ViewGridDetail,
 };
 
 meta.columns = [];

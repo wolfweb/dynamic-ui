@@ -1,3 +1,4 @@
+import { Plus } from '@icon-park/vue-next';
 import { FormElementMetadata } from '@/models/schema';
 
 const meta = new FormElementMetadata();
@@ -14,7 +15,7 @@ meta.attributes = {
   controls: true,
   'controls-position': 'right',
   placeholder: '',
-  icon: "fa fa-fw fa-plus"
+  icon: Plus
 };
 meta.dataBinder = {
   name: "",

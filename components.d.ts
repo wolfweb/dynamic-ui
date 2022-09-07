@@ -121,6 +121,7 @@ declare module '@vue/runtime-core' {
     TimePickerDataBinder: typeof import('./src/components/forms/TimePicker/TimePickerDataBinder.vue')['default']
     TiptapCodeBlockView: typeof import('./src/components/common/Tiptap/Views/TiptapCodeBlockView.vue')['default']
     TiptapMathView: typeof import('./src/components/common/Tiptap/Views/TiptapMathView.vue')['default']
+    TiptapMenuBar: typeof import('./src/components/common/Tiptap/TiptapMenuBar.vue')['default']
     TiptapVideoView: typeof import('./src/components/common/Tiptap/Views/TiptapVideoView.vue')['default']
     TransferPanel: typeof import('./src/components/forms/TransferPanel/TransferPanel.vue')['default']
     TransferPanelAttrEdit: typeof import('./src/components/forms/TransferPanel/TransferPanelAttrEdit.vue')['default']

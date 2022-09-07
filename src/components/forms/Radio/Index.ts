@@ -1,3 +1,4 @@
+import { CheckOne } from '@icon-park/vue-next';
 import { FormElementMetadata } from '@/models/schema';
 
 const meta = new FormElementMetadata();
@@ -6,7 +7,7 @@ meta.key = "Radio";
 meta.display = "单选框";
 meta.attributes = {
   label: "单选框",
-  icon: "fa fa-fw fa-check-circle",
+  icon: CheckOne,
   border: false,
   useButton: false,
   options: [

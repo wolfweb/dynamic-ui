@@ -1,3 +1,4 @@
+import { Upload } from '@icon-park/vue-next';
 import { FormElementMetadata } from '@/models/schema';
 
 const meta = new FormElementMetadata();
@@ -5,7 +6,7 @@ meta.id = "";
 meta.key = "Uploader";
 meta.display = "文件上传";
 meta.attributes = {
-  icon: "fa fa-fw fa-cloud-upload",
+  icon: Upload,
   label: "文件上传",
   limit: 5,
   accept: "image/png,image/jpeg,image/gif,image/bmp",

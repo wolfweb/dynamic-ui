@@ -1,5 +1,5 @@
 <script lang="tsx">
-  import { Icons } from '@/models/common';
+  import { ElIcons } from '@/models/common';
   import { FunctionalComponent, CSSProperties, PropType } from 'vue';
   import { ElMenu, ElMenuItem, ElSubMenu , ElDivider, ElIcon } from 'element-plus';
   import { defineComponent, nextTick, onMounted, computed, ref, unref, onUnmounted, createVNode } from 'vue';
@@ -29,7 +29,7 @@
     const { item } = props;
     return (
       <>
-      {props.showIcon && item.icon && <ElIcon>{createVNode(Icons[item.icon], { style: { width:'14px' } })}</ElIcon>}
+      {props.showIcon && item.icon && <ElIcon>{createVNode(ElIcons[item.icon], { style: { width:'14px' } })}</ElIcon>}
       <span>{item.label}</span>
       </>
     );

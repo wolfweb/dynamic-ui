@@ -1,3 +1,4 @@
+import { IndentLeft } from '@icon-park/vue-next';
 import { FormElementMetadata } from '@/models/schema';
 
 const meta = new FormElementMetadata();
@@ -6,7 +7,8 @@ meta.key = "RichEditor";
 meta.display = "富文本";
 meta.attributes = {
   label: "富文本",
-  icon: "fa fa-fw fa-indent"
+  icon: IndentLeft,
+  placeholder: "请输入"
 };
 meta.dataBinder = {
   name: "",

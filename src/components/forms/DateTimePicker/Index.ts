@@ -1,4 +1,5 @@
 import { FormElementMetadata } from '@/models/schema';
+import { CalendarThree } from '@icon-park/vue-next';
 
 const meta = new FormElementMetadata();
 meta.id = "";
@@ -10,7 +11,7 @@ meta.attributes = {
   editable: true,
   clearable: true,
   placeholder: "",
-  icon: "fa fa-fw fa-calendar",
+  icon: CalendarThree,
   'start-placeholder': '',
   'end-placeholder': '',
   align: 'center'

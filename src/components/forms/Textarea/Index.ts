@@ -1,3 +1,4 @@
+import { MusicList } from '@icon-park/vue-next';
 import { FormElementMetadata } from '@/models/schema';
 
 const meta = new FormElementMetadata();
@@ -12,7 +13,7 @@ meta.attributes = {
   maxlength: 255,
   placeholder: "",
   'show-word-limit': false,
-  icon: "fa fa-fw fa-terminal"
+  icon: MusicList
 };
 meta.dataBinder = {
   name: "",

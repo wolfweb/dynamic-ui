@@ -74,7 +74,6 @@ const layoutContainer = (): LayoutElementMetadata => {
   layout.display = "布局";
   layout.attributes = {
     title: nanoid(12),
-    icon: "fa fa-fw fa-tasks",
     style: 'container-fluid'
   };
 
@@ -93,7 +92,6 @@ const detailContainer = (): DisplayElementMetadata => {
     border: true,
     column: 3,
     direction: "horizontal",
-    icon: "fa fa-fw fa-wpforms",
   };
   meta.columns = [];
   return meta;
@@ -105,7 +103,6 @@ const listContainer = (): DisplayElementMetadata => {
   meta.display = "列表";
   meta.formSchema = [],
   meta.attributes = {
-    icon: "fa fa-fw fa-table",
     border: false,
     stripe: true,
   };

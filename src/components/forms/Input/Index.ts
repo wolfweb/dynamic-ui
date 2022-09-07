@@ -1,3 +1,4 @@
+import { CodeOne } from '@icon-park/vue-next';
 import { FormElementMetadata } from '@/models/schema';
 
 const meta = new FormElementMetadata();
@@ -11,7 +12,7 @@ meta.attributes = {
   type: "text",
   maxlength: 225,
   placeholder: "请输入",
-  icon: "fa fa-fw fa-i-cursor",
+  icon: CodeOne,
   clearable: false,
   'show-password': false
 };

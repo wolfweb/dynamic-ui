@@ -1,7 +1,10 @@
 <template>  
   <div :class="containerStyle()">
     <div :class="[styles.floatingActionBtn]" @click="()=>isOpen = !isOpen">
-      <i :class="[`fa fa-angle-double-${isOpen ? 'right' : 'left'}`]"></i>
+      <el-icon>
+        <DArrowLeft v-if="isOpen" />
+        <DArrowRight v-else />
+      </el-icon>
     </div>
     <div :class="[styles.attrs]">
       <el-tabs v-model="activeName" type="border-card" :class="[styles.tabs]" stretch>

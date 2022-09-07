@@ -1,3 +1,4 @@
+import { FolderMinus } from '@icon-park/vue-next';
 import { LayoutElementMetadata } from '@/models/schema';
 
 const meta = new LayoutElementMetadata();
@@ -5,7 +6,7 @@ meta.id = "";
 meta.key = "Tabs";
 meta.display = "标签";
 meta.attributes = {
-  icon: "fa fa-fw fa-folder-o",
+  icon: FolderMinus,
   label: "标签",
   active: "选项 1",
 };

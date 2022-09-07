@@ -1,3 +1,4 @@
+import { Star } from '@icon-park/vue-next';
 import { FormElementMetadata } from '@/models/schema';
 
 const meta = new FormElementMetadata();
@@ -9,7 +10,7 @@ meta.attributes = {
   max: 5,
   'allow-half': false,
   'show-score': true,
-  icon: "fa fa-fw fa-star"
+  icon: Star
 };
 meta.dataBinder = {
   name: "",

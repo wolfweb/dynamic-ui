@@ -40,7 +40,7 @@
         <el-form-item label="上传图标" prop="attributes.uploadIcon">
           <el-select v-model="widget!.attributes.uploadIcon" filterable placeholder="请选择" style="width: 100%;">
             <el-option key="" value="">无</el-option>
-            <el-option v-for="item in Icons" :value="item.name">
+            <el-option v-for="item in ElIcons" :value="item.name">
               <span>
                 <el-icon>
                   <component :is="item.name" />
@@ -116,7 +116,7 @@
 </template>
 <script lang="ts">
   import draggable from 'vuedraggable';
-  import { Icons } from '@/models/common';
+  import { ElIcons } from '@/models/common';
   import { useEditModel } from '@/models/schema';
   import { defineComponent, computed } from 'vue';
   import { useMessage } from '@/hooks/web/useMessage';
@@ -155,7 +155,7 @@
       return {
         requireChangeHandler,
         widget,
-        Icons,
+        ElIcons,
         app
       }
     }

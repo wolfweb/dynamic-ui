@@ -1,3 +1,4 @@
+import { Time } from '@icon-park/vue-next';
 import { FormElementMetadata } from '@/models/schema';
 
 const meta = new FormElementMetadata();
@@ -9,7 +10,7 @@ meta.attributes = {
   editable: true,
   clearable: true,
   placeholder: "",
-  icon: "fa fa-fw fa-clock-o",
+  icon: Time,
   'start-placeholder': '',
   'end-placeholder': '',
   align: 'center'
