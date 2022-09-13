@@ -1,14 +1,11 @@
 <template>
   <el-form-item :label="meta.attributes.label" :prop="meta.dataBinder.name" :rules="descriptor">
-    <editor 
-      v-model="formModel[meta.dataBinder.name]"
-      :placeholder="meta.attributes.placeholder"
-    />
+    <editor v-model="editorContent" />
   </el-form-item>
 </template>
 <script lang="ts">
   import { useEditModel } from '@/models/schema';
-  import { defineComponent, computed, watch } from 'vue';
+  import { defineComponent, computed, ref } from 'vue';
   import editor from '@/components/common/Tiptap/Index.vue';
   
   export default defineComponent({
@@ -22,6 +19,12 @@
     setup(props, context) {
       const { formModel, ensureFormModelInit } = useEditModel();
 
+      const editorContent = computed(()=>{
+        const mv = formModel[props.meta.dataBinder.name];
+        if(mv) return mv;
+        return props.meta.attributes.placeholder;
+      }).value;
+
       if(props.meta){
         ensureFormModelInit(props.meta);
       }
@@ -31,7 +34,7 @@
       }).value;
 
       return {
-        formModel,
+        editorContent,
         descriptor,
       }
     }

@@ -40,7 +40,7 @@
   import { Search } from '@element-plus/icons-vue'
   import { getWidgets } from '@/components/component.config';
   import { useSchemaStore } from '@/store/modules/schemaStore';
-  import { defineComponent, reactive, toRefs, watch, computed, ref } from 'vue';
+  import { defineComponent, reactive, toRefs, watch, computed, ref, markRaw } from 'vue';
   export default defineComponent({
     components: { draggable, ...icons },
     props:{
@@ -74,9 +74,9 @@
       const plugins = getWidgets(schemaStore.Mode);
       
       const tabs = Object.keys(plugins).map((name) => {
-        const { label, icon, order, metas} = plugins[name]
-        const widgets = Object.keys(metas).map(x=>metas[x])
-        return { label, name, icon , order, widgets}
+        const { label, icon, order, metas} = plugins[name];
+        const widgets = Object.keys(metas).map(x=> markRaw(metas[x]) );
+        return { label, name, icon , order, widgets};
       }).sort((a, b) => a.order - b.order);
 
       const dragOptions = computed(() => ({

@@ -28,6 +28,8 @@ async function bootstrap(){
   setupErrorHandle(app);
   
   await router.isReady();
+
+  app.config.unwrapInjectedRef = true;
   
   app.mount('#app', true);
 }
