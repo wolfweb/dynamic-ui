@@ -40,10 +40,15 @@ import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
 /****************load custom extensions****************/
 import { Math } from './Extensions/TiptapMath';
 import { Video } from './Extensions/TiptapVideo';
+import { Diagram } from './Extensions/TiptapDiagram';
+import { IndentExtension } from './Extensions/TiptapIndent';
+import { TextStyleExtension } from './Extensions/TiptapTextstyle';
+import { BlockStyles, TextFormats, TextIndent } from './Extensions/text-styles';
 
 /****************load custom extensions view****************/
 import TiptapMathView from './Views/TiptapMathView.vue';
 import TiptapVideoView from './Views/TiptapVideoView.vue';
+import TiptapDiagramView from './Views/TiptapDiagramView.vue';
 import TiptapCodeBlockView from './Views/TiptapCodeBlockView.vue';
 
 /****************load extensions config****************/
@@ -82,7 +87,14 @@ const StarterKit = Extension.create({
       Subscript,
       Superscript,
       TextStyle,
-      Color
+      ...TextFormats,
+      ...BlockStyles.map((v) => v.configure({ types: ['listItem', 'taskItem', 'heading', 'paragraph'] })),
+      TextIndent.configure({
+        types: ['paragraph'],
+      }),
+      Color,
+      IndentExtension,
+      TextStyleExtension,
     ];   
 
     extensions.push(CodeBlockLowlight
@@ -114,9 +126,15 @@ const StarterKit = Extension.create({
 
     extensions.push(Video.extend({
       addNodeView () {
-        return VueNodeViewRenderer(TiptapVideoView)
+        return VueNodeViewRenderer(TiptapVideoView);
       }
     }));
+
+    extensions.push(Diagram.extend({
+      addNodeView () {
+        return VueNodeViewRenderer(TiptapDiagramView);
+      }
+    }))
 
     return extensions;
   }

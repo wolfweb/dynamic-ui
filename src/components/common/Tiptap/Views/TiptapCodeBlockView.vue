@@ -15,7 +15,7 @@
 </template>
 <script lang="ts">
   import 'highlight.js/styles/vs.css';
-  import { defineComponent , onMounted, ref, watch} from 'vue';
+  import { defineComponent, ref, watch} from 'vue';
   import { NodeViewContent, NodeViewWrapper } from '@tiptap/vue-3';
 
   export default defineComponent({

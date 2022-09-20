@@ -1,8 +1,27 @@
 <template>
   <div class="editor_menu">
-    <el-button v-for="(menu,index) in tiptapMenus" type="primary" plain @click="()=>menuClick(menu)" class="editor_menu_item" :title="menu.title">
-      <component :is="menu.icon"></component>
-    </el-button>
+    <template v-for="(menu, index) in tiptapMenus">
+      <el-dropdown v-if="menu.children" @command="x=> menuChildHandler(menu,parseInt(x)) ">
+        <el-button type="primary" plain style="padding:8px">
+          <component :is="menu.icon"></component>
+          <el-divider direction="vertical" style="margin:0 2px"></el-divider>
+          <el-icon style="width:10px"><CaretBottom /></el-icon>
+        </el-button>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item v-for="(child, idx) in menu.children" :command="child.command">
+              <component :is="child.icon"></component>
+              <el-divider direction="vertical" style="margin:0 2px"></el-divider>
+              {{child.title}}
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+      <el-divider v-else-if="menu.divider" direction="vertical" style="margin:0; padding: 0 1px"></el-divider>
+      <el-button v-else type="primary" plain @click="()=>menuClick(menu)" class="editor_menu_item" :title="menu.title">
+        <component :is="menu.icon"></component>
+      </el-button>
+    </template>
   </div>
 </template>
 <script lang="ts">
@@ -20,16 +39,20 @@
       menus: null
     },
     setup(props, context) {
-      const { editor } = props;
       const tiptapMenus = props.menus || TiptapMenus;
 
       const menuClick = (menu)=>{
         menu.action(props.editor);
       };
 
+      const menuChildHandler = (menu, cmd) => {
+        menu.action(props.editor, cmd);
+      }
+
       return {
         menuClick,
         tiptapMenus,
+        menuChildHandler
       };
     }
   });
@@ -49,10 +72,28 @@
     }
   }
 
+  .el-button{
+    border: none;
+    margin-right:0px;
+    border-radius: unset;
+  }
+
   .el-button+.el-button{
-    margin-right:2px;
     margin-left: 0;
     margin-bottom: 2px;
+    border-radius:unset;
+  }
+
+  .el-button:first-child {
+    border-radius: 5px 0 0 5px;
+  }
+
+  .el-button:last-child{
+    border-radius: 0 5px 5px 0;
+  }
+
+  .el-dropdown .el-dropdown__caret-button {
+    width: 16px;
   }
   
 </style>

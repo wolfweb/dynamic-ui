@@ -214,6 +214,33 @@
           justify-content: flex-start;
           margin-left: -2px;
         }
+
+        table {
+          border-collapse: collapse;
+          width: 100%;
+          margin: 0;
+          overflow: hidden;
+        }
+
+        th,
+        td {
+          border: 1px solid rgba(224, 224, 224, 0.8);
+          box-sizing: border-box;
+          min-width: 1em;
+          padding: 3px 5px;
+          position: relative;
+          vertical-align: top;
+        }
+
+        th.selectedCell,
+        td.selectedCell {
+          background-color: #3C81E8;
+        }
+
+        th {
+          font-weight: 500;
+          text-align: left;
+        }
       }
     }
   
