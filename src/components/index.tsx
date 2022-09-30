@@ -1,5 +1,10 @@
 const modules = import.meta.globEager('./*/index.tsx')
 
+const schemaMapping = {
+  "backend": ["layouts", "forms", "widgets"],
+  "liquid": ["layouts", "liquids"]
+}
+
 const widgetMetas = {}
 const widgetFuncs = {}
 const components = {}

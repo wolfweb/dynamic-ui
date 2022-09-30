@@ -40,6 +40,14 @@ export class DisplayElementMetadata implements IDisplayElementMetadata{
   columns: Array<FormElementMetadata>;
 }
 
+export class LiquidElementMetadata implements ILiquidElementMetadata{
+  id: string;
+  key: string;
+  display: string;
+  attributes: Dictionary<any>;
+  childes?: Array<any> = [];
+}
+
 const primaryKey = () :FormElementMetadata => {
   let meta = new FormElementMetadata();
   meta.id = nanoid();

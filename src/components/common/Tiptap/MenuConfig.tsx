@@ -4,18 +4,63 @@ import type {} from '@tiptap/core';
 
 import mermaid from 'mermaid';
 import CodeMirror from 'vue-codemirror6';
-import { DiagramTemplates } from './Data/Diagram';
+import TiptapColor from './Components/TiptapColor.vue';
 
-import { reactive, h, watch } from 'vue';
 import { isEmpty } from 'lodash-es';
+import { reactive, h, watch } from 'vue';
+import { DiagramTemplates } from './Data/Diagram';
 import { showDialog } from '@/hooks/web/useDialog';
-import { ElForm, ElFormItem, ElInput, ElSelect, ElOption, ElTabs } from 'element-plus';
+import { ElForm, ElFormItem, ElInput, ElSelect, ElOption, ElPopover, ElButton } from 'element-plus';
 
 mermaid.mermaidAPI.initialize({
   securityLevel: 'loose',
   sequence: { showSequenceNumbers: true }
 })
 
+function configFormula(editor, ...args: any[]){
+  editor.chain().focus().setMath({tex:'E=mc^2'}).run();
+}
+
+function configFlow(editor, ...args: any[]){
+  const editContext = reactive({
+    code: DiagramTemplates.flow,
+    svg: null
+  });
+
+  mermaid.mermaidAPI.render(`svg-${new Date().getTime()}`, editContext.code, res => editContext.svg = res);
+
+  showDialog({
+    title: '流程图设置',
+    props:{width: 600},
+    content: ()=>(
+      <ElForm labelPosition="top">
+        <ElFormItem label="模板">
+          <ElSelect v-model={editContext.code}>
+            {
+              Object.keys(DiagramTemplates).map((item)=>(
+                <ElOption label={item} value={DiagramTemplates[item]}></ElOption>
+              ))
+            }
+          </ElSelect>
+        </ElFormItem>
+        <ElFormItem label="源码">
+          {h(CodeMirror, { basic:true, lintGutter:true, modelValue: editContext.code, style:'width:100%', ['onChanged']: (v) => { try{ mermaid.mermaidAPI.render(`svg-${new Date().getTime()}`, v, res => editContext.svg = res); }catch(e){ console.log(e) } }  })}
+        </ElFormItem>
+        <ElFormItem label="预览">
+          <div innerHTML={editContext.svg}></div>
+        </ElFormItem>
+      </ElForm>
+    ),
+    onConfirm: ()=>{
+      editor.chain().focus().setDiagram({code:editContext.code}).run();
+    }
+  });
+}
+
+const morePlusFeature = {
+  flow: configFlow,
+  formula: configFormula,
+}
 
 export const TiptapMenus = [
   {
@@ -46,6 +91,9 @@ export const TiptapMenus = [
     active: (editor) => false
   },
   {
+    divider: true
+  },
+  {
     icon: icons.TextBold,
     title: "加粗",
     action: (editor, ...args: any[]) => editor.chain().focus().toggleBold().run(),
@@ -70,40 +118,62 @@ export const TiptapMenus = [
     active: (editor) => editor.isActive('strike')
   },
   {
+    divider: true
+  },
+  {
     icon: icons.HighLight,
     title: "高亮",
     action: (editor, ...args: any[]) => editor.chain().focus().toggleHighlight().run(),
     active: (editor) => editor.isActive('highlight')
   },
   {
-    icon: icons.Fill,
+    icon: icons.BackgroundColor,
+    popover: {
+      component: TiptapColor
+    },
     title: "颜色",
-    action: (editor, ...args: any[]) => editor.chain().focus().setColor(args[0]).run(),
+    action: (editor, ...args: any[]) => {
+      console.log(args);
+      //editor.chain().focus().setColor(args[0]).run();
+    },
     active: (editor) => editor.isActive('font-color')
   },
   {
-    icon: icons.AlignTextLeft,
-    title: "左对齐",
-    action: (editor, ...args: any[]) => editor.chain().focus().setTextAlign('left').run(),
-    active: (editor) => editor.isActive('align-left')
+    divider: true
   },
   {
     icon: icons.AlignTextCenter,
     title: "居中",
-    action: (editor, ...args: any[]) => editor.chain().focus().setTextAlign('center').run(),
-    active: (editor) => editor.isActive('align-center')
+    action: (editor, ...args: any[]) => editor.chain().focus().setTextAlign(args[0]).run(),
+    active: (editor) => editor.isActive('align-center'),
+    children: [
+      {
+        icon: icons.AlignTextLeft,
+        title: "左对齐",
+        command: "left",
+        
+      },
+      {
+        icon: icons.AlignTextCenter,
+        title: "居中",
+        command: "center",
+        
+      },
+      {
+        icon: icons.AlignTextRight,
+        title: "右对齐",
+        command: "right",
+        
+      },
+      {
+        icon: icons.AlignTextBoth,
+        title: "两端对齐",
+        command: "justify",
+      },
+    ]
   },
   {
-    icon: icons.AlignTextRight,
-    title: "右对齐",
-    action: (editor, ...args: any[]) => editor.chain().focus().setTextAlign('right').run(),
-    active: (editor) => editor.isActive('align-right')
-  },
-  {
-    icon: icons.AlignTextBoth,
-    title: "两端对齐",
-    action: (editor, ...args: any[]) => editor.chain().focus().setTextAlign('justify').run(),
-    active: (editor) => editor.isActive('align-justify')
+    divider: true
   },
   {
     icon: icons.MenuFoldOne,
@@ -118,10 +188,13 @@ export const TiptapMenus = [
     active: (editor) => false
   },
   {
+    divider: true
+  },
+  {
     icon: icons.TitleLevel,
     title: "标题",
     action: (editor, ...args: any[]) => {
-      editor.chain().focus().toggleHeading({ level: args[0] }).run();
+      editor.chain().focus().toggleHeading({ level: parseInt(args[0]) }).run();
     },
     active: (editor) => false,
     children:[
@@ -158,6 +231,9 @@ export const TiptapMenus = [
     ]
   },
   {
+    divider: true
+  },
+  {
     icon: icons.ListTwo,
     title: "无序列表",
     action: (editor, ...args: any[]) => editor.chain().focus().toggleBulletList().run(),
@@ -174,6 +250,9 @@ export const TiptapMenus = [
     title: "任务列表",
     action: (editor, ...args: any[]) => editor.chain().focus().toggleTaskList().run(),
     active: (editor) => editor.isActive('taskList')
+  },
+  {
+    divider: true
   },
   {
     icon: icons.Quote,
@@ -246,7 +325,7 @@ export const TiptapMenus = [
     active: (editor) => false
   },
   {
-    icon: icons.Code,
+    icon: icons.CodeBrackets,
     title: "代码",
     action: (editor, ...args: any[]) => editor.chain().focus().toggleCodeBlock().run(),
     active: (editor) => editor.isActive('code')
@@ -258,51 +337,26 @@ export const TiptapMenus = [
     active: (editor) => false
   },
   {
-    icon: icons.Formula,
-    title: "数学公式",
-    action: (editor, ...args: any[]) => {
-      editor.chain().focus().setMath({tex:'E=mc^2'}).run()
-    },
-    active: (editor) => false
+    divider: true
   },
   {
-    icon: icons.NetworkTree,
-    title: "流程图",
+    icon: icons.Plus,
+    title: "更多",
     action: (editor, ...args: any[]) => {
-      const editContext = reactive({
-        code: DiagramTemplates.flow,
-        svg: null
-      });
-
-      mermaid.mermaidAPI.render(`svg-${new Date().getTime()}`, editContext.code, res => editContext.svg = res);
-
-      showDialog({
-        title: '流程图设置',
-        props:{width: 600},
-        content: ()=>(
-          <ElForm labelPosition="top">
-            <ElFormItem label="模板">
-              <ElSelect v-model={editContext.code}>
-                {
-                  Object.keys(DiagramTemplates).map((item)=>(
-                    <ElOption label={item} value={item}></ElOption>
-                  ))
-                }
-              </ElSelect>
-            </ElFormItem>
-            <ElFormItem label="源码">
-              {h(CodeMirror, { basic:true, lintGutter:true, modelValue: editContext.code, style:'width:100%', ['onChanged']: (v) => { try{ mermaid.mermaidAPI.render(`svg-${new Date().getTime()}`, v, res => editContext.svg = res); }catch(e){ console.log(e) } }  })}
-            </ElFormItem>
-            <ElFormItem label="预览">
-              <div innerHTML={editContext.svg}></div>
-            </ElFormItem>
-          </ElForm>
-        ),
-        onConfirm: ()=>{
-          editor.chain().focus().setDiagram({text:''}).run();
-        }
-      })
+      morePlusFeature[args[0]](editor, args);
     },
-    active: (editor) => false
-  },
+    active: (editor) => false,
+    children:[
+      {
+        icon: icons.Formula,
+        title: "数学公式",
+        command: "formula"
+      },
+      {
+        icon: icons.NetworkTree,
+        title: "流程图",
+        command: "flow"
+      }
+    ]
+  }
 ];

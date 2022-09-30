@@ -16,7 +16,7 @@ export interface MathOptions {
   HTMLAttributes: Record<string, any>,
 }
 
-export const Math = Node.create<MathOptions>({
+const Math = Node.create<MathOptions>({
   name: 'math',
 
   addOptions () {
@@ -45,13 +45,13 @@ export const Math = Node.create<MathOptions>({
   parseHTML () {
     return [
       {
-        tag: 'span[tex]'
+        tag: 'math[tex]'
       }
     ]
   },
 
   renderHTML ({ HTMLAttributes }) {
-    return [ 'span', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes) ]
+    return [ 'math', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes) ]
   },
 
   addCommands () {
@@ -64,4 +64,6 @@ export const Math = Node.create<MathOptions>({
       }
     }
   }
-})
+});
+
+export default Math;

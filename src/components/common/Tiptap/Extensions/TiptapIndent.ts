@@ -17,8 +17,7 @@ declare module '@tiptap/core' {
 }
 
 // TODO rewrite to use data-indent, render to margin
-
-export const IndentExtension = Extension.create<IndentOptions>({
+const IndentExtension = Extension.create<IndentOptions>({
   name: 'indent',
   addOptions() {
     return {
@@ -60,6 +59,8 @@ export const IndentExtension = Extension.create<IndentOptions>({
     };
   },
 });
+
+export default IndentExtension;
 
 function update({ step = 1, min = 0, max = Number.POSITIVE_INFINITY, unit = '' } = {}): (
   v: string | number,

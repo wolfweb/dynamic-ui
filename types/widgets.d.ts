@@ -22,7 +22,7 @@ interface IDisplayElementMetadata extends IElementMetadata {
   key: string;
   display: string;
   attributes: Dictionary<any>;
-}
+} 
 
 interface IChartDisplayElementMetadata extends IDisplayElementMetadata{
   title: string;
@@ -30,8 +30,11 @@ interface IChartDisplayElementMetadata extends IDisplayElementMetadata{
   series?: SeriesOption$1 | SeriesOption$1[];
 }
 
-interface ILiquidElementMetadata extends IElementMetadata {
-
+declare interface ILiquidElementMetadata extends IElementMetadata {
+  key: string;
+  display: string;
+  attributes: Dictionary<any>;
+  childes?: Array<any>;
 }
 
 declare interface IFormElementChildGroupMetadata {

@@ -16,7 +16,7 @@ export interface VideoOptions {
   HTMLAttributes: Record<string, any>,
 }
 
-export const Video = Node.create<VideoOptions>({
+const Video = Node.create<VideoOptions>({
   name: 'video',
   addOptions () {
     return {
@@ -78,3 +78,5 @@ export const Video = Node.create<VideoOptions>({
     }
   }
 });
+
+export default Video;

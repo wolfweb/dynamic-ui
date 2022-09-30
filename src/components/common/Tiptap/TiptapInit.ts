@@ -6,8 +6,8 @@ import Bold from '@tiptap/extension-bold';
 import Code from '@tiptap/extension-code';
 import Link from '@tiptap/extension-link';
 import Text from '@tiptap/extension-text';
-import Table from '@tiptap/extension-table';
 import Color from '@tiptap/extension-color';
+import Table from '@tiptap/extension-table';
 import Strike from '@tiptap/extension-strike';
 import Italic from '@tiptap/extension-italic';
 import Heading from '@tiptap/extension-heading';
@@ -25,7 +25,6 @@ import Underline from '@tiptap/extension-underline';
 import TableCell from '@tiptap/extension-table-cell';
 import TextAlign from '@tiptap/extension-text-align';
 import HardBreak from '@tiptap/extension-hard-break';
-import TextStyle from '@tiptap/extension-text-style';
 import Blockquote from '@tiptap/extension-blockquote';
 import Dropcursor from '@tiptap/extension-dropcursor';
 import BulletList from '@tiptap/extension-bullet-list';
@@ -38,11 +37,11 @@ import HorizontalRule from '@tiptap/extension-horizontal-rule';
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
 
 /****************load custom extensions****************/
-import { Math } from './Extensions/TiptapMath';
-import { Video } from './Extensions/TiptapVideo';
-import { Diagram } from './Extensions/TiptapDiagram';
-import { IndentExtension } from './Extensions/TiptapIndent';
-import { TextStyleExtension } from './Extensions/TiptapTextstyle';
+import Math from './Extensions/TiptapMath';
+import Video from './Extensions/TiptapVideo';
+import Diagram from './Extensions/TiptapDiagram';
+import IndentExtension from './Extensions/TiptapIndent';
+import TextStyleExtension from './Extensions/TiptapTextstyle';
 import { BlockStyles, TextFormats, TextIndent } from './Extensions/text-styles';
 
 /****************load custom extensions view****************/
@@ -86,7 +85,6 @@ const StarterKit = Extension.create({
       TaskItem,
       Subscript,
       Superscript,
-      TextStyle,
       ...TextFormats,
       ...BlockStyles.map((v) => v.configure({ types: ['listItem', 'taskItem', 'heading', 'paragraph'] })),
       TextIndent.configure({

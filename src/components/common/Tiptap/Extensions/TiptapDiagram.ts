@@ -16,7 +16,7 @@ declare module '@tiptap/core' {
   }
 }
 
-export const Diagram = Node.create<DiagramOptions>({
+const Diagram = Node.create<DiagramOptions>({
   name: 'diagram',
 
   addOptions () {
@@ -26,12 +26,26 @@ export const Diagram = Node.create<DiagramOptions>({
     }
   },
 
+  addAttributes(){
+    return {
+      code:{ default: null },
+      height: { default: 300}
+    }
+  },
+
   inline () {
     return this.options.inline
   },
 
   group () {
     return this.options.inline ? 'inline' : 'block'
+  },
+
+  parseHTML() {
+    return [{ tag: 'diagram[code]' }]
+  },
+  renderHTML({ HTMLAttributes }) {
+    return ['diagram', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)]
   },
 
   draggable: false,
@@ -46,4 +60,6 @@ export const Diagram = Node.create<DiagramOptions>({
       }
     }
   }
-})
+});
+
+export default Diagram;

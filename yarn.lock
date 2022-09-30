@@ -588,6 +588,11 @@
     "@lezer/common" "^1.0.0"
     "@lezer/highlight" "^1.0.0"
 
+"@lk77/vue3-color@^3.0.6":
+  "integrity" "sha512-1e/TJrk2jJFo7z+teHjavndVxV9c25J5FA6LVEKJFKqLQzYDesTijxBmX1rAmiHHnFrjfVcwie5QAr3PzZbR2Q=="
+  "resolved" "https://registry.npmmirror.com/@lk77/vue3-color/-/vue3-color-3.0.6.tgz"
+  "version" "3.0.6"
+
 "@nodelib/fs.scandir@2.1.5":
   "integrity" "sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g=="
   "resolved" "https://registry.npmmirror.com/@nodelib/fs.scandir/-/fs.scandir-2.1.5.tgz"
@@ -2991,6 +2996,11 @@
   "integrity" "sha512-1Y9XQH65eQKA9p2xtk+zxvnTeQBG7rdAXSkUG97DmuI/Xhji9uaUzaWxRj6rf9YC0v8KKHkxav7tnLX82Sz5Fg=="
   "resolved" "https://registry.npmmirror.com/linkifyjs/-/linkifyjs-3.0.5.tgz"
   "version" "3.0.5"
+
+"liquidjs@^9.42.0":
+  "integrity" "sha512-krvhwGFrMCMGhybGkxJIvlWVVnoCSpYCn7NhEN43+uvlg2vOkYWpq8be+L3NMlOfwe4ZrKQ7hCh1EmS4yhLKow=="
+  "resolved" "https://registry.npmmirror.com/liquidjs/-/liquidjs-9.42.0.tgz"
+  "version" "9.42.0"
 
 "local-pkg@^0.4.2":
   "integrity" "sha512-mlERgSPrbxU3BP4qBqAvvwlgW4MTg78iwJdGGnv7kibKjWcJksrG3t6LB5lXI93wXRDvG4NpUgJFmTG4T6rdrg=="
