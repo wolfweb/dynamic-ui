@@ -9,9 +9,7 @@
     components:{
       Chrome
     },
-    props:{
-      editor:null
-    },
+    emits:['onUpdate'],
     setup(props, context){
       const color = ref('#ffffff');
 
@@ -19,7 +17,7 @@
         ()=>color.value,
         (v)=>{
           // @ts-ignore
-          props.editor.chain().focus().setColor(v.hex).run()
+          context.emit('onUpdate', v);
         }
       );
 

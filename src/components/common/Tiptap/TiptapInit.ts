@@ -42,7 +42,7 @@ import Video from './Extensions/TiptapVideo';
 import Diagram from './Extensions/TiptapDiagram';
 import IndentExtension from './Extensions/TiptapIndent';
 import TextStyleExtension from './Extensions/TiptapTextstyle';
-import { BlockStyles, TextFormats, TextIndent } from './Extensions/text-styles';
+import { BackgroundColor, BlockStyles, TextFormats, TextIndent } from './Extensions/text-styles';
 
 /****************load custom extensions view****************/
 import TiptapMathView from './Views/TiptapMathView.vue';
@@ -91,6 +91,7 @@ const StarterKit = Extension.create({
         types: ['paragraph'],
       }),
       Color,
+      BackgroundColor,
       IndentExtension,
       TextStyleExtension,
     ];   

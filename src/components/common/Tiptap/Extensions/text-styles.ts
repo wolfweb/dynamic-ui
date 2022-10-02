@@ -97,6 +97,12 @@ export const LetterSpacing = createSubTextStyle({
   renderValue: renderNumberToPx,
 });
 
+export const BackgroundColor = createSubTextStyle({
+  name: 'backgroundColor',
+  cssName: 'background-color',
+  renderValue: v => v
+});
+
 export const BlockStyles = [MarginLeft, MarginRight, MarginTop, MarginBottom];
 export const TextFormats = [LetterSpacing, LineHeight, FontSize];
 

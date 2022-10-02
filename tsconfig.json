@@ -28,6 +28,7 @@
     "types": [
       "vite/client", 
       "node",
+      "vite-svg-loader",
       "element-plus/global",
       "unplugin-vue-define-options"
     ],

@@ -3,7 +3,8 @@
     <template v-for="(menu, index) in tiptapMenus">
       <el-dropdown v-if="menu.children" @command="x=> menuChildHandler(menu,x) ">
         <el-button type="primary" plain style="padding:8px 4px;">
-          <component :is="menu.icon"></component>
+          <v-icon v-if="typeof menu.icon == 'string'" :name="menu.icon" />
+          <component v-else :is="menu.icon"></component>
           <el-icon style="width:10px"><CaretBottom /></el-icon>
         </el-button>
         <template #dropdown>
@@ -16,29 +17,33 @@
         </template>
       </el-dropdown>
       <el-divider v-else-if="menu.divider" direction="vertical"></el-divider>
-      <el-popover v-else-if="menu.popover" trigger="hover" placement="bottom" width="250">
+      <el-popover v-else-if="menu.popover" trigger="hover" placement="bottom" :width="menu.popover.width">
         <template #reference>
           <el-button type="primary" plain class="editor_menu_item" :title="menu.title">
-            <component :is="menu.icon"></component>
+            <v-icon v-if="typeof menu.icon == 'string'" :name="menu.icon" />
+            <component v-else :is="menu.icon"></component>
           </el-button>
         </template>
-        <component :is="menu.popover.component" :editor="editor"></component>
+        <component :is="menu.popover.component" @onUpdate="v=>menuClick(menu,v)"></component>
       </el-popover>
       <el-button v-else type="primary" plain @click="()=>menuClick(menu)" class="editor_menu_item" :title="menu.title">
-        <component :is="menu.icon"></component>
+        <v-icon v-if="typeof menu.icon == 'string'" :name="menu.icon" />
+        <component v-else :is="menu.icon"></component>
       </el-button>
     </template>
   </div>
 </template>
 <script lang="ts">
+  import VIcon from '../Icon.vue';
+  import { defineComponent } from 'vue';
   import { TiptapMenus } from './MenuConfig';
-  import { defineComponent, reactive } from 'vue';
   import * as icons from '@icon-park/vue-next';
 
   export default defineComponent({
     name: 'TiptapMenuBar',
     components:{
-      ...icons
+      ...icons,
+      VIcon
     },
     props: {
       editor: null,
@@ -47,7 +52,7 @@
     setup(props, context) {
       const tiptapMenus = props.menus || TiptapMenus;
 
-      const menuClick = (menu, ...args)=>{
+      const menuClick = (menu, args = undefined)=>{
         menu.action(props.editor, args);
       };
 

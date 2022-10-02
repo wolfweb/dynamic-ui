@@ -15,9 +15,9 @@
 </template>
 <script lang="ts">
   import StarterKit from './TiptapInit';
+  import MenuBar from './TiptapMenuBar.vue';
   import { useEditor, EditorContent, BubbleMenu } from '@tiptap/vue-3';
   import { defineComponent, onMounted, onBeforeUnmount, ref, reactive } from 'vue';
-  import MenuBar from './TiptapMenuBar.vue';
 
   export default defineComponent({
     name: "TiptapEditor",

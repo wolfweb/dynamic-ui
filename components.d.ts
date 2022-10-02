@@ -86,6 +86,7 @@ declare module '@vue/runtime-core' {
     FormDetailAttrEdit: typeof import('./src/components/widgets/FormDetail/FormDetailAttrEdit.vue')['default']
     FormList: typeof import('./src/components/widgets/FormList/FormList.vue')['default']
     FormListAttrEdit: typeof import('./src/components/widgets/FormList/FormListAttrEdit.vue')['default']
+    Icon: typeof import('./src/components/common/Icon.vue')['default']
     IfElse: typeof import('./src/components/liquids/IfElse/IfElse.vue')['default']
     IfElseAttrEdit: typeof import('./src/components/liquids/IfElse/IfElseAttrEdit.vue')['default']
     Index: typeof import('./src/components/common/Tiptap/Index.vue')['default']

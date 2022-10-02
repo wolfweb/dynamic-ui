@@ -127,16 +127,28 @@ export const TiptapMenus = [
     active: (editor) => editor.isActive('highlight')
   },
   {
-    icon: icons.BackgroundColor,
+    icon: 'font-color',
     popover: {
-      component: TiptapColor
+      component: TiptapColor,
+      width: 250
     },
     title: "颜色",
     action: (editor, ...args: any[]) => {
-      console.log(args);
-      //editor.chain().focus().setColor(args[0]).run();
+      editor.chain().focus().setColor(args[0].hex8).run();
     },
     active: (editor) => editor.isActive('font-color')
+  },
+  {
+    icon: icons.BackgroundColor,
+    popover: {
+      component: TiptapColor,
+      width: 250
+    },
+    title: "背景色",
+    action: (editor, ...args: any[]) => {
+      editor.chain().focus().setBackgroundColor(args[0].hex8).run();
+    },
+    active: (editor) => editor.isActive('background-color')
   },
   {
     divider: true
@@ -315,10 +327,30 @@ export const TiptapMenus = [
         props: {width: 600},
         content: () => (
           <>
+          <span>hello</span>
           </>
         ),
         onConfirm: ()=>{
           editor.chain().focus().setImage(args[0]).run();
+        }
+      })
+    },
+    active: (editor) => false
+  },
+  {
+    icon: icons.Video,
+    title: "插入视频",
+    action: (editor, ...args: any[]) => {
+      showDialog({
+        title: '',
+        props: {width: 600},
+        content: () => (
+          <>
+          <span>hello</span>
+          </>
+        ),
+        onConfirm: ()=>{
+          editor.chain().focus().setVideo(args[0]).run();
         }
       })
     },
