@@ -68,7 +68,7 @@
     }
   });
 </script>
-<style lang="less">
+<style lang="scss">
   .editor_menu{
     padding: 2px;
     display: flex;

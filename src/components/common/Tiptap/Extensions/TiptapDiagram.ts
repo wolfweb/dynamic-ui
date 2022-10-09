@@ -1,4 +1,7 @@
+import { VueNodeViewRenderer } from '@tiptap/vue-3';
 import { Node, mergeAttributes } from '@tiptap/core';
+
+import TiptapDiagramView from '../Views/TiptapDiagramView.vue';
 
 export interface DiagramOptions {
   inline: boolean,
@@ -59,6 +62,10 @@ const Diagram = Node.create<DiagramOptions>({
         })
       }
     }
+  },
+
+  addNodeView() {
+    return VueNodeViewRenderer(TiptapDiagramView);
   }
 });
 

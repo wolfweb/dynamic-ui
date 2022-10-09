@@ -71,7 +71,7 @@
     }
   })
 </script>
-<style lang="less">
+<style lang="scss">
   .ProseMirror {
     outline: 0;
     min-height: 120px;

@@ -1,4 +1,7 @@
+import { VueNodeViewRenderer } from '@tiptap/vue-3';
 import { mergeAttributes, Node } from '@tiptap/core';
+
+import TiptapVideoView from '../Views/TiptapVideoView.vue';
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -6,13 +9,22 @@ declare module '@tiptap/core' {
       /**
        * Add an video
        */
-      setVideo: (options: { src: string, alt?: string, title?: string }) => ReturnType,
+      setVideo: (options: SetVideoOptions) => ReturnType,
     }
   }
 }
 
+export interface SetVideoOptions {
+  src: string;
+  title?: string;
+  controls?: boolean;
+
+  [key: string]: any;
+}
+
 export interface VideoOptions {
   inline: boolean,
+  allowBase64: boolean;
   HTMLAttributes: Record<string, any>,
 }
 
@@ -21,6 +33,7 @@ const Video = Node.create<VideoOptions>({
   addOptions () {
     return {
       inline        : true,
+      allowBase64   : false,
       HTMLAttributes: {}
     }
   },
@@ -38,27 +51,39 @@ const Video = Node.create<VideoOptions>({
   addAttributes () {
     return {
       src: {
-        default: null
+        default: null,
       },
       alt: {
-        default: null
+        default: null,
       },
       title: {
-        default: null
+        default: null,
+      },
+      controls: {
+        default: true,
+      },
+      autoplay: {
+        default: false,
+        renderHTML: (attrs) => {
+          if (attrs['autoplay'] === false) {
+            return {};
+          }
+          return { autoplay: attrs['autoplay'] };
+        },
       },
       width: {
-        default: 400
+        default: null,
       },
       height: {
-        default: 300
-      }
-    }
+        default: null,
+      },
+    };
   },
 
   parseHTML () {
     return [
       {
-        tag: 'video[src]'
+        tag: this.options.allowBase64 ? 'video[src]' : 'video[src]:not([src^="data:"])',
       }
     ]
   },
@@ -76,6 +101,10 @@ const Video = Node.create<VideoOptions>({
         })
       }
     }
+  },
+
+  addNodeView() {
+    return VueNodeViewRenderer(TiptapVideoView);
   }
 });
 

@@ -38,6 +38,7 @@ import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
 
 /****************load custom extensions****************/
 import Math from './Extensions/TiptapMath';
+import Image from './Extensions/TiptapImage';
 import Video from './Extensions/TiptapVideo';
 import Diagram from './Extensions/TiptapDiagram';
 import IndentExtension from './Extensions/TiptapIndent';
@@ -45,9 +46,6 @@ import TextStyleExtension from './Extensions/TiptapTextstyle';
 import { BackgroundColor, BlockStyles, TextFormats, TextIndent } from './Extensions/text-styles';
 
 /****************load custom extensions view****************/
-import TiptapMathView from './Views/TiptapMathView.vue';
-import TiptapVideoView from './Views/TiptapVideoView.vue';
-import TiptapDiagramView from './Views/TiptapDiagramView.vue';
 import TiptapCodeBlockView from './Views/TiptapCodeBlockView.vue';
 
 /****************load extensions config****************/
@@ -62,6 +60,7 @@ const StarterKit = Extension.create({
       Bold,
       BulletList,
       Code,
+      Diagram,
       Document,
       Dropcursor,
       Gapcursor,
@@ -69,8 +68,10 @@ const StarterKit = Extension.create({
       Heading,
       History,
       HorizontalRule,
+      Image,
       Italic,
       ListItem,
+      Math,
       OrderedList,
       Paragraph,
       Strike,
@@ -91,6 +92,7 @@ const StarterKit = Extension.create({
         types: ['paragraph'],
       }),
       Color,
+      Video,
       BackgroundColor,
       IndentExtension,
       TextStyleExtension,
@@ -108,12 +110,6 @@ const StarterKit = Extension.create({
       protocols: [ 'ftp', 'mailto', 'http', 'https' ],
       autolink : false
     }));
-      
-    extensions.push(Math.extend({
-      addNodeView () {
-        return VueNodeViewRenderer(TiptapMathView);
-      }
-    }));
 
     extensions.push(Placeholder.configure({
       placeholder: ''
@@ -122,18 +118,6 @@ const StarterKit = Extension.create({
     extensions.push(TextAlign.configure({
       types: [ 'heading', 'paragraph' ]
     }));
-
-    extensions.push(Video.extend({
-      addNodeView () {
-        return VueNodeViewRenderer(TiptapVideoView);
-      }
-    }));
-
-    extensions.push(Diagram.extend({
-      addNodeView () {
-        return VueNodeViewRenderer(TiptapDiagramView);
-      }
-    }))
 
     return extensions;
   }

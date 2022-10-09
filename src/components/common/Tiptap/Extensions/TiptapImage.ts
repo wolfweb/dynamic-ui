@@ -1,4 +1,7 @@
+import { VueNodeViewRenderer } from '@tiptap/vue-3';
 import { Node, nodeInputRule, mergeAttributes } from '@tiptap/core';
+
+import TiptapImageView from '../Views/TiptapImageView.vue';
 
 export interface ImageOptions {
   inline: boolean;
@@ -12,14 +15,14 @@ declare module '@tiptap/core' {
       /**
        * Add an image
        */
-      setImage: (options: { src: string; alt?: string; title?: string }) => ReturnType;
+      setImage: (options: { src: string; alt?: string; title?: string } & Record<string, any>) => ReturnType;
     };
   }
 }
 
 export const inputRegex = /(!\[(.+|:?)]\((\S+)(?:(?:\s+)["'](\S+)["'])?\))$/;
 
-export const Image = Node.create<ImageOptions>({
+const Image = Node.create<ImageOptions>({
   name: 'image',
 
   addOptions() {
@@ -52,6 +55,8 @@ export const Image = Node.create<ImageOptions>({
       title: {
         default: null,
       },
+      width: "200px",
+      height: "auto"
     };
   },
 
@@ -86,11 +91,17 @@ export const Image = Node.create<ImageOptions>({
         find: inputRegex,
         type: this.type,
         getAttributes: (match) => {
-          const [, , alt, src, title] = match;
+          const [, , alt, src, title, width, height] = match;
 
-          return { src, alt, title };
+          return { src, alt, title, width, height };
         },
       }),
     ];
   },
+
+  addNodeView() {
+    return VueNodeViewRenderer(TiptapImageView);
+  }
 });
+
+export default Image;

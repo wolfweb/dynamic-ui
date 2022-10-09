@@ -1,4 +1,7 @@
+import { VueNodeViewRenderer } from '@tiptap/vue-3';
 import { mergeAttributes, Node } from '@tiptap/core';
+
+import TiptapMathView from '../Views/TiptapMathView.vue';
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -63,6 +66,10 @@ const Math = Node.create<MathOptions>({
         })
       }
     }
+  },
+
+  addNodeView () {
+    return VueNodeViewRenderer(TiptapMathView);
   }
 });
 

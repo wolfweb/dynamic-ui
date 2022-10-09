@@ -29,7 +29,7 @@
     }
   });
 </script>
-<style lang="less" scoped>
+<style lang="scss" scoped>
   .math-block {
     position: relative;
     max-width: 100%;

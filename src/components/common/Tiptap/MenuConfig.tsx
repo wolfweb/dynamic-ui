@@ -6,11 +6,13 @@ import mermaid from 'mermaid';
 import CodeMirror from 'vue-codemirror6';
 import TiptapColor from './Components/TiptapColor.vue';
 
-import { isEmpty } from 'lodash-es';
-import { reactive, h, watch } from 'vue';
+import ImageAttrView from './Views/TiptapImageAttrView.vue';
+import VideoAttrView from './Views/TiptapVideoAttrView.vue';
+
+import { reactive, h } from 'vue';
 import { DiagramTemplates } from './Data/Diagram';
 import { showDialog } from '@/hooks/web/useDialog';
-import { ElForm, ElFormItem, ElInput, ElSelect, ElOption, ElPopover, ElButton } from 'element-plus';
+import { ElForm, ElFormItem, ElInput, ElSelect, ElOption } from 'element-plus';
 
 mermaid.mermaidAPI.initialize({
   securityLevel: 'loose',
@@ -322,16 +324,24 @@ export const TiptapMenus = [
     icon: icons.ImageFiles,
     title: "插入图片",
     action: (editor, ...args: any[]) => {
+      const imgContext = reactive({
+        src: "",
+        alt: "",
+        title: "",
+        width: "auto",
+        height: "auto"
+      });
+
       showDialog({
         title: '',
         props: {width: 600},
         content: () => (
           <>
-          <span>hello</span>
+          {h(ImageAttrView, { attr : imgContext })}
           </>
         ),
-        onConfirm: ()=>{
-          editor.chain().focus().setImage(args[0]).run();
+        onConfirm: () => {
+          editor.chain().focus().setImage(imgContext).run();
         }
       })
     },
@@ -341,16 +351,24 @@ export const TiptapMenus = [
     icon: icons.Video,
     title: "插入视频",
     action: (editor, ...args: any[]) => {
+      const videoContext = reactive({
+        src: "",
+        alt: "",
+        title: "",
+        width: "400px",
+        height: "300px"
+      });
+
       showDialog({
         title: '',
         props: {width: 600},
         content: () => (
           <>
-          <span>hello</span>
+          {h(VideoAttrView, { attr : videoContext })}
           </>
         ),
-        onConfirm: ()=>{
-          editor.chain().focus().setVideo(args[0]).run();
+        onConfirm: () => {
+          editor.chain().focus().setVideo(videoContext).run();
         }
       })
     },

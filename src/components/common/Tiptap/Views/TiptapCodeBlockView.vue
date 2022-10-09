@@ -55,7 +55,7 @@
     }
   })
 </script>
-<style lang="less">
+<style lang="scss">
   .editor_codeblock{
     position: relative;
 

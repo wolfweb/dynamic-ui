@@ -2,8 +2,8 @@ import * as icons from '@element-plus/icons-vue';
 import * as commonIcons from '@icon-park/vue-next';
 
 export const WidgetSettings = {
-  "AttrEdit":"属性",
   "Event":"事件",
+  "AttrEdit":"属性",
   "DataBinder": "数据",
   "Validator":"验证"
 }
