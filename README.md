@@ -11,7 +11,9 @@ npm run build
 npm run dev
 
 ## 特性
-支持推拽生成form表单，推拽生成html、liquid布局
+* 推拽生成form表单
+* 推拽生成html、liquid布局
+* tiptap富文本编辑器
 
 ####
 * > node --max-old-space-size=4096不是内部或外部命令
