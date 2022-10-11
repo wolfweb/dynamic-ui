@@ -8,7 +8,7 @@
       </el-form>
     </el-tab-pane>
     <el-tab-pane label="本地上传">
-      <el-upload drag>
+      <el-upload drag accept="image/*">
         <el-icon size="40"><UploadFilled /></el-icon>
         <div>
           拖放文件或者单击上传

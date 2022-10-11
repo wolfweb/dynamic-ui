@@ -1,5 +1,5 @@
 <template>
-  <div :class="[meta.attributes.fluid ? styles.containerFluid : styles.container,  schemaMode == 'Layout' || schemaMode == 'Design' ? styles.preview : '' ]">
+  <div :class="[meta.attributes.fluid ? styles.containerFluid : styles.container,  schemaMode == 'Layout' || schemaMode == 'From' ? styles.preview : '' ]">
     <draggable 
       :class="styles.block"
       animation="300" 

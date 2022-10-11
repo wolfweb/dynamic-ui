@@ -5,7 +5,6 @@ import { setupStore } from '@/store';
 import { setupRouterGuard } from '@/routes/guard';
 import { setupErrorHandle } from '@/hooks/error-handle';
 import { initElementPlus } from '@/plugins/element-plus';
-import { initEditorPlus } from '@/components/component.config';
 
 import 'normalize.css'
 import 'virtual:windi.css'
@@ -18,9 +17,7 @@ async function bootstrap(){
   setupStore(app);
   
   initElementPlus(app);
-  
-  initEditorPlus(app);
-  
+    
   app.use(router);
   
   setupRouterGuard(router);
@@ -30,6 +27,8 @@ async function bootstrap(){
   await router.isReady();
 
   app.config.unwrapInjectedRef = true;
+
+  app.config.globalProperties.$$app = app;
   
   app.mount('#app', true);
 }

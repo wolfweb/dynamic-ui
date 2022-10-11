@@ -4,9 +4,13 @@
       <router-link to="/">view</router-link>
       <router-link to="/design">design</router-link> 
     -->
-    <router-view #="{ Component, route }">
-      <component :is="Component" :key="route.path" />
-    </router-view>
+    <Suspense>
+      <AppProvider>
+        <router-view #="{ Component, route }">
+          <component :is="Component" :key="route.path" />
+        </router-view>
+      </AppProvider>
+    </Suspense>
   </el-config-provider>
 </template>
 
@@ -17,6 +21,7 @@
   import { useAppStore } from '@/store/modules/appStore';
   import { createBreakpointListen } from '@/hooks/event/useBreakpoint';
   import { initEditModelContext, initAppContext } from '@/models/schema';
+  import { AppProvider } from '@/components/application';
   
   initEditModelContext({title:'表单', callback:(state)=>{
     if(!isUndefined(window.initEditModelContextCallback)) {

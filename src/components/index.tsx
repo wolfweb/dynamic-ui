@@ -1,39 +1,41 @@
-const modules = import.meta.globEager('./*/index.tsx')
+import { forEach ,set } from 'lodash-es';
+import { withInstall }  from '@/utils';
 
 const schemaMapping = {
-  "backend": ["layouts", "forms", "widgets"],
-  "liquid": ["layouts", "liquids"]
+  "Form": ["forms", "layouts", "widgets"],
+  "Liquid": ["layouts", "liquids"],
+  "Layout": ["layouts"]
 }
 
-const widgetMetas = {}
-const widgetFuncs = {}
-const components = {}
-const widgets = {}
-
-/* 
-  这里应该拆分 
-    表单： 后台动态生成表单实体
-    布局： 生成页面展示的布局，应该包含页面骨架以及可以具体到一个内容快，例如tabs
-    页面设计： 由布局和表单widget生成liquid页面设计, widget则由表单动态生成列表、详情、编辑等部件，可以支持自由编辑
-*/
-
-Object.keys(modules).forEach((key: string) => {
-  const name = key.replace(/\.\/(.*)\/index\.tsx/, '$1');
-  components[name] = modules[key]?.default || modules[key];
-  if(modules[key]?.widgetMetas){
-    Object.assign(widgetMetas, modules[key]?.widgetMetas);
+export default async (type) => {
+  const folders = schemaMapping[type];
+  const components  = {};
+  const widgetMetas = {};
+  const widgetFuncs = {};
+  const widgets = {};
+  
+  for(var i in folders){
+    const it = folders[i];
+    const path= `./${it}/index.tsx`;
+    const module = await import(/* @vite-ignore */path);
+    Object.keys(module).forEach((key: string) => {
+      set(components,`plugins.${it}`, module?.default || module);
+      if(module?.widgetMetas){
+        Object.assign(widgetMetas, module?.widgetMetas);
+      }
+      if(module?.widgetFuncs){
+        Object.assign(widgetFuncs, module?.widgetFuncs);
+      }
+      if(module?.widgets){
+        Object.assign(widgets, module?.widgets);
+        forEach(module?.widgets, items=> forEach(items, widget=> withInstall(widget)));
+      }
+    });
   }
-  if(modules[key]?.widgetFuncs){
-    Object.assign(widgetFuncs, modules[key]?.widgetFuncs);
-  }
-  if(modules[key]?.widgets){
-    Object.assign(widgets, modules[key]?.widgets);
-  }
-})
 
-console.log(widgetMetas, widgets, widgetFuncs);
-console.log(components);
+  set(components,'metas' , widgetMetas);
+  set(components,'funcs' , widgetFuncs);
+  set(components,'widgets' , widgets);
 
-export { widgetMetas, widgetFuncs, widgets }
-
-export default components
+  return components;
+}

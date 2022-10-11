@@ -1,13 +1,15 @@
-import { App, Component } from "vue";
+import componentLoader from "./index";
+
+import { App } from "vue";
 import { Memory } from "@/utils/cache/memory";
 import { SchemaMode } from "@/enums/schemaMode";
 import { WidgetSettings } from "@/models/common";
 import { DEFAULT_CACHE_TIME } from "@/utils/cache";
 import dynamicComponent from "@/components/dynamicComponent.vue";
 import { FormElementMetadata, LayoutElementMetadata, DisplayElementMetadata } from "@/models/schema";
-import components, { widgetMetas, widgetFuncs, widgets } from "./index";
-import { isObject, isArray, isBoolean, isString, isNumber, isUndefined, indexOf, pickBy, constant, } from "lodash-es";
+import { isObject, isArray, isBoolean, isString, isNumber, isUndefined, indexOf, } from "lodash-es";
 
+let components : any = null;
 const cache = new Memory(DEFAULT_CACHE_TIME);
 
 export const getWidgetSettingName = (name: string) => {
@@ -19,7 +21,7 @@ export const getWidgetSettingName = (name: string) => {
 
 export const findWidgetSettings = (meta: FormElementMetadata | LayoutElementMetadata | DisplayElementMetadata) => {
   if (meta && meta.key) {
-    return widgets[meta.key].filter(
+    return components.widgets[meta.key].filter(
       (x) => x.name.startsWith(meta.key) && x.name.length > meta.key.length
     );
   }
@@ -30,7 +32,7 @@ export const getWidgetCode = (
   meta: FormElementMetadata | LayoutElementMetadata
 ) => {
   const widgetFunc = `${meta.key}Code`;
-  return widgetFuncs[widgetFunc](meta);
+  return components.funcs[widgetFunc](meta);
 };
 
 export const extractProps = (excludes: Array<string>, props: any) => {
@@ -71,23 +73,24 @@ export const extractProps = (excludes: Array<string>, props: any) => {
 };
 
 export const initEditorPlus = (app: App) => {
-  for (const k in widgets) {
-    for (const it in widgets[k]) {
-      const widget = widgets[k][it];
+  for (const k in components.widgets) {
+    for (const it in components.widgets[k]) {
+      const widget = components.widgets[k][it];
+      console.log(`register comp=>${widget.name}`);
       app.component(widget.name!, widget);
     }
   }
-
   app.component("dynamicComponent", dynamicComponent);
 };
 
-export function getWidgets(mode: SchemaMode = SchemaMode.Design) {
-  let widgets = cache.get(mode || SchemaMode.Design);
-  if(isUndefined(widgets)){
-    widgets = pickBy(components, (x:any) => x.schemaModel === mode);
-    cache.set(mode, widgets);
-    return widgets;
+export async function getPlugins(mode: SchemaMode = SchemaMode.Form) {
+  let plugins = cache.get(mode || SchemaMode.Form);
+  if(isUndefined(plugins)){
+    components = await componentLoader(mode);
+    plugins = components.plugins;
+    cache.set(mode, plugins);
+    return plugins;
   }else {
-    return widgets.value;
+    return plugins.value;
   }
 }

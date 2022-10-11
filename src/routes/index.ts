@@ -14,9 +14,9 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@/views/index.vue")
   },
   {
-    path: '/design',
+    path: '/form',
     meta: {
-      mode: SchemaMode.Design
+      mode: SchemaMode.Form
     },
     component: () => import("@/editor/index.vue")
   },
@@ -24,6 +24,13 @@ const routes: Array<RouteRecordRaw> = [
     path: '/layout',
     meta: {
       mode: SchemaMode.Layout
+    },
+    component: () => import("@/editor/index.vue")
+  },
+  {
+    path: '/liquid',
+    meta: {
+      mode: SchemaMode.Liquid
     },
     component: () => import("@/editor/index.vue")
   }

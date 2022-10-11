@@ -1,16 +1,17 @@
 # dynamic-ui
-> visual drag and drop to generate ui 
-## env
+> 可视化拖拽生成UI
+## 环境
 * node >=17.1.0
 * vue3.0
 * typescript
 
-## how to build 
+## 打包
 npm run build
-## how to run
+## 运行
 npm run dev
 
-
+## 特性
+支持推拽生成form表单，推拽生成html、liquid布局
 
 ####
 * > node --max-old-space-size=4096不是内部或外部命令

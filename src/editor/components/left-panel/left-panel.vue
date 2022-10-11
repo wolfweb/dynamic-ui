@@ -38,7 +38,7 @@
   import * as icons from '@icon-park/vue-next';
   import { nanoid, customAlphabet } from 'nanoid';
   import { Search } from '@element-plus/icons-vue'
-  import { getWidgets } from '@/components/component.config';
+  import { getPlugins } from '@/components/component.config';
   import { useSchemaStore } from '@/store/modules/schemaStore';
   import { defineComponent, reactive, toRefs, watch, computed, ref, markRaw } from 'vue';
   export default defineComponent({
@@ -68,10 +68,10 @@
         return res
       }
     },
-    setup(props, context) {
+    async setup(props, context) {
       const searchKey = ref('');
       const schemaStore = useSchemaStore();
-      const plugins = getWidgets(schemaStore.Mode);
+      const plugins = await getPlugins(schemaStore.Mode);
       
       const tabs = Object.keys(plugins).map((name) => {
         const { label, icon, order, metas} = plugins[name];

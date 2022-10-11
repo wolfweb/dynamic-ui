@@ -1,6 +1,7 @@
 export enum SchemaMode {
+  Form    = 'Form',
+  Layout  = 'Layout',
+  Liquid  = 'Liquid',
+  Render  = 'Render',
   Preview = 'Preview',
-  Design = 'Design',
-  Layout = 'Layout',
-  Render = 'Render'
 }

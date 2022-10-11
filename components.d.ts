@@ -7,6 +7,9 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    AppProvider: typeof import('./src/components/application/src/AppProvider.vue')['default']
+    CardView: typeof import('./src/components/liquids/CardView/CardView.vue')['default']
+    CardViewAttrEdit: typeof import('./src/components/liquids/CardView/CardViewAttrEdit.vue')['default']
     Cascader: typeof import('./src/components/forms/Cascader/Cascader.vue')['default']
     CascaderAttrEdit: typeof import('./src/components/forms/Cascader/CascaderAttrEdit.vue')['default']
     CascaderDataBinder: typeof import('./src/components/forms/Cascader/CascaderDataBinder.vue')['default']

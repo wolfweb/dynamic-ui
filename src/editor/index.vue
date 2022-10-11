@@ -5,7 +5,9 @@
     </el-header>
     <el-container class="layout-container">
       <el-aside class="shadow-sm" width="246px">
-        <left-panel />
+        <suspense>
+          <left-panel />
+        </suspense>
       </el-aside>
       <el-main>
         <Main />

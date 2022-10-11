@@ -1,3 +1,5 @@
+import type { App, Plugin } from 'vue';
+
 import { isNull, isUndefined } from "lodash-es";
 import { RouteLocationNormalized, RouteRecordNormalized } from "vue-router";
 import { useMessage } from '@/hooks/web/useMessage'
@@ -112,3 +114,14 @@ export function setObjToUrlParams(baseUrl: string, obj: any): string {
   parameters = parameters.replace(/&$/, '');
   return /\?$/.test(baseUrl) ? baseUrl + parameters : baseUrl.replace(/\/?$/, '?') + parameters;
 }
+
+export const withInstall = <T>(component: T, alias?: string) => {
+  const comp = component as any;
+  comp.install = (app: App) => {
+    app.component(comp.name || comp.displayName, component);
+    if (alias) {
+      app.config.globalProperties[alias] = component;
+    }
+  };
+  return component as T & Plugin;
+};

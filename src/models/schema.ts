@@ -152,7 +152,7 @@ const ModelContext = ({ title, callback }) => {
   const schemaStore = useSchemaStore();
 
   if(state.formSchema.length == 0){
-    if(schemaStore.Mode == SchemaMode.Design){
+    if(schemaStore.Mode == SchemaMode.Form){
       state.formSchema.push(primaryKey());
     }else if(schemaStore.Mode == SchemaMode.Layout){
       state.formSchema.push(layoutContainer());

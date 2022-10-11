@@ -28,8 +28,8 @@
 <script lang="ts">
   import draggable from 'vuedraggable';
   import { useEditModel } from '@/models/schema';
-  import { defineComponent, reactive, computed, toRefs, ref, watch } from 'vue';
   import { createAsyncComponent } from '@/components/createAsyncComponent';
+  import { defineComponent, reactive, computed, toRefs, ref, watch } from 'vue';
   export default defineComponent({
     name: "EditorMain",
     components: { 

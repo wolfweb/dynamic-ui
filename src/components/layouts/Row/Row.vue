@@ -1,5 +1,5 @@
 <template>
-  <div :class="[styles.row, schemaMode == 'Layout' || schemaMode == 'Design' ? styles.rowPreview : '']">
+  <div :class="[styles.row, schemaMode == 'Layout' || schemaMode == 'From' ? styles.rowPreview : '']">
     <div v-for="(item, index) in meta.attributes.cols" :class="computedStyle(item)" :data-bind="item.label">
       <draggable 
           :class="styles.block"
