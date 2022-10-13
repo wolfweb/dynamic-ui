@@ -1,23 +1,23 @@
 <template>
-  <el-form ref="form" :model="widget" label-width="20%">
+  <el-form ref="form" :model="element" label-width="20%">
     <el-row :gutter="20">
       <el-col :span="24">
         <el-form-item label="标签" prop="attributes.label">
-          <el-input v-model="widget.attributes.label"></el-input>
+          <el-input v-model="element.attributes.label"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="24">
         <el-form-item label="字段名" prop="dataBinder.name" required>
-          <el-input v-model="widget.dataBinder.name"></el-input>
+          <el-input v-model="element.dataBinder.name"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="24">
         <el-form-item label="可多选" prop="attributes.multiple">
-          <el-switch v-model="widget.attributes.multiple" />
+          <el-switch v-model="element.attributes.multiple" />
         </el-form-item>
       </el-col>
     </el-row>
@@ -25,7 +25,7 @@
       <el-col :span="24">
         <el-form-item label="数据" prop="attributes.options">
           <template #label="{label}"><span title="右键可以操作哦">{{label}}<el-icon><QuestionFilled/></el-icon></span></template>
-          <el-tree :data="widget.attributes.options" accordion @node-contextmenu="treeContextMenu" title="右键试试吧！">
+          <el-tree :data="element.attributes.options" accordion @node-contextmenu="treeContextMenu" title="右键试试吧！">
             <template #default="{ node, data }">
               <span class="custom-tree-node">
                 <el-col :span="24">
@@ -49,7 +49,7 @@
     <el-row :gutter="20">
       <el-col :span="24">
         <el-form-item label="是否必填" prop="attributes.required">
-          <el-switch v-model="widget.attributes.required" @change="requireChangeHandler" />
+          <el-switch v-model="element.attributes.required" @change="requireChangeHandler" />
         </el-form-item>
       </el-col>
     </el-row>
@@ -82,7 +82,7 @@
         children.splice(index, 1);
       },
       removeChild(idx) {
-        this.widget.attributes.options.splice(idx, 1);
+        this.element.attributes.options.splice(idx, 1);
       },
       addChild(e: MouseEvent, treeNode: Nullable<Tree>) {
         const item = reactive({
@@ -109,7 +109,7 @@
             if(treeNode && treeNode.children){
               treeNode.children.push(item);
             }else{
-              this.widget.attributes.options.push(item);
+              this.element.attributes.options.push(item);
             }
           }
         });
@@ -144,13 +144,13 @@
 
       const [createContextMenu] = useContextMenu();
 
-      const widget = computed(()=> {
+      const element = computed(()=> {
         // @ts-ignore
         return currentElement as IFormElementMetadata;
       }).value;
       
       return {
-        widget,
+        element,
         createContextMenu,
         requireChangeHandler
       }

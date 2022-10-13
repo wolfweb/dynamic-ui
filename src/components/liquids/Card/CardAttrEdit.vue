@@ -5,7 +5,7 @@
   import { defineComponent } from 'vue';
 
   export default defineComponent({
-    name: 'CardViewAttrEdit',
+    name: 'CardAttrEdit',
     setup(props, context){
       return {}
     }

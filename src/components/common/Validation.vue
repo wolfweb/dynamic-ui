@@ -1,5 +1,5 @@
 <template>
-  <el-row v-for="(item,index) in widget.validation">
+  <el-row v-for="(item,index) in element.validation">
     <el-form-item v-if="item.provider !=='Required'">
       <el-tag closable @close="validationRemove(item)"> 
         {{getValidator(item.provider).display}}
@@ -72,7 +72,7 @@
         });
       }
 
-      const widget = computed(()=> {
+      const element = computed(()=> {
         // @ts-ignore
         return currentElement as IFormElementMetadata;
       }).value;
@@ -94,7 +94,7 @@
       },{ deep: true });
 
       return {
-        widget,
+        element,
         getValidator,
         handleCommand,
         validatorRules,

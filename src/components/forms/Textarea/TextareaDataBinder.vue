@@ -1,9 +1,9 @@
 <template>
-  <el-form ref="form" :model="widget!" label-width="25%">
+  <el-form ref="form" :model="element!" label-width="25%">
     <el-row :gutter="20">
       <el-col :span="24">
         <el-form-item label="默认值" prop="dataBinder.defaultValue">
-          <el-input v-model="widget!.dataBinder!.defaultValue"></el-input>
+          <el-input v-model="element!.dataBinder!.defaultValue"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
@@ -20,10 +20,10 @@
     setup(props, context) {
       const { currentElement } = useEditModel();
 
-      const widget = currentElement.value as IFormElementMetadata;
+      const element = currentElement.value as IFormElementMetadata;
 
       return {
-        widget
+        element
       }
     }
   })

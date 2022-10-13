@@ -5,8 +5,8 @@ import { find, isNil } from 'lodash-es';
 import validators from '@/utils/validators';
 import { DisplayElementMetadata, EditorModel, FormElementMetadata, SchemaEvent } from "./schema";
 
-import viewList from '@/components/forms/list.vue';
-import viewDetail from '@/components/forms/detail.vue';
+import FormDataList from '@/components/forms/FormDataList.vue';
+import FormDataDetail from '@/components/forms/FormDataDetail.vue';
 
 const primaryKey = () :FormElementMetadata => {
   let meta = new FormElementMetadata();
@@ -77,25 +77,26 @@ export const formInitialize = (app : App ,editorModel : EditorModel) => {
     editorModel.viewSchema.push(primaryKey());
   }
 
-  app.component(viewList.name, markRaw(viewList));
-  app.component(viewDetail.name, markRaw(viewDetail));
+  app.component(FormDataList.name, markRaw(FormDataList));
+  app.component(FormDataDetail.name, markRaw(FormDataDetail));
 
   emitter.on("onClear", () => {
     editorModel.attributes.formViewAttr.model = {};
   });
 
-  emitter.on("onSchemaLoading",( arr )=>{
-    console.log("onSchemaLoading=>init form detail、list");
-    arr.push({
+  emitter.on("onSchemaLoading",( obj )=>{
+    obj.name = 'form';
+    obj.label = '表单';
+    obj.extendViews.push({
       label:'详情',
-      type: viewDetail,
+      type: FormDataDetail,
       name: 'detail',
       schema: computed(()=>editorModel.attributes.formViewAttr.detailSchema)
     });
 
-    arr.push({
+    obj.extendViews.push({
       label:'列表',
-      type: viewList,
+      type: FormDataList,
       name: 'list',
       schema: computed(()=>editorModel.attributes.formViewAttr.listSchema)
     });
@@ -124,14 +125,27 @@ export const formInitialize = (app : App ,editorModel : EditorModel) => {
   });
 
   emitter.on("onElementSelected", (element) => {
-    // editorModel.attributes.formViewAttr.listSchema.formSchema = editorModel.viewSchema;
-    // editorModel.attributes.formViewAttr.detailSchema.formSchema = editorModel.viewSchema;
+    console.log("an element selected");
   });
   
   emitter.on("onParseSchema", (schema)=>{
     const attr = editorModel.attributes.formViewAttr;
     schema['listSchema']   = attr.listSchema;
     schema['detailSchema'] = attr.detailSchema ;
+  });
+
+  emitter.on("onOtherCommand", (v)=> {
+    if(v === 'detail'){
+      setTimeout(()=>{
+        editorModel.currentElement = editorModel.attributes.formViewAttr.detailSchema;
+      }, 0);
+    }else if(v === 'list'){
+      setTimeout(()=>{
+        editorModel.currentElement = editorModel.attributes.formViewAttr.listSchema;
+      }, 0);
+    }else{
+      //editorModel.currentElement = null;
+    }
   });
 
   const ensureFormModelInit = (element: FormElementMetadata) => {
@@ -151,4 +165,3 @@ export const formInitialize = (app : App ,editorModel : EditorModel) => {
     }
   }
 };
-

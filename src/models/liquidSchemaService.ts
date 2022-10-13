@@ -18,7 +18,7 @@ const layoutContainer = (): LayoutElementMetadata => {
   return layout;
 }
 
-export const layoutInitialize = (app : App ,editorModel : EditorModel) => {
+export const liquidInitialize = (app : App ,editorModel : EditorModel) => {
   const emitter : Emitter<SchemaEvent> = editorModel.emitter;
   
   if(editorModel.viewSchema.length==0) {
@@ -30,12 +30,12 @@ export const layoutInitialize = (app : App ,editorModel : EditorModel) => {
   });
 
   emitter.on("onSchemaLoading",( obj )=>{
-    obj.name = "layout";
-    obj.label = "布局";
+    obj.name = "liquid";    
+    obj.label = "页面";
   });
 
   emitter.on("onElementAdded", (element) => {
-    console.log("layout=> element added");
+    console.log("liquid=> element added");
   });
 
   emitter.on("onElementLoading", (element)=>{

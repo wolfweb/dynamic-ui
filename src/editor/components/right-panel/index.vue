@@ -8,7 +8,7 @@
     </div>
     <div :class="[styles.attrs]">
       <el-tabs v-model="activeName" type="border-card" :class="[styles.tabs]" stretch>
-        <el-tab-pane v-for="(setting,i) in settings" :label="getWidgetSettingName(setting['name'])" :name="setting['name']">
+        <el-tab-pane v-for="(setting,i) in settings" :label="getElementSettingName(setting['name'])" :name="setting['name']">
           <keep-alive>
             <component :is="setting['name']" />
           </keep-alive>
@@ -22,7 +22,7 @@
   import styles from './index.module.scss';
   import { useEditModel } from '@/models/schema';
   import { defineComponent, reactive, watch, toRefs } from 'vue';
-  import { findWidgetSettings, getWidgetSettingName } from '@/components/component.config';
+  import { findElementSettings, getElementSettingName } from '@/components/component.config';
 
   export default defineComponent({
     name: "RightPanel",
@@ -44,7 +44,7 @@
             if(state.activeName && state.activeName.startsWith(v.key)) return;
 
             state.isOpen = true;
-            state.settings = findWidgetSettings(v);
+            state.settings = findElementSettings(v);
             state.activeName = state.settings[0]['name'];
           }else{
             state.isOpen = false;
@@ -56,7 +56,7 @@
 
       return { 
         ...toRefs(state),
-        getWidgetSettingName,
+        getElementSettingName,
         containerStyle,
         styles,
       }

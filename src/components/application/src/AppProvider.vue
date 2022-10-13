@@ -6,6 +6,7 @@
   import { useEditModel } from '@/models/schema';
   import { formInitialize } from '@/models/formSchemaService';
   import { layoutInitialize } from '@/models/layoutSchemaService';
+  import { liquidInitialize } from '@/models/liquidSchemaService';
 
   import { getPlugins, initEditorPlus } from '@/components/component.config';
 
@@ -33,7 +34,7 @@
       }else if(schemaStore.Mode == 'Layout'){
         layoutInitialize(proxy.$$app, editerModel);
       }else if(schemaStore.Mode == 'Liquid'){
-        
+        liquidInitialize(proxy.$$app, editerModel);
       }
 
       const plugins = await getPlugins(schemaStore.Mode);

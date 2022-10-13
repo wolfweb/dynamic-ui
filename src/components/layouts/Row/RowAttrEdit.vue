@@ -1,12 +1,12 @@
 <template>
-  <el-form ref="form" :model="widget!">
+  <el-form ref="form" :model="element!">
     <el-row :gutter="10" style="display: content">
       <el-col :span="2"><el-form-item label=""><br /><el-icon><Sort /></el-icon></el-form-item></el-col>
       <el-col :span="10"><el-form-item label="">名称</el-form-item></el-col>
       <el-col :span="9"><el-form-item label="">值</el-form-item></el-col>
       <el-col :span="3"><el-form-item label="">操作</el-form-item></el-col>
     </el-row>
-    <draggable animation="200" :list="widget!.attributes.cols" handle=".sortable_handle" ghost-class="sortable_ghost" item-key="label">
+    <draggable animation="200" :list="element!.attributes.cols" handle=".sortable_handle" ghost-class="sortable_ghost" item-key="label">
       <template #item="{ element, index }">
         <el-row :gutter="10" class="sortable">
           <el-col :span="2">
@@ -21,7 +21,7 @@
           </el-col>
           <el-col :span="9">
             <el-form-item>
-              <el-input v-model="element.width" />
+              <el-input-number v-model="element.width" />
             </el-form-item>
           </el-col>
           <el-col :span="3">
@@ -52,22 +52,22 @@
     },
     methods: {
       removeChild(idx)  {
-        this.widget.attributes.cols.splice(idx, 1)
+        this.element.attributes.cols.splice(idx, 1)
       },
       addChild() {
-        this.widget.attributes.cols.push({ label: nanoid(16), childes: [] })
+        this.element.attributes.cols.push({ label: nanoid(16), childes: [] })
       }
     },
     setup(props, context) {
       const { currentElement } = useEditModel();
 
-      const widget = computed(()=> {
+      const element = computed(()=> {
         // @ts-ignore
         return currentElement as ILayoutElementMetadata;
       }).value;
 
       return {
-        widget,
+        element,
         styles
       }
     }

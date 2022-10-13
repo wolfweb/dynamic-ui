@@ -1,4 +1,4 @@
-import { getWidgetCode } from '@/components/component.config'
+import { getElementCode } from '@/components/component.config'
 
 export default (meta) => {
   const codeBuilder:Array<string> = []

@@ -1,30 +1,30 @@
 <template>
-  <el-form ref="form" :model="widget!" label-width="20%">
+  <el-form ref="form" :model="element!" label-width="20%">
     <el-row :gutter="20">
       <el-col :span="24">
         <el-form-item label="标签" prop="attributes.label">
-          <el-input v-model="widget!.attributes.label"></el-input>
+          <el-input v-model="element!.attributes.label"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="24">
         <el-form-item label="字段名" prop="dataBinder.name">
-          <el-input v-model="widget!.dataBinder!.name"></el-input>
+          <el-input v-model="element!.dataBinder!.name"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row :gutter="20">
       <el-col :span="24">
         <el-form-item label="按钮效果" prop="attributes.useButton">
-          <el-switch v-model="widget!.attributes.useButton" />
+          <el-switch v-model="element!.attributes.useButton" />
         </el-form-item>
       </el-col>
     </el-row>
     <el-row :gutter="20">
       <el-col :span="24">
         <el-form-item label="边框显示" prop="attributes.border">
-          <el-switch v-model="widget!.attributes.border" />
+          <el-switch v-model="element!.attributes.border" />
         </el-form-item>
       </el-col>
     </el-row>    
@@ -34,7 +34,7 @@
       <el-col :span="8"><el-form-item label="">值</el-form-item></el-col>
       <el-col :span="3"><el-form-item label="">操作</el-form-item></el-col>
     </el-row>
-    <draggable animation="200" :list="widget!.attributes.options" handle=".sortable_handle" ghost-class="sortable_ghost" item-key="value">
+    <draggable animation="200" :list="element!.attributes.options" handle=".sortable_handle" ghost-class="sortable_ghost" item-key="value">
       <template #item="{ element, index }">
         <el-row :gutter="10" class="sortable">
           <el-col :span="2">
@@ -68,7 +68,7 @@
     <el-row :gutter="20">
       <el-col :span="24">
         <el-form-item label="是否必填" prop="attributes.required">
-          <el-switch v-model="widget!.attributes.required" @change="requireChangeHandler" />
+          <el-switch v-model="element!.attributes.required" @change="requireChangeHandler" />
         </el-form-item>
       </el-col>
     </el-row>
@@ -92,23 +92,23 @@
     },
     methods: {
       removeChild(idx)  {
-        this.widget.attributes.options.splice(idx, 1)
+        this.element.attributes.options.splice(idx, 1)
       },
       addChild() {
-        this.widget.attributes.options.push({ text: "" })
+        this.element.attributes.options.push({ text: "" })
       }
     },
     setup(props, context) {
       const { currentElement, requireChangeHandler } = useEditModel();
 
-      const widget = computed(()=> {
+      const element = computed(()=> {
         // @ts-ignore
         return currentElement as IFormElementMetadata;
       }).value;
 
       return {
         requireChangeHandler,
-        widget
+        element
       }
     }
   })

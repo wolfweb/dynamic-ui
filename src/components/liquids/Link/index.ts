@@ -1,15 +1,15 @@
 import { LiquidElementMetadata } from '@/models/schema';
-import { BankCardTwo } from '@icon-park/vue-next';
+import { Link } from '@icon-park/vue-next';
 
 const meta = new LiquidElementMetadata();
 
 meta.id = "";
-meta.key = "CardView";
-meta.display = "卡片视图";
+meta.key = "Link";
+meta.display = "标题";
 meta.attributes = {
-  icon: BankCardTwo,
-  title: '这里是标题',
-  
+  icon: Link,
+  content: '这里是标题',
+  class: 'btn btn-link'
 };
 
 export default meta;

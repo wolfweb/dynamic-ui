@@ -45,6 +45,12 @@ export class LiquidElementMetadata implements ILiquidElementMetadata{
   childes?: Array<any> = [];
 }
 
+type MainTablAttr = {
+  name: String,
+  label: String,
+  extendViews: Array<any>
+}
+
 const App: AppContext = {
   name: 'magicube low code editor',
   version: '1.0.0',
@@ -57,12 +63,14 @@ const App: AppContext = {
 
 export type SchemaEvent = {
   onClear: void,
-  onSchemaLoading: Array<any>,
   onParseSchema: Object,
+  onSchemaLoading: MainTablAttr,
   onElementAdded: IElementMetadata,
   onElementLoading: IElementMetadata, 
   onElementRemoved: IElementMetadata,
   onElementSelected: IElementMetadata,
+
+  onOtherCommand: any,
 }
 
 export interface EditorModel {

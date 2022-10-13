@@ -3,7 +3,7 @@ import componentLoader from "./index";
 import { App } from "vue";
 import { Memory } from "@/utils/cache/memory";
 import { SchemaMode } from "@/enums/schemaMode";
-import { WidgetSettings } from "@/models/common";
+import { ElementSettings } from "@/models/common";
 import { DEFAULT_CACHE_TIME } from "@/utils/cache";
 import dynamicComponent from "@/components/dynamicComponent.vue";
 import { FormElementMetadata, LayoutElementMetadata, DisplayElementMetadata } from "@/models/schema";
@@ -12,14 +12,14 @@ import { isObject, isArray, isBoolean, isString, isNumber, isUndefined, indexOf,
 let components : any = null;
 const cache = new Memory(DEFAULT_CACHE_TIME);
 
-export const getWidgetSettingName = (name: string) => {
-  for (const k in WidgetSettings) {
-    if (name.endsWith(k)) return WidgetSettings[k];
+export const getElementSettingName = (name: string) => {
+  for (const k in ElementSettings) {
+    if (name.endsWith(k)) return ElementSettings[k];
   }
   return "未知";
 };
 
-export const findWidgetSettings = (meta: FormElementMetadata | LayoutElementMetadata | DisplayElementMetadata) => {
+export const findElementSettings = (meta: FormElementMetadata | LayoutElementMetadata | DisplayElementMetadata) => {
   if (meta && meta.key) {
     return components.widgets[meta.key].filter(
       (x) => x.name.startsWith(meta.key) && x.name.length > meta.key.length
@@ -28,11 +28,11 @@ export const findWidgetSettings = (meta: FormElementMetadata | LayoutElementMeta
   return [];
 };
 
-export const getWidgetCode = (
+export const getElementCode = (
   meta: IElementMetadata
 ) => {
-  const widgetFunc = `${meta.key}Code`;
-  return components.funcs[widgetFunc](meta);
+  const elementFunc = `${meta.key}Code`;
+  return components.funcs[elementFunc](meta);
 };
 
 export const extractProps = (excludes: Array<string>, props: any) => {

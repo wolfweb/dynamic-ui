@@ -18,7 +18,7 @@ meta.attributes = {
 };
 meta.dataBinder = {
   name: "",
-  value: ""
+  value: 0
 };
 meta.validation = [
 

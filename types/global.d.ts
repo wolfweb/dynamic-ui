@@ -56,7 +56,7 @@ declare interface Dictionary<T = unknown> {
 
 declare var REDIRECT_NAME = 'Redirect'
 
-declare var validations: WidgetValidation[]
+declare var validations: FormElementValidation[]
 
 declare type TargetContext = '_self' | '_blank';
 

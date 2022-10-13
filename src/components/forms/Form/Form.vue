@@ -10,6 +10,7 @@
       animation="200" 
       class="stage"
       v-model="meta.childes"
+      item-key="id"
       v-bind="{
         group: {
           name: 'widget',

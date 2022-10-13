@@ -4,7 +4,7 @@
 <script lang="ts">
   import { defineComponent } from 'vue';
   export default defineComponent({
-    name:"ViewDetail",
+    name:"FormDataList",
     props:{
       actived:{
         type: String,
@@ -13,7 +13,6 @@
       schema: null
     },
     setup(props, context){
-      console.log(props.schema);
       return {
         
       }

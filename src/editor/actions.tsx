@@ -5,7 +5,7 @@ import { showDialog } from '@/hooks/web/useDialog';
 import { useEditModel } from '@/models/schema';
 import { useAppStore } from '@/store/modules/appStore';
 import { useSchemaStore } from '@/store/modules/schemaStore';
-import { getWidgetCode } from '@/components/component.config';
+import { getElementCode } from '@/components/component.config';
 import { createAsyncComponent } from '@/components/createAsyncComponent';
 import MonacoEditor from '@/editor/components/monaco-editor/MonacoEditor';
 import { Cellphone, Document, Download, Refrigerator, TakeawayBox, Upload, View } from '@element-plus/icons-vue';
@@ -92,7 +92,7 @@ export const actions = () =>{
         const schema = viewSchema.value;
         const codes:Array<string> = [];
         schema.forEach(item=>{
-          codes.push(getWidgetCode(item)) 
+          codes.push(getElementCode(item)) 
         });
         showDialog({
           title: '源码',

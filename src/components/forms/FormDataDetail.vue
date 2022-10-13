@@ -4,7 +4,7 @@
 <script lang="ts">
   import { defineComponent } from 'vue';
   export default defineComponent({
-    name:"ViewList",
+    name:"FormDataDetail",
     props:{
       actived:{
         type: String,

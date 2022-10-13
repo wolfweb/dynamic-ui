@@ -1,4 +1,4 @@
-import { extractProps, getWidgetCode } from '@/components/component.config'
+import { extractProps, getElementCode } from '@/components/component.config'
 
 export default (meta) => {
   const codeBuilder:Array<string> = []

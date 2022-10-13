@@ -1,7 +1,7 @@
 <template>
   <div class="edit-main">
     <el-tabs type="card" v-model="activeName" style="min-width: 70%;">
-      <el-tab-pane label="表单" name="forms" @click.stop="clearCurrentElement" style="height:100%;">
+      <el-tab-pane :label="tabView.label" :name="tabView.name" @click.stop="clearCurrentElement" style="height:100%;">
         <el-form label-width="16%" style="height:100%;">
           <draggable
             class="editMainContent"
@@ -16,8 +16,12 @@
           </draggable>
         </el-form>
       </el-tab-pane>
-      <el-tab-pane v-for="(view, index) in tabViews" :label="view.label" :name="view.name">
-        <component :is="view.type" :actived="activeName" :schema="view.schema" />
+      <el-tab-pane v-for="(view, index) in tabView.extendViews" :label="view.label" :name="view.name" lazy>
+        <transition name="fade">
+          <keep-alive>
+            <component :is="view.type" :actived="activeName" :schema="view.schema" />
+          </keep-alive>
+        </transition>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -54,25 +58,27 @@
         isDrag: false,
       });
 
-      const activeName = ref('forms');
-
       const { appendElementToSchema, findAndRemoveElement, sortViewSchema, setCurrentElement, viewSchema, editerModel } = useEditModel();
+      
+      const tabView = reactive({
+        label: '',
+        name: '',
+        extendViews: []
+      });
+      
+      editerModel.emitter.emit("onSchemaLoading", tabView);
+      
+      const activeName = ref(tabView.name);
 
-      const tabViews = reactive([]);
-      editerModel.emitter.emit("onSchemaLoading", tabViews);
-
-      watch(
-        ()=> activeName.value,
-        (v)=>{
-          if(v === 'detail'){
-            setCurrentElement(detailSchema.value);
-          }else if(v === 'list'){
-            setCurrentElement(listSchema.value);
-          }else{
+      if(tabView.extendViews.length > 0){
+        watch(
+          ()=> activeName.value,
+          (v)=>{
             setCurrentElement(null);
+            editerModel.emitter.emit('onOtherCommand', v);
           }
-        }
-      )
+        )
+      }
 
       const dragOptions = computed(() => ({
         animation: 200,
@@ -99,7 +105,7 @@
         dragOptions,
         viewSchema,
         activeName,
-        tabViews
+        tabView
       }
     }
   })
@@ -119,5 +125,12 @@
     &_preview {
       
     }
+  }
+
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .5s;
+  }
+  .fade-enter-from, .fade-leave-to {
+    opacity: 0;
   }
 </style>

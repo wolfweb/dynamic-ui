@@ -1,65 +1,65 @@
 <template>
-  <el-form ref="form" :model="widget!" label-width="20%">
+  <el-form ref="form" :model="element!" label-width="20%">
     <el-row :gutter="20">
       <el-col :span="24">
         <el-form-item label="标签" prop="attributes.label">
-          <el-input v-model="widget!.attributes.label"></el-input>
+          <el-input v-model="element!.attributes.label"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="24">
         <el-form-item label="字段名" prop="dataBinder.name">
-          <el-input v-model="widget!.dataBinder!.name"></el-input>
+          <el-input v-model="element!.dataBinder!.name"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row :gutter="20">
       <el-col :span="24">
         <el-form-item label="最大值" prop="attributes.max">
-          <el-input-number style="width: 100%;" v-model="widget!.attributes.max" :min="0" :step="1" step-strictly />
+          <el-input-number style="width: 100%;" v-model="element!.attributes.max" :min="0" :step="1" step-strictly />
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="24">
         <el-form-item label="最小值" prop="attributes.min">
-          <el-input-number style="width: 100%;" v-model="widget!.attributes.min" :min="0" :step="1" step-strictly />
+          <el-input-number style="width: 100%;" v-model="element!.attributes.min" :min="0" :step="1" step-strictly />
         </el-form-item>
       </el-col>
     </el-row>
     <el-row :gutter="20">
       <el-col :span="24">
         <el-form-item label="步长" prop="attributes.step">
-          <el-input-number style="width: 100%;" v-model="widget!.attributes.step" :min="0" :step="1" step-strictly />
+          <el-input-number style="width: 100%;" v-model="element!.attributes.step" :min="0" :step="1" step-strictly />
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="24">
         <el-form-item label="显示间断点" prop="attributes['show-stops']">
-          <el-switch v-model="widget!.attributes['show-stops']" />
+          <el-switch v-model="element!.attributes['show-stops']" />
         </el-form-item>
       </el-col>
     </el-row>
     <el-row :gutter="20">
       <el-col :span="24">
         <el-form-item label="显示tooltip" prop="attributes['show-tooltip']">
-          <el-switch v-model="widget!.attributes['show-tooltip']" />
+          <el-switch v-model="element!.attributes['show-tooltip']" />
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="24">
         <el-form-item label="范围选择" prop="attributes.range">
-          <el-switch v-model="widget!.attributes.range" />
+          <el-switch v-model="element!.attributes.range" />
         </el-form-item>
       </el-col>      
     </el-row>
     <el-row :gutter="20">
       <el-col :span="24">
         <el-form-item label="竖向模式" prop="attributes.vertical">
-          <el-switch v-model="widget!.attributes.vertical" />
+          <el-switch v-model="element!.attributes.vertical" />
         </el-form-item>
       </el-col>
     </el-row>
@@ -67,7 +67,7 @@
     <el-row :gutter="20">
       <el-col :span="24">
         <el-form-item label="是否必填" prop="attributes.required">
-          <el-switch v-model="widget!.attributes.required" @change="requireChangeHandler" />
+          <el-switch v-model="element!.attributes.required" @change="requireChangeHandler" />
         </el-form-item>
       </el-col>
     </el-row>
@@ -90,13 +90,13 @@
     setup(props, context) {
       const { currentElement, requireChangeHandler } = useEditModel();
 
-      const widget = computed(()=> {
+      const element = computed(()=> {
         // @ts-ignore
         return currentElement as IFormElementMetadata;
       }).value;
 
       return {
-        widget,
+        element,
         requireChangeHandler
       }
     }

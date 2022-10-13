@@ -1,9 +1,9 @@
 <template>
-  <el-form ref="form" :model="widget!" label-width="20%">
+  <el-form ref="form" :model="element!" label-width="20%">
     <el-row :gutter="10">
       <el-col :span="24">
         <el-form-item label="手风琴效果" prop="attributes.accordion">
-          <el-switch v-model="widget.attributes.accordion" />
+          <el-switch v-model="element.attributes.accordion" />
         </el-form-item>
       </el-col>
     </el-row>
@@ -13,7 +13,7 @@
       <el-col :span="9"><el-form-item label="">值</el-form-item></el-col>
       <el-col :span="3"><el-form-item label="">操作</el-form-item></el-col>
     </el-row>
-    <draggable animation="200" :list="widget!.childes" handle=".sortable_handle" ghost-class="sortable_ghost" item-key="name">
+    <draggable animation="200" :list="element!.childes" handle=".sortable_handle" ghost-class="sortable_ghost" item-key="name">
       <template #item="{ element, index }">
         <el-row :gutter="10" class="sortable">
           <el-col :span="2">
@@ -58,22 +58,22 @@
     },
     methods:{
       removeChild(idx)  {
-        this.widget.childes!.splice(idx, 1)
+        this.element.childes!.splice(idx, 1)
       },
       addChild()  {
-        this.widget.childes!.push(({ name: '', display: '' } as IFormElementChildGroupMetadata))
+        this.element.childes!.push(({ name: '', display: '' } as IFormElementChildGroupMetadata))
       }
     },
     setup(props, context) {
       const { currentElement } = useEditModel();
 
-      const widget = computed(()=> {
+      const element = computed(()=> {
         // @ts-ignore
         return currentElement as IFormElementMetadata;
       }).value;
 
       return {
-        widget
+        element
       }
     }
   })

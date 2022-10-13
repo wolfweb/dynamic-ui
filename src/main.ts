@@ -15,21 +15,21 @@ async function bootstrap(){
   const app = createApp(App);
 
   setupStore(app);
-  
+
   initElementPlus(app);
-    
+
   app.use(router);
-  
+
   setupRouterGuard(router);
 
   setupErrorHandle(app);
-  
+
   await router.isReady();
 
   app.config.unwrapInjectedRef = true;
 
   app.config.globalProperties.$$app = app;
-  
+
   app.mount('#app', true);
 }
 
