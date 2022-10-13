@@ -107,11 +107,11 @@
       }
     },
     setup(props, context) {
-      const { currentWidget } = useEditModel();
+      const { currentElement } = useEditModel();
 
       const widget = computed(()=> {
         // @ts-ignore
-        return currentWidget as IFormElementMetadata;
+        return currentElement as IFormElementMetadata;
       }).value;
 
       return {

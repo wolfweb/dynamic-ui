@@ -1,4 +1,5 @@
 import { LiquidElementMetadata } from '@/models/schema';
+import { BankCardTwo } from '@icon-park/vue-next';
 
 const meta = new LiquidElementMetadata();
 
@@ -6,7 +7,7 @@ meta.id = "";
 meta.key = "CardView";
 meta.display = "卡片视图";
 meta.attributes = {
-  icon: 'if/else',
+  icon: BankCardTwo,
   title: '这里是标题',
   
 };

@@ -16,7 +16,7 @@
           @change="onChange"
         >
         <template #item="{element,index}">
-          <dynamic-component :meta="getChildWidget(element)" @onRemove="onRemoveWidget" />
+          <dynamic-component :meta="getChildElement(element)" @onRemove="onRemoveElement" />
         </template>
       </draggable>
     </div>
@@ -41,17 +41,15 @@
       },
     },
     setup(props, context) {
-      const { formModel } = useEditModel();
-
       const stateKeep = reactive({
-        widget: null
+        element: null
       });
 
       const getColChilds = (col) => {
         return clone(col.childes);
       };
       
-      const onRemoveWidget = (v) =>{
+      const onRemoveElement = (v) =>{
         for(var i=0;i<props.meta.attributes.cols.length;i++){
           const col = props.meta.attributes.cols[i];
           if(col.childes){
@@ -63,15 +61,15 @@
       const addChild = (e) => {
         let id = e.to.parentElement.dataset.bind
         let col = props.meta.attributes.cols.find(x=>x.label == id)
-        if(col && stateKeep.widget) {
+        if(col && stateKeep.element) {
           //@ts-ignore
-          col.childes.push(stateKeep.widget.id);
+          col.childes.push(stateKeep.element.id);
         }
       }
 
       const onChange = (e) => {
         if(e.added){
-          stateKeep.widget = e.added.element;
+          stateKeep.element = e.added.element;
           props.meta.childes.push(e.added.element);
         }
       }
@@ -83,19 +81,18 @@
         return styles['col'];
       }
 
-      const getChildWidget = (ele)=>{
+      const getChildElement = (ele)=>{
         return props.meta.childes.find(x=>x.id == ele);
       }
 
       const schemaMode = useSchemaStore().Mode;
 
       return {
-        getChildWidget,
-        onRemoveWidget,
+        getChildElement,
+        onRemoveElement,
         computedStyle,
         getColChilds,
         schemaMode,
-        formModel,
         addChild,
         onChange,
         styles

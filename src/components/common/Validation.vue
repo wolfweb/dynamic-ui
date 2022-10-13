@@ -27,11 +27,11 @@
   export default defineComponent({
     name: "Validation",
     setup(props, context) {
-      const { currentWidget, addValidation, removeValidation } = useEditModel();
+      const { currentElement, addValidation, removeValidation } = useEditModel();
 
       const validatorRules = reactive(validators.filter(x=>x.serverType!=='Required').map(x=>{
         // @ts-ignore
-        let valid = some(currentWidget.value.validation, m=>x.serverType === m.provider);
+        let valid = some(currentElement.value.validation, m=>x.serverType === m.provider);
         return {
           // @ts-ignore
           reused: x.reused || false,
@@ -74,12 +74,12 @@
 
       const widget = computed(()=> {
         // @ts-ignore
-        return currentWidget as IFormElementMetadata;
+        return currentElement as IFormElementMetadata;
       }).value;
 
       watch(
         // @ts-ignore
-        () => currentWidget.value.validation, 
+        () => currentElement.value.validation, 
         (newValue) => {
           if (newValue) {
             validatorRules.forEach(x=>{

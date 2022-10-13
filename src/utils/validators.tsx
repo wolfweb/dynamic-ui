@@ -17,7 +17,7 @@ class Integer implements ValidationRule {
   clientRule() {
     return { name: "Integer", type: this.type, message: this.message, validator: this.validator, trigger: 'blur' };
   }
-  serverRule(): Nullable<WidgetValidation> {
+  serverRule(): Nullable<FormElementValidation> {
     return { provider: this.serverType, rule: this.clientRule() };
   }
 }
@@ -52,7 +52,7 @@ class MaxLength implements ValidationRule {
   clientRule() {
     return { name: "MaxLength", type: this.type, max: this.max, message: this.message };
   }
-  serverRule(): Nullable<WidgetValidation> {
+  serverRule(): Nullable<FormElementValidation> {
     return {
       provider: this.serverType, args: { "Length": this.max }, rule: this.clientRule()
     }
@@ -68,7 +68,7 @@ class Required implements ValidationRule {
   clientRule() {
     return { name: "Required", required: this.required, message: this.message };
   }
-  serverRule(): Nullable<WidgetValidation> {
+  serverRule(): Nullable<FormElementValidation> {
     return { provider: this.serverType, rule: this.clientRule() }
   }
 }
@@ -109,7 +109,7 @@ class StringLength implements ValidationRule {
   clientRule() {
     return { name: "StringLength", type: this.type, min: this.min, max: this.max, message: this.message };
   }
-  serverRule(): Nullable<WidgetValidation> {
+  serverRule(): Nullable<FormElementValidation> {
     return { provider: this.serverType, args: { "MaximumLength": this.max, "MinimumLength": this.min }, rule: this.clientRule() }
   }
 }
@@ -123,7 +123,7 @@ class EmailAddress implements ValidationRule {
   clientRule() {
     return { name: "EmailAddress", type: this.type, message: this.message };
   }
-  serverRule(): Nullable<WidgetValidation> {
+  serverRule(): Nullable<FormElementValidation> {
     return { provider: this.serverType, rule: this.clientRule() }
   }
 }
@@ -170,7 +170,7 @@ class Year implements ValidationRule {
     return { name: "Year", type: this.type, min: this.min, max: this.max, message: this.message };
   }
 
-  serverRule(): Nullable<WidgetValidation> {
+  serverRule(): Nullable<FormElementValidation> {
     return { provider: this.serverType, "args": { "Start": this.max, "End": this.min }, rule: this.clientRule() }
   }
 }
@@ -185,7 +185,7 @@ class DateTime implements ValidationRule {
     return { name: "DateTime", type: this.type, message: this.message };
   }
 
-  serverRule(): Nullable<WidgetValidation> {
+  serverRule(): Nullable<FormElementValidation> {
     return { provider: this.serverType, rule: this.clientRule() }
   }
 }
@@ -200,7 +200,7 @@ class Numeric implements ValidationRule {
     return { name: "Numeric", type: this.type, message: this.message };
   }
 
-  serverRule(): Nullable<WidgetValidation> {
+  serverRule(): Nullable<FormElementValidation> {
     return { provider: this.serverType, rule: this.clientRule() }
   }
 }
@@ -246,7 +246,7 @@ class Range implements ValidationRule {
   clientRule() {
     return { name: "Range", type: this.type, min: this.min, max: this.max, message: this.message };
   }
-  serverRule(): Nullable<WidgetValidation> {
+  serverRule(): Nullable<FormElementValidation> {
     return { provider: this.serverType, args: { "Minimum": this.min, "Maximum": this.max }, rule: this.clientRule() }
   }
 }
@@ -283,7 +283,7 @@ class MinLength implements ValidationRule {
   clientRule() {
     return { name: "MinLength", type: this.type, min: this.min, message: this.message };
   }
-  serverRule(): Nullable<WidgetValidation> {
+  serverRule(): Nullable<FormElementValidation> {
     return { provider: this.serverType, args: { "Length": this.min }, rule: this.clientRule() }
   }
 }
@@ -321,7 +321,7 @@ class RegularExpression implements ValidationRule {
   clientRule() {
     return { name: "RegularExpression", type: this.type, pattern: this.pattern, message: this.message };
   }
-  serverRule(): Nullable<WidgetValidation> {
+  serverRule(): Nullable<FormElementValidation> {
     return { provider: this.serverType, args: { "Pattern": this.pattern }, rule: this.clientRule() }
   }
 }
@@ -334,7 +334,7 @@ class Url implements ValidationRule {
   clientRule() {
     return { name: "Url", type: this.type, message: this.message };
   }
-  serverRule(): Nullable<WidgetValidation> {
+  serverRule(): Nullable<FormElementValidation> {
     return { provider: this.serverType, rule: this.clientRule() }
   }
 }
@@ -356,7 +356,7 @@ class Phone implements ValidationRule {
     return { name: "Phone", type: this.type, message: this.message, validator: this.validator };
   }
 
-  serverRule(): Nullable<WidgetValidation> {
+  serverRule(): Nullable<FormElementValidation> {
     return { provider: this.serverType, rule: this.clientRule() }
   }
 }
@@ -394,7 +394,7 @@ class EnumDataType implements ValidationRule {
     return { name: "EnumDataType", type: this.type, enum: this.enum, message: this.message };
   }
 
-  serverRule(): Nullable<WidgetValidation> {
+  serverRule(): Nullable<FormElementValidation> {
     return { provider: null, rule: this.clientRule() }
   }
 }
@@ -416,7 +416,7 @@ class CreditCard implements ValidationRule {
     return { name: "CreditCard", type: this.type, message: this.message, validator: this.validator };
   }
 
-  serverRule(): Nullable<WidgetValidation> {
+  serverRule(): Nullable<FormElementValidation> {
     return { provider: this.serverType, rule: this.clientRule() }
   }
 }
@@ -459,7 +459,7 @@ class FileExtensions implements ValidationRule {
     return { name: "FileExtensions", type: this.type, message: this.message, validator: this.validator };
   }
 
-  serverRule(): Nullable<WidgetValidation> {
+  serverRule(): Nullable<FormElementValidation> {
     return { provider: this.serverType, args: { "Extensions": this.extensions }, rule: this.clientRule() }
   }
 }
@@ -474,7 +474,7 @@ class EqualTo implements ValidationRule {
     return { name: "EqualTo", type: this.type, message: this.message };
   }
 
-  serverRule(): Nullable<WidgetValidation> {
+  serverRule(): Nullable<FormElementValidation> {
     return { provider: this.serverType, rule: this.clientRule() };
   }
 }

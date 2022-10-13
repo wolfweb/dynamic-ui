@@ -1,25 +1,23 @@
 interface IElementMetadata {
   id: string;
+  key: string;
 }
 
 interface IFormElementMetadata extends IElementMetadata {
-  key: string;
   display: string;
   attributes: Dictionary<any>;
-  dataBinder: Nullable<WidgetDataBinder>;
-  validation: Array<WidgetValidation>;
+  dataBinder: Nullable<FormElementDataBinder>;
+  validation: Array<FormElementValidation>;
   childes?: Array<IFormElementChildGroupMetadata>;
 }
 
 interface ILayoutElementMetadata extends IElementMetadata {
-  key: string;
   display: string;
   attributes: Dictionary<any>;
   childes: Array<IFormElementChildGroupMetadata>;
 }
 
 interface IDisplayElementMetadata extends IElementMetadata {
-  key: string;
   display: string;
   attributes: Dictionary<any>;
 } 
@@ -31,7 +29,6 @@ interface IChartDisplayElementMetadata extends IDisplayElementMetadata{
 }
 
 declare interface ILiquidElementMetadata extends IElementMetadata {
-  key: string;
   display: string;
   attributes: Dictionary<any>;
   childes?: Array<any>;
@@ -43,7 +40,7 @@ declare interface IFormElementChildGroupMetadata {
   childes: Array<IFormElementMetadata | ILayoutElementMetadata>;
 }
 
-declare interface WidgetDataBinder {
+declare interface FormElementDataBinder {
   name: string;
   value: any | Array<any>;
   isSort?: boolean;
@@ -54,7 +51,7 @@ declare interface WidgetDataBinder {
   defaultValue?: string;
 }
 
-declare interface WidgetValidation {
+declare interface FormElementValidation {
   provider: string | null;
   args?: Nullable<Dictionary<any>>;
   rule?: any;
@@ -67,21 +64,9 @@ declare interface ValidationRule {
   display: string;
   serverType: string;
   clientRule() : object;
-  serverRule(): Nullable<WidgetValidation>;
+  serverRule(): Nullable<FormElementValidation>;
   render?(entity : ValidationRule, confirm: (value: ValidationRule) => void);
   validator?(...args: any): boolean;
-}
-
-declare interface EditModelContext {
-  setCurrentWidget(block: FormElementMetadata | null): void;
-  findAndSetCurrentWidget(id: string): void;
-  findAndRemoveWidget(id: string): FormElementMetadata;
-  appendFormSchema(widget: FormElementMetadata, idx: number = -1): void;
-  sortFormSchema(widget: FormElementMetadata, oidx: number, nidx: number): void;
-  ensureFormModelInit(widget: FormElementMetadata): void;
-  addValidation(validation: WidgetValidation): void;
-  removeValidation(provider: string): void;
-  requireChangeHandler(v: boolean): void;
 }
 
 declare interface Tree {

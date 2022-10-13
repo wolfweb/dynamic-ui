@@ -13,10 +13,10 @@
       meta:null
     },
     setup(props, context) {
-      const { formModel, ensureFormModelInit } = useEditModel();
+      const { editerModel } = useEditModel();
 
       if(props.meta){
-        ensureFormModelInit(props.meta);
+        editerModel.emitter.emit("onElementLoading", props.meta);
       }
 
       const filterItems = (query, item) => {
@@ -26,6 +26,8 @@
       const descriptor = computed(()=>{
         return props.meta.validation.map(x=>x.rule);
       }).value;
+
+      const formModel = editerModel.attributes.formViewAttr.model;
 
       return {
         filterItems,

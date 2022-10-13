@@ -1,26 +1,23 @@
 <template>
   <div class="edit-main">
     <el-tabs type="card" v-model="activeName" style="min-width: 70%;">
-      <el-tab-pane label="表单" name="forms" @click.stop="clearCurrentWidget" style="height:100%;">
+      <el-tab-pane label="表单" name="forms" @click.stop="clearCurrentElement" style="height:100%;">
         <el-form label-width="16%" style="height:100%;">
           <draggable
             class="editMainContent"
-            v-model="formSchema"
+            v-model="viewSchema"
             v-bind="{ group: 'widget', ...dragOptions }"
             :item-key="itemKey"
             @change="onChange"
           >
             <template #item="{ element }">
-              <dynamic-component :meta="element" @onRemove="onRemoveWidget" />
+              <dynamic-component :meta="element" @onRemove="onRemoveElement" />
             </template>    
           </draggable>
         </el-form>
       </el-tab-pane>
-      <el-tab-pane label="详情" name="detail">
-        <viewDetail :actived="activeName" :schema="detailSchema" />
-      </el-tab-pane>
-      <el-tab-pane label="列表" name="list">
-        <viewList :actived="activeName" :schema="listSchema" />
+      <el-tab-pane v-for="(view, index) in tabViews" :label="view.label" :name="view.name">
+        <component :is="view.type" :actived="activeName" :schema="view.schema" />
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -28,14 +25,11 @@
 <script lang="ts">
   import draggable from 'vuedraggable';
   import { useEditModel } from '@/models/schema';
-  import { createAsyncComponent } from '@/components/createAsyncComponent';
   import { defineComponent, reactive, computed, toRefs, ref, watch } from 'vue';
   export default defineComponent({
     name: "EditorMain",
     components: { 
       draggable,
-      viewList: createAsyncComponent(()=> import('./list.vue')),
-      viewDetail: createAsyncComponent(()=> import('./detail.vue')),
     },
     props:{
       itemKey: {
@@ -46,12 +40,12 @@
     methods:{
       onChange(e){
         if(e.added){
-          this.appendFormSchema(e.added.element, e.added.newIndex)
+          this.appendElementToSchema(e.added.element, e.added.newIndex)
         }else if(e.moved){
-          this.sortFormSchema(e.moved.element, e.moved.oldIndex, e.moved.newIndex)
+          this.sortViewSchema(e.moved.element, e.moved.oldIndex, e.moved.newIndex)
         }
         else if(e.removed){
-          this.findAndRemoveWidget(e.removed.element.id)
+          this.findAndRemoveElement(e.removed.element.id)
         }
       }
     },
@@ -62,17 +56,20 @@
 
       const activeName = ref('forms');
 
-      const { appendFormSchema, findAndRemoveWidget, sortFormSchema, setCurrentWidget, formSchema, detailSchema, listSchema } = useEditModel();
+      const { appendElementToSchema, findAndRemoveElement, sortViewSchema, setCurrentElement, viewSchema, editerModel } = useEditModel();
+
+      const tabViews = reactive([]);
+      editerModel.emitter.emit("onSchemaLoading", tabViews);
 
       watch(
         ()=> activeName.value,
         (v)=>{
           if(v === 'detail'){
-            setCurrentWidget(detailSchema.value);
+            setCurrentElement(detailSchema.value);
           }else if(v === 'list'){
-            setCurrentWidget(listSchema.value);
+            setCurrentElement(listSchema.value);
           }else{
-            setCurrentWidget(null);
+            setCurrentElement(null);
           }
         }
       )
@@ -84,26 +81,25 @@
         ghostClass: 'ghost'
       }))
 
-      const clearCurrentWidget = () => {
-        setCurrentWidget(null);
+      const clearCurrentElement = () => {
+        setCurrentElement(null);
       }
       
-      const onRemoveWidget = (v) =>{
-        console.log(`remove widget=>${v.id}`);
+      const onRemoveElement = (v) =>{
+        console.log(`remove element=>${v.id}`);
       }
 
       return {
         ...toRefs(state),
-        findAndRemoveWidget,
-        clearCurrentWidget,
-        appendFormSchema,
-        onRemoveWidget,
-        sortFormSchema,
+        appendElementToSchema,
+        findAndRemoveElement,
+        clearCurrentElement,
+        onRemoveElement,
+        sortViewSchema,
         dragOptions,
-        detailSchema,
-        listSchema,
-        formSchema,
+        viewSchema,
         activeName,
+        tabViews
       }
     }
   })

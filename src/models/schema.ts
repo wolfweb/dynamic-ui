@@ -1,13 +1,14 @@
 import type { InjectionKey } from 'vue';
 
-import validators from '@/utils/validators';
+import mitt, { Emitter } from "mitt";
 
 import { nanoid } from 'nanoid';
 import { CacheType } from '@/enums/cache';
 import { SchemaMode } from '@/enums/schemaMode';
 import { useSchemaStore } from '@/store/modules/schemaStore';
-import { flatMap, remove, find, isNil } from 'lodash-es';
+import { flatMap, remove } from 'lodash-es';
 import { reactive, inject, provide, readonly, computed } from 'vue';
+import { Record } from '@icon-park/vue-next';
 
 const editInjectKey: InjectionKey<ReturnType<typeof ModelContext>> = Symbol();
 const appInjectKey: InjectionKey<AppContext> = Symbol();
@@ -17,8 +18,8 @@ export class FormElementMetadata implements IFormElementMetadata {
   key: string;
   display: string;
   attributes: Dictionary<any>;
-  dataBinder: Nullable<WidgetDataBinder>;
-  validation: Array<WidgetValidation>;
+  dataBinder: Nullable<FormElementDataBinder>;
+  validation: Array<FormElementValidation>;
   childes?: Array<IFormElementChildGroupMetadata>;
 }
 
@@ -48,33 +49,6 @@ export class LiquidElementMetadata implements ILiquidElementMetadata{
   childes?: Array<any> = [];
 }
 
-const primaryKey = () :FormElementMetadata => {
-  let meta = new FormElementMetadata();
-  meta.id = nanoid();
-  meta.key = "Input";
-  meta.display = "表单主键id";
-  meta.attributes = {
-    "tips": "",
-    "label": "表单主键id",
-    "type": "hidden",
-    "maxlength": 225,
-    "clearable": false,
-    "placeholder": "请输入",
-  };
-  meta.dataBinder = {
-    "name": nanoid(12),
-    "value": "",
-    "isSort": true,
-    "isFilter": true,
-    "bindType": "Int64",
-    "uniqueKey": false,
-    "primaryKey": true,
-    "defaultValue": "",
-  };
-  meta.validation = [ ];
-  return meta;
-}
-
 const layoutContainer = (): LayoutElementMetadata => {
   let layout = new LayoutElementMetadata();
   layout.id = nanoid();
@@ -90,34 +64,6 @@ const layoutContainer = (): LayoutElementMetadata => {
   return layout;
 }
 
-const detailContainer = (): DisplayElementMetadata => {
-  let meta = new DisplayElementMetadata();
-  meta.key = "FormDetail";
-  meta.display = "详情";
-  meta.formSchema = [],
-  meta.attributes = {
-    title: "测试",
-    border: true,
-    column: 3,
-    direction: "horizontal",
-  };
-  meta.columns = [];
-  return meta;
-}
-
-const listContainer = (): DisplayElementMetadata => {
-  let meta = new DisplayElementMetadata();
-  meta.key = "FormList";
-  meta.display = "列表";
-  meta.formSchema = [],
-  meta.attributes = {
-    border: false,
-    stripe: true,
-  };
-  meta.columns = [];
-  return meta;
-}
-
 const App: AppContext = {
   name: 'magicube low code editor',
   version: '1.0.0',
@@ -128,50 +74,57 @@ const App: AppContext = {
   cacheType: CacheType.LOCAL
 }
 
-export interface EditorModel{
+export type SchemaEvent = {
+  onClear: void,
+  onSchemaLoading: Array<any>,
+  onParseSchema: Object,
+  onElementAdded: IElementMetadata,
+  onElementLoading: IElementMetadata, 
+  onElementRemoved: IElementMetadata,
+  onElementSelected: IElementMetadata,
+}
+
+export interface EditorModel {
   title: string;
-  formModel: Object;
-  formSchema : Array<FormElementMetadata | LayoutElementMetadata>;
-  currentWidget: FormElementMetadata | LayoutElementMetadata | DisplayElementMetadata | null;
-  listSchema: DisplayElementMetadata,
-  detailSchema: DisplayElementMetadata,
+  viewSchema : Array<IElementMetadata>;
+  currentElement: IElementMetadata | null;
+  emitter: Emitter<SchemaEvent>;
+  attributes: Record<string, any>;
 }
 
 const ModelContext = ({ title, callback }) => {
+  const emitter : Emitter<SchemaEvent> = mitt<SchemaEvent>();
+
   const state: EditorModel = reactive({
     title: title,
-    formModel: {},
-    formSchema: [],
-    currentWidget: null,
-    listSchema: listContainer(),
-    detailSchema: detailContainer(),
-  })
+    viewSchema: [],
+    emitter: emitter,
+    currentElement: null,
+    attributes: { },
+  });
 
   callback && callback(state);
 
   const schemaStore = useSchemaStore();
 
-  if(state.formSchema.length == 0){
-    if(schemaStore.Mode == SchemaMode.Form){
-      state.formSchema.push(primaryKey());
-    }else if(schemaStore.Mode == SchemaMode.Layout){
-      state.formSchema.push(layoutContainer());
+  if(state.viewSchema.length == 0){
+    if(schemaStore.Mode == SchemaMode.Layout){
+      state.viewSchema.push(layoutContainer());
     }    
   }
 
   const clearModelContext = () => {
-    state.formModel = {};
-    state.formSchema.splice(0, state.formSchema.length);
+    state.viewSchema.splice(0, state.viewSchema.length);
+    emitter.emit("onClear");
   }
 
-  const setCurrentWidget = (block: FormElementMetadata | LayoutElementMetadata | DisplayElementMetadata | null) => {
-    state.currentWidget = block;
-    state.listSchema.formSchema = state.formSchema;
-    state.detailSchema.formSchema = state.formSchema;
-    schemaStore.updateSchema(state.formSchema);
+  const setCurrentElement = (block: IElementMetadata | null) => {
+    state.currentElement = block;
+    emitter.emit("onElementSelected", block);
+    schemaStore.updateSchema(state.viewSchema);
   }
 
-  const recursionFind = (collection: Array<any> , predict : (block: FormElementMetadata | LayoutElementMetadata) => Boolean) => {
+  const recursionFind = (collection: Array<any> , predict : (block: IElementMetadata) => Boolean) => {
     let res = collection.map(child=>{
       if(predict(child)) return child;
       if(child.childes && child.childes.length>0) {
@@ -181,10 +134,10 @@ const ModelContext = ({ title, callback }) => {
     return flatMap(res).filter(x => !!x);
   }
 
-  const findAndSetCurrentWidget = (id: string) => {
-    if(state.currentWidget && state.currentWidget.id == id) return;
+  const findAndSetCurrentElement = (id: string) => {
+    if(state.currentElement && state.currentElement.id == id) return;
 
-    const _recursion = (childes, id): FormElementMetadata | LayoutElementMetadata => {
+    const _recursion = (childes, id): IElementMetadata => {
       let res = childes.map((child) => {
         if (child.id == id) {
           return child;
@@ -196,13 +149,14 @@ const ModelContext = ({ title, callback }) => {
       return flatMap(res).filter(x => !!x)[0];
     }
 
-    let widget = _recursion(state.formSchema, id)
-    if (widget) {
-      setCurrentWidget(widget)
+    let element = _recursion(state.viewSchema, id)
+    if (element) {
+      setCurrentElement(element);
+      emitter.emit("onElementLoading", element);
     }
   }
 
-  const findAndRemoveWidget = (id: string) => {
+  const findAndRemoveElement = (id: string) => {
     const _recursion = (childes, id) => {
       let idx = childes.findIndex(x => x.id == id)
       if (idx > -1) {
@@ -216,55 +170,38 @@ const ModelContext = ({ title, callback }) => {
       });
       if(res.length) return res[0];
     }
-    let result = _recursion(state.formSchema, id)
-    if (result.dataBinder) delete state.formModel[result.dataBinder.name]
-    state.currentWidget = null
+    let result = _recursion(state.viewSchema, id);
+
+    emitter.emit("onElementRemoved", result);
+
+    state.currentElement = null
     return result;
   }
 
-  const appendFormSchema = (widget: FormElementMetadata | LayoutElementMetadata, idx: number = -1) => {
+  const appendElementToSchema = (element: IElementMetadata, idx: number = -1) => {
     if (idx > -1) {
-      state.formSchema.splice(idx, 0, widget)
+      state.viewSchema.splice(idx, 0, element)
     } else {
-      state.formSchema.push(widget)
+      state.viewSchema.push(element)
     }
-    if (widget instanceof FormElementMetadata && widget.dataBinder) {
-      state.formModel[widget.dataBinder.name] = widget.dataBinder.value
-    }
-    setCurrentWidget(widget);
+    emitter.emit("onElementAdded", element);
+    setCurrentElement(element);
   }
 
-  const sortFormSchema = (widget: FormElementMetadata, oidx: number, nidx: number) => {
-    state.formSchema.splice(nidx, 0, ...state.formSchema.splice(oidx, 1))
-    setCurrentWidget(widget);
+  const sortViewSchema = (element: IElementMetadata, oidx: number, nidx: number) => {
+    state.viewSchema.splice(nidx, 0, ...state.viewSchema.splice(oidx, 1))
+    setCurrentElement(element);
   }
 
-  const ensureFormModelInit = (widget: FormElementMetadata) => {
-    if (!state.formModel[widget.dataBinder!.name]) {
-      state.formModel[widget.dataBinder!.name] = widget.dataBinder!.value;
-      if(isNil(state.formModel[widget.dataBinder!.name]) || state.formModel[widget.dataBinder!.name] == ""){
-        if(widget.dataBinder!.defaultValue){
-          state.formModel[widget.dataBinder!.name] = widget.dataBinder!.defaultValue;
-        }
-      }
-      widget.validation.forEach(item => {
-        const rule = find<ValidationRule>(validators, x=>x.serverType == item.provider);
-        if(rule && rule.validator) {
-          item.rule.validator = rule.validator;
-        }
-      });
+  const addValidation = (validation: FormElementValidation) => {
+    if (state.currentElement && state.currentElement instanceof FormElementMetadata) {
+      state.currentElement.validation.push(validation);
     }
   }
 
-  const addValidation = (validation: WidgetValidation) => {
-    if (state.currentWidget && state.currentWidget instanceof FormElementMetadata) {
-      state.currentWidget.validation.push(validation);
-    }
-  }
-
-  const removeValidation = ( predict : (validation: WidgetValidation) => Boolean) => {
-    if (state.currentWidget && state.currentWidget instanceof FormElementMetadata) {
-      remove(state.currentWidget.validation, x => predict(x));
+  const removeValidation = ( predict : (validation: FormElementValidation) => Boolean) => {
+    if (state.currentElement && state.currentElement instanceof FormElementMetadata) {
+      remove(state.currentElement.validation, x => predict(x));
     }
   }
 
@@ -277,22 +214,19 @@ const ModelContext = ({ title, callback }) => {
   }
 
   return {
-    formModel: computed(() => state.formModel),
-    formSchema: computed(() => state.formSchema),
-    listSchema: computed(() => state.listSchema),
-    detailSchema: computed(() => state.detailSchema),
-    currentWidget: computed(() => state.currentWidget),
+    editerModel: state,
+    viewSchema: computed(() => state.viewSchema),
+    currentElement: computed(() => state.currentElement),
     addValidation,
     recursionFind,
-    sortFormSchema,
+    sortViewSchema,
     removeValidation,
-    appendFormSchema,
-    setCurrentWidget,
+    setCurrentElement,
     clearModelContext,
-    ensureFormModelInit,
-    findAndRemoveWidget,
+    findAndRemoveElement,
     requireChangeHandler,
-    findAndSetCurrentWidget,
+    appendElementToSchema,
+    findAndSetCurrentElement,
   }
 }
 

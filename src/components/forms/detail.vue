@@ -1,5 +1,5 @@
 <template>
-  <dynamic-component :meta="schema"></dynamic-component>
+  <dynamic-component v-if="schema" :meta="schema"></dynamic-component>
 </template>
 <script lang="ts">
   import { defineComponent } from 'vue';
@@ -13,6 +13,7 @@
       schema: null
     },
     setup(props, context){
+      console.log(props.schema);
       return {
         
       }

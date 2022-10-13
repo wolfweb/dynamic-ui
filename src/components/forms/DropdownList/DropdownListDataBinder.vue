@@ -39,9 +39,9 @@
       
     },
     setup(props, context) {
-      const { currentWidget } = useEditModel();
+      const { currentElement } = useEditModel();
 
-      const widget = currentWidget.value as IFormElementMetadata;
+      const widget = currentElement.value as IFormElementMetadata;
 
       return {
         widget

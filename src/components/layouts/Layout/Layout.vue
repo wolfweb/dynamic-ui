@@ -36,12 +36,10 @@
       },
     },
     setup(props, context) {
-      const { formModel } = useEditModel();
       const schemaMode = useSchemaStore().Mode;
 
       return {
         schemaMode,
-        formModel,
         styles
       }
     }

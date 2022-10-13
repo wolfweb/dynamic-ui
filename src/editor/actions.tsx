@@ -13,15 +13,15 @@ import { Cellphone, Document, Download, Refrigerator, TakeawayBox, Upload, View 
 export const actions = () =>{
   const app = useAppStore().AppContext;
   const router = useRouter();
-  const { clearModelContext, formSchema, listSchema, detailSchema, appendFormSchema } = useEditModel();
-  const schemaStore = useSchemaStore(formSchema.value);
+  const { editerModel, clearModelContext, viewSchema, appendElementToSchema } = useEditModel();
+  const schemaStore = useSchemaStore(viewSchema.value);
   const state = reactive({
     jsonValue: JSON.stringify(schemaStore.Schema)
   })
   const importJsonChange = (value) => {
     clearModelContext();
     const schema = JSON.parse(value);
-    schema.forEach(x => appendFormSchema(x));
+    schema.forEach(x => appendElementToSchema(x));
     schemaStore.updateSchema(schema);
   }
 
@@ -30,15 +30,17 @@ export const actions = () =>{
       title:'查看结构',
       icon: View,
       onClick: () => {
+        const schema = { formSchema: viewSchema.value };
+        editerModel.emitter.emit("onParseSchema", schema);
         showDialog({
-          title: '表单结构',
+          title: 'UI结构',
           props: {
             width: 660
           },
           content: () => (
             <>
               <MonacoEditor
-                code={JSON.stringify({ formSchema: formSchema.value, listSchema: listSchema.value, detailSchema: detailSchema.value })}
+                code={JSON.stringify(schema)}
                 layout={{ width: 700, height: 600 }}
               />
             </>
@@ -50,7 +52,9 @@ export const actions = () =>{
       title:'导出结构',
       icon: Upload,
       onClick: () => {
-        const code = JSON.stringify({ formSchema: formSchema.value, listSchema: listSchema.value, detailSchema: detailSchema.value });
+        const schema = { formSchema: viewSchema.value };
+        editerModel.emitter.emit("onParseSchema", schema);
+        const code = JSON.stringify(schema);
         const blob = new Blob([code], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -85,7 +89,7 @@ export const actions = () =>{
       title:'生成源码',
       icon: Document,
       onClick: () => {
-        const schema = formSchema.value;
+        const schema = viewSchema.value;
         const codes:Array<string> = [];
         schema.forEach(item=>{
           codes.push(getWidgetCode(item)) 
@@ -111,7 +115,7 @@ export const actions = () =>{
       title:'保存',
       icon: Cellphone,
       onClick: () => {
-        const schema = formSchema.value;
+        const schema = viewSchema.value;
         schemaStore.updateSchema(schema);
       }
     },

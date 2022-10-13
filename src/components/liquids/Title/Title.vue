@@ -1,10 +1,12 @@
 <template>
-  <component :is="meta.attributes.tagType">
+  <div>
     {{meta.attributes.content}}
-  </component>
+    <!-- <component :is="meta.attributes.tagType">
+    </component> -->
+  </div>
 </template>
 <script lang="ts">
-  import { defineComponent } from 'vue';
+  import { defineComponent, h } from 'vue';
 
   export default defineComponent({
     name: "Title",
@@ -12,7 +14,9 @@
       meta: null
     },
     setup(props, context){
-      return {}
+      return {
+
+      }
     }
   });
 </script>

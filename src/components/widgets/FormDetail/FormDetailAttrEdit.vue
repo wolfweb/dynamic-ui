@@ -76,11 +76,11 @@
       draggable
     },
     setup(props, context){
-      const { currentWidget } = useEditModel();
+      const { currentElement } = useEditModel();
 
       const widget = computed(()=> {
         // @ts-ignore
-        return currentWidget as DisplayElementMetadata;
+        return currentElement as DisplayElementMetadata;
       }).value;
 
       return {

@@ -29,7 +29,7 @@ export const findWidgetSettings = (meta: FormElementMetadata | LayoutElementMeta
 };
 
 export const getWidgetCode = (
-  meta: FormElementMetadata | LayoutElementMetadata
+  meta: IElementMetadata
 ) => {
   const widgetFunc = `${meta.key}Code`;
   return components.funcs[widgetFunc](meta);

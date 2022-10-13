@@ -1,11 +1,11 @@
 <template>
-  <fieldset class="editable" @click.stop="()=>findAndSetCurrentWidget(meta.id)" :class="{'active': currentWidget && currentWidget.id == meta.id && schemaMode != 'Preview' && schemaMode != 'Render' }">
+  <fieldset class="editable" @click.stop="()=>findAndSetCurrentElement(meta.id)" :class="{'active': currentElement && currentElement.id == meta.id && schemaMode != 'Preview' && schemaMode != 'Render' }">
     <legend v-if="schemaMode != 'Preview' && schemaMode != 'Render'" class="flex right-0">
       <div class="editable_handle">
         <move theme="outline" size="18" fill="#333"/>
       </div>
       <div class="editable_actions">
-        <delete theme="outline" size="18" fill="#333" @click="removeWidget(meta.id)"/>
+        <delete theme="outline" size="18" fill="#333" @click="removeElement(meta.id)"/>
       </div>
     </legend>
     <div class="text-left">
@@ -20,7 +20,7 @@
   import { useSchemaStore } from '@/store/modules/schemaStore';
 
   export default defineComponent({
-    name: "EditWidget",
+    name: "dynamicComponent",
     components: {
       Move, Delete
     },
@@ -29,10 +29,10 @@
     },
     emits:['onRemove'],
     setup(props, context){
-      const { findAndSetCurrentWidget, findAndRemoveWidget, currentWidget } = useEditModel();
+      const { findAndSetCurrentElement, findAndRemoveElement, currentElement } = useEditModel();
 
-      const removeWidget = (id)=>{
-        let removed = findAndRemoveWidget(id)
+      const removeElement = (id)=>{
+        let removed = findAndRemoveElement(id)
         context.emit('onRemove', removed)
       };
 
@@ -40,9 +40,9 @@
 
       return { 
         schemaMode,
-        removeWidget,
-        currentWidget,
-        findAndSetCurrentWidget
+        removeElement,
+        currentElement,
+        findAndSetCurrentElement
       }
     }
   })

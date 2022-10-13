@@ -16,7 +16,8 @@ npm run dev
 * tiptap富文本编辑器
 
 ####
-* > node --max-old-space-size=4096不是内部或外部命令
+
+>  node --max-old-space-size=4096不是内部或外部命令
 
 ```
 搜索./node_modules/.bin目录下把"%_prog%"替换成%_prog%，即去掉双引号

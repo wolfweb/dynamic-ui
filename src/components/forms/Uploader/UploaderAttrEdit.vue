@@ -137,7 +137,7 @@
       }
     },
     setup(props, context) {
-      const { currentWidget, requireChangeHandler } = useEditModel();
+      const { currentElement, requireChangeHandler } = useEditModel();
 
       const { message } = useMessage();
 
@@ -145,7 +145,7 @@
 
       const widget = computed(()=> {
         // @ts-ignore
-        return currentWidget as IFormElementMetadata;
+        return currentElement as IFormElementMetadata;
       }).value;
 
       if(app == null){

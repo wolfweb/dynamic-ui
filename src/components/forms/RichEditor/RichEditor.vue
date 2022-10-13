@@ -17,7 +17,13 @@
       meta:null
     },
     setup(props, context) {
-      const { formModel, ensureFormModelInit } = useEditModel();
+      const { editerModel } = useEditModel();
+
+      if(props.meta){
+        editerModel.emitter.emit("onElementLoading", props.meta);
+      }
+
+      const formModel = editerModel.attributes.formViewAttr.model;
 
       const editorContent = computed(()=>{
         const mv = formModel[props.meta.dataBinder.name];
@@ -25,9 +31,6 @@
         return props.meta.attributes.placeholder;
       }).value;
 
-      if(props.meta){
-        ensureFormModelInit(props.meta);
-      }
 
       const descriptor = computed(()=>{
         return props.meta.validation.map(x=>x.rule);

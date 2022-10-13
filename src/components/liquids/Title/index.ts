@@ -5,7 +5,7 @@ const meta = new LiquidElementMetadata();
 
 meta.id = "";
 meta.key = "Html";
-meta.display = "Html";
+meta.display = "标题";
 meta.attributes = {
   icon: TitleLevel,
   level: 1,

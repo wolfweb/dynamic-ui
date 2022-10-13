@@ -16,15 +16,17 @@
       meta:null
     },
     setup(props, context) {
-      const { formModel, recursionFind } = useEditModel();
+      const { editerModel, recursionFind } = useEditModel();
+
+      const formModel = editerModel.attributes.formViewAttr.model;
 
       const tableData = [formModel.value];
 
-      const addOrUpdateColumns = (widget) => {
-        const fields = recursionFind(widget.formSchema, x => x.hasOwnProperty('dataBinder') && x.hasOwnProperty('validation'));
+      const addOrUpdateColumns = (element) => {
+        const fields = recursionFind(element.formSchema, x => x.hasOwnProperty('dataBinder') && x.hasOwnProperty('validation'));
         for(var i=0; i<fields.length; i++){
-          if(!some(widget.columns, x=> x.id == fields[i].id)){
-            widget.columns.push({
+          if(!some(element.columns, x=> x.id == fields[i].id)){
+            element.columns.push({
               id: fields[i].id,
               label: fields[i].attributes.label,
               name: fields[i].dataBinder.name,

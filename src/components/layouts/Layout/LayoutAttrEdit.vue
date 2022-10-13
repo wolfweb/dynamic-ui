@@ -1,16 +1,16 @@
 <template>
-  <el-form ref="form" :model="currentWidget!" label-width="20%">
+  <el-form ref="form" :model="currentElement!" label-width="20%">
     <el-row :gutter="20">
       <el-col :span="24">
         <el-form-item label="容器名称" prop="attributes.title">
-          <el-input v-model="currentWidget!.attributes.title" />
+          <el-input v-model="currentElement!.attributes.title" />
         </el-form-item>
       </el-col>
     </el-row>
     <el-row :gutter="20">
       <el-col :span="24">
         <el-form-item label="容器类型" prop="attributes.style">
-          <el-select v-model="currentWidget!.attributes.style">
+          <el-select v-model="currentElement!.attributes.style">
             <el-option label="流式布局" value="container-fluid"></el-option>
             <el-option label="sm小屏" value="container-sm">sm</el-option>
             <el-option label="md" value="container-md">md</el-option>
@@ -29,10 +29,10 @@
   export default defineComponent({
     name: "LayoutAttrEdit",
     setup(props, context) {
-      const { currentWidget } = useEditModel()
+      const { currentElement } = useEditModel()
 
       return {
-        currentWidget,
+        currentElement,
       }
     }
   })

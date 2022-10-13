@@ -59,11 +59,11 @@
       }
     },
     setup(props, context) {
-      const { currentWidget } = useEditModel();
+      const { currentElement } = useEditModel();
 
       const widget = computed(()=> {
         // @ts-ignore
-        return currentWidget as ILayoutElementMetadata;
+        return currentElement as ILayoutElementMetadata;
       }).value;
 
       return {

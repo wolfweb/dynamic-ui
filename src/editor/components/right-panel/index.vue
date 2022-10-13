@@ -27,7 +27,7 @@
   export default defineComponent({
     name: "RightPanel",
     setup(props, context) {
-      const { currentWidget } = useEditModel();
+      const { currentElement } = useEditModel();
 
       const state = reactive({
         activeName: '',
@@ -38,7 +38,7 @@
       const containerStyle  = () => [styles.drawer, { [styles.isOpen]: state.isOpen }]
 
       watch(
-        ()=> currentWidget.value,
+        ()=> currentElement.value,
         (v)=>{
           if(v && v && !isEmpty(v)){
             if(state.activeName && state.activeName.startsWith(v.key)) return;

@@ -12,14 +12,14 @@
         <draggable
           class="dragArea list-group"
           v-bind="{ group: { name: 'widget', pull: 'clone', put: false }, sort: false, ...dragOptions }"
-          :clone="cloneWidget"
-          :list="filterWidgets(searchKey)"
+          :clone="cloneElement"
+          :list="filterElements(searchKey)"
           :item-key="itemKey"
           @start="isDrag = true"
           @end="isDrag = false"
         >
           <template #item="item">
-            <div :class="styles.widget">
+            <div :class="styles.element">
               <component :is="item.element.attributes.icon"></component>
               <span> {{item.element.display}} </span>
             </div>
@@ -61,7 +61,7 @@
       generateKey(){
         return customAlphabet('1234567890abcdefghijklmnopqrstuvwxyz_$', 6)()
       },
-      cloneWidget(v){
+      cloneElement(v){
         const res = cloneDeep(v)
         res.id = nanoid()
         if(res.dataBinder) res.dataBinder.name = `${res.key}_${this.generateKey()}`
@@ -75,9 +75,11 @@
       
       const tabs = Object.keys(plugins).map((name) => {
         const { label, icon, order, metas} = plugins[name];
-        const widgets = Object.keys(metas).map(x=> markRaw(metas[x]) );
-        return { label, name, icon , order, widgets};
+        const elements = Object.keys(metas).map(x=> markRaw(metas[x]) );
+        return { label, name, icon , order, elements};
       }).sort((a, b) => a.order - b.order);
+
+      console.log(tabs);
 
       const dragOptions = computed(() => ({
         animation: 200,
@@ -88,19 +90,19 @@
       
       const state = reactive({
         activeName: tabs[0].name,
-        widgets: tabs[0].widgets,
+        elements: tabs[0].elements,
         isDrag: false,
       });
 
-      const filterWidgets = (key)=>{
+      const filterElements = (key)=>{
         if(key && key.length > 0){
-          return state.widgets.filter(x=>x.display.includes(key) || x.key.toLowerCase().includes(key));
+          return state.elements.filter(x=>x.display.includes(key) || x.key.toLowerCase().includes(key));
         };
-        return state.widgets;
+        return state.elements;
       };
 
       watch(()=> state.activeName, (v)=>{
-        state.widgets = tabs.find(x=>x.name == v)?.widgets || []
+        state.elements = tabs.find(x=>x.name == v)?.elements || []
       });
 
       return {
@@ -109,7 +111,7 @@
         styles,
         searchKey,
         dragOptions,
-        filterWidgets,
+        filterElements,
         Search,
       }
     }
