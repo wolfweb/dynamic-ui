@@ -1,14 +1,10 @@
 import type { InjectionKey } from 'vue';
 
 import mitt, { Emitter } from "mitt";
-
-import { nanoid } from 'nanoid';
 import { CacheType } from '@/enums/cache';
-import { SchemaMode } from '@/enums/schemaMode';
 import { useSchemaStore } from '@/store/modules/schemaStore';
 import { flatMap, remove } from 'lodash-es';
 import { reactive, inject, provide, readonly, computed } from 'vue';
-import { Record } from '@icon-park/vue-next';
 
 const editInjectKey: InjectionKey<ReturnType<typeof ModelContext>> = Symbol();
 const appInjectKey: InjectionKey<AppContext> = Symbol();
@@ -47,21 +43,6 @@ export class LiquidElementMetadata implements ILiquidElementMetadata{
   display: string;
   attributes: Dictionary<any>;
   childes?: Array<any> = [];
-}
-
-const layoutContainer = (): LayoutElementMetadata => {
-  let layout = new LayoutElementMetadata();
-  layout.id = nanoid();
-  layout.key = "Layout";
-  layout.display = "布局";
-  layout.attributes = {
-    title: nanoid(12),
-    style: 'container-fluid'
-  };
-
-  layout.childes = [];
-
-  return layout;
 }
 
 const App: AppContext = {
@@ -106,12 +87,6 @@ const ModelContext = ({ title, callback }) => {
   callback && callback(state);
 
   const schemaStore = useSchemaStore();
-
-  if(state.viewSchema.length == 0){
-    if(schemaStore.Mode == SchemaMode.Layout){
-      state.viewSchema.push(layoutContainer());
-    }    
-  }
 
   const clearModelContext = () => {
     state.viewSchema.splice(0, state.viewSchema.length);

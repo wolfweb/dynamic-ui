@@ -69,7 +69,7 @@ const formViewAttr = {
   detailSchema: detailContainer()
 }
 
-export const initialize = (app : App ,editorModel : EditorModel) => {
+export const formInitialize = (app : App ,editorModel : EditorModel) => {
   const emitter : Emitter<SchemaEvent> = editorModel.emitter;
   editorModel.attributes['formViewAttr'] = formViewAttr;
   
