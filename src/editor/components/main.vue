@@ -127,10 +127,12 @@
     }
   }
 
-  .fade-enter-active, .fade-leave-active {
-    transition: opacity .5s;
+  .fade-enter-active, 
+  .fade-leave-active {
+    transition: opacity .9s ease;
   }
-  .fade-enter-from, .fade-leave-to {
+  .fade-enter-from, 
+  .fade-leave-to {
     opacity: 0;
   }
 </style>

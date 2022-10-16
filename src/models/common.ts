@@ -3,7 +3,7 @@ import * as commonIcons from '@icon-park/vue-next';
 
 export const ElementSettings = {
   "Event":"事件",
-  "AttrEdit":"属性",
+  "Attr":"属性",
   "DataBinder": "数据",
   "Validator":"验证"
 }

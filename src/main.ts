@@ -6,7 +6,7 @@ import { setupRouterGuard } from '@/routes/guard';
 import { setupErrorHandle } from '@/hooks/error-handle';
 import { initElementPlus } from '@/plugins/element-plus';
 
-import 'normalize.css'
+import 'mdb-ui-kit/css/mdb.min.css';
 import 'virtual:windi.css'
 import 'virtual:windi-devtools'
 import 'animate.css'

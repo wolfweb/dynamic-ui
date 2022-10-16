@@ -1,5 +1,5 @@
 <template>
-  <dynamic-component v-if="schema" :meta="schema"></dynamic-component>
+  <dynamic-component v-if="schema" :meta="schema" :showTools="false"></dynamic-component>
 </template>
 <script lang="ts">
   import { defineComponent } from 'vue';

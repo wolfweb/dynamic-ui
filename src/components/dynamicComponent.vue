@@ -1,6 +1,6 @@
 <template>
   <fieldset class="editable" @click.stop="()=>findAndSetCurrentElement(meta.id)" :class="{'active': currentElement && currentElement.id == meta.id && schemaMode != 'Preview' && schemaMode != 'Render' }">
-    <legend v-if="schemaMode != 'Preview' && schemaMode != 'Render'" class="flex right-0">
+    <legend v-if="showTools" class="flex right-0">
       <div class="editable_handle">
         <move theme="outline" size="18" fill="#333"/>
       </div>
@@ -26,6 +26,10 @@
     },
     props: {
       meta: null,
+      showTools: {
+        type: Boolean,
+        default: true
+      }
     },
     emits:['onRemove'],
     setup(props, context){

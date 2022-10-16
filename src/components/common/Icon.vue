@@ -11,11 +11,12 @@ export default defineComponent({
   props: {
     name: String,
   },
-
-  computed: {
-    icon() {
-      return defineAsyncComponent(() => import(`../../assets/${this.name}.svg?component`));
-    },
-  },
+  setup(props, context){
+    const path = `../../assets/${props.name}.svg?component`;
+    const icon = defineAsyncComponent(() => import(/* @vite-ignore */ path));
+    return {
+      icon
+    };
+  }
 });
 </script>

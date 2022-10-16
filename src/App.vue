@@ -15,8 +15,10 @@
 </template>
 
 <script setup lang="ts">
-  import { isUndefined } from 'lodash-es';
   import '@icon-park/vue-next/styles/index.css';
+  import 'mdb-ui-kit/css/mdb.min.css';
+
+  import { isUndefined } from 'lodash-es';
   import zhCn from 'element-plus/lib/locale/lang/zh-cn';
   import { useAppStore } from '@/store/modules/appStore';
   import { createBreakpointListen } from '@/hooks/event/useBreakpoint';

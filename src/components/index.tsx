@@ -3,7 +3,7 @@ import { withInstall }  from '@/utils';
 
 const schemaMapping = {
   "Form": ["forms", "layouts", "widgets"],
-  "Liquid": ["layouts", "liquids"],
+  "Liquid": ["liquids", "layouts"],
   "Layout": ["layouts"]
 }
 

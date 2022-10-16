@@ -9,7 +9,8 @@ meta.display = "IfElse";
 meta.attributes = {
   icon: RightBranchTwo,
   condition: '',
-  
+  trueChilds: [],
+  falseChilds: []
 };
 
 export default meta;
