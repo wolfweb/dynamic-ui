@@ -1,20 +1,20 @@
 <template>
   <el-form ref="form" label-width="20%">
     <el-form-item label="标题">
-      <el-select v-model="currentElement.attributes.tagType">
+      <el-select v-model="element.attributes.tagType">
         <el-option v-for="(item, index) in titleLevel" :key="item.value" :label="item.key" :value="item.value"></el-option>
       </el-select>
     </el-form-item>
     <el-form-item label="内容">
-      <el-input v-model="currentElement.attributes.content" />
+      <el-input v-model="element.attributes.content" />
     </el-form-item>
     <el-form-item label="对齐">
-      <el-select v-model="currentElement.attributes.align">
+      <el-select v-model="element.attributes.align">
         <el-option v-for="(item, index) in alignType" :key="item.value" :label="item.key" :value="item.value"></el-option>
       </el-select>
     </el-form-item>
     <el-form-item label="绑定字段">
-      <el-input v-model="currentElement.attributes.binder" />
+      <el-input v-model="element.attributes.binder" />
     </el-form-item>
   </el-form>
 </template>
@@ -25,6 +25,8 @@
     name: "LiquidTitleAttr",
     setup(props, context){
       const { currentElement } = useEditModel();
+
+      const element = currentElement.value as ILiquidElementMetadata;
 
       const titleLevel = [
         {key:'标题1', value: 'h1'},
@@ -45,7 +47,7 @@
       return {
         alignType,
         titleLevel,
-        currentElement
+        element
       }
     }
   });  

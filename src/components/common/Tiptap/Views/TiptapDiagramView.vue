@@ -24,7 +24,8 @@
 
       const editContext = reactive({
         code: code,
-        svg: null
+        svg: null,
+        height: 'auto'
       });
 
       mermaid.mermaidAPI.render(`svg-${new Date().getTime()}`, editContext.code, res => editContext.svg = res);

@@ -79,8 +79,6 @@
         return { label, name, icon , order, elements};
       }).sort((a, b) => a.order - b.order);
 
-      console.log(tabs);
-
       const dragOptions = computed(() => ({
         animation: 200,
         disabled: false,

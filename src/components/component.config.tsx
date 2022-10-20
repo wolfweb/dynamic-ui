@@ -6,7 +6,6 @@ import { SchemaMode } from "@/enums/schemaMode";
 import { ElementSettings } from "@/models/common";
 import { DEFAULT_CACHE_TIME } from "@/utils/cache";
 import dynamicComponent from "@/components/dynamicComponent.vue";
-import { FormElementMetadata, LayoutElementMetadata, DisplayElementMetadata } from "@/models/schema";
 import { isObject, isArray, isBoolean, isString, isNumber, isUndefined, indexOf, } from "lodash-es";
 
 let components : any = null;
@@ -19,7 +18,7 @@ export const getElementSettingName = (name: string) => {
   return "未知";
 };
 
-export const findElementSettings = (meta: FormElementMetadata | LayoutElementMetadata | DisplayElementMetadata) => {
+export const findElementSettings = (meta: IElementMetadata) => {
   if (meta && meta.key) {
     return components.widgets[meta.key].filter(
       (x) => x.name.startsWith(meta.key) && x.name.length > meta.key.length

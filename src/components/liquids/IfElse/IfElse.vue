@@ -37,6 +37,9 @@
     components: {
       draggable
     },
+    props:{
+      meta: null
+    },
     setup(props, context){
       const activeNames = ref(null);
       return {

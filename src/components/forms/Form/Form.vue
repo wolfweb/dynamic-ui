@@ -1,5 +1,6 @@
 <template>
   <el-form
+    :model="formModel"
     :size="meta.attributes.size"
     :inline="meta.attributes.inline"
     :label-position="meta.attributes['label-position']"
@@ -38,7 +39,9 @@
       meta:null
     },
     setup(props, context) {
-      const { formModel } = useEditModel()
+      const { editerModel } = useEditModel();
+
+      const formModel = editerModel.attributes.formViewAttr.model;
 
       return {
         formModel

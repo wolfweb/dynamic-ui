@@ -21,7 +21,6 @@
       const mathTex = ref(tex);
 
       const mathHtml = computed(()=> katex.renderToString(mathTex.value, { displayMode: true }) );
-      console.log(mathHtml.value);
 
       return {
         mathHtml

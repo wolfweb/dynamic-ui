@@ -26,7 +26,7 @@ const primaryKey = () :FormElementMetadata => {
     "value": "",
     "isSort": true,
     "isFilter": true,
-    "bindType": "Int64",
+    "bindType": "System.Int64",
     "uniqueKey": false,
     "primaryKey": true,
     "defaultValue": "",
@@ -69,7 +69,7 @@ const formViewAttr = {
   detailSchema: detailContainer()
 }
 
-export const formInitialize = (app : App ,editorModel : EditorModel) => {
+export const formInitialize = (app : App, editorModel : EditorModel) => {
   const emitter : Emitter<SchemaEvent> = editorModel.emitter;
   editorModel.attributes['formViewAttr'] = formViewAttr;
   
@@ -108,7 +108,6 @@ export const formInitialize = (app : App ,editorModel : EditorModel) => {
       editorModel.attributes.formViewAttr.listSchema.formSchema = editorModel.viewSchema;
       editorModel.attributes.formViewAttr.detailSchema.formSchema = editorModel.viewSchema;
       console.log("onElementAdded");
-      console.log(editorModel.attributes.formViewAttr);
     }
   });
 

@@ -4,10 +4,10 @@
       <el-col :span="24">
         <el-form-item label="数据类型" prop="dataBinder.bindType">
           <el-select v-model="element!.dataBinder!.bindType">
-            <el-option value="Guid">Guid</el-option>
-            <el-option value="String">字符串</el-option>
-            <el-option value="Int32">整型</el-option>
-            <el-option value="Int64">长整型</el-option>
+            <el-option value="System.Guid">Guid</el-option>
+            <el-option value="System.String">字符串</el-option>
+            <el-option value="System.Int32">整型</el-option>
+            <el-option value="System.Int64">长整型</el-option>
           </el-select>
         </el-form-item>
       </el-col>

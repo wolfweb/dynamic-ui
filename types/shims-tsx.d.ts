@@ -1,4 +1,4 @@
-import Vue, { VNode } from 'vue'
+import Vue, { VNode, App } from 'vue'
 
 declare module '*.tsx' {
   import Vue from 'compatible-vue'
@@ -12,5 +12,11 @@ declare global {
     interface IntrinsicElements {
       [elem: string]: any
     }
+  }
+}
+
+declare module '@vue/runtime-core' {
+  interface ComponentCustomProperties {
+    $$app: App
   }
 }

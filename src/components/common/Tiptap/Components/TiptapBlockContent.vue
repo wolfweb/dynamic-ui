@@ -37,7 +37,7 @@
 
       const onToggleScreen = (e) => {
         fullScreen.value = true;
-        this.$emit('toggle-screen', fullScreen);
+        context.emit('toggle-screen', fullScreen);
       };
 
       return {

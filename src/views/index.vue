@@ -18,8 +18,10 @@ import { useSchemaStore } from '@/store/modules/schemaStore';
 const formRef = ref<FormInstance>();
 const schemaStore = useSchemaStore();
 const formSchema = schemaStore.Schema;
-const { formModel } = useEditModel();
+const { editerModel } = useEditModel();
 const { message } = useMessage();
+
+const formModel = editerModel.attributes.formViewAttr.model;
 
 
 const submitForm = (formEl: FormInstance | undefined) => {

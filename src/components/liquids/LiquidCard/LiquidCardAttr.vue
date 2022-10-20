@@ -1,10 +1,10 @@
 <template>
   <el-form ref="form" label-width="20%">
     <el-form-item label="标题">
-      <el-input v-model="currentElement.attributes.title" />      
+      <el-input v-model="element.attributes.title" />      
     </el-form-item>
     <el-form-item label="样式">
-      <el-select v-model="currentElement.attributes.class">
+      <el-select v-model="element.attributes.class">
         <el-option v-for="(item, index) in cardStyles" :key="item.value" :label="item.key" :value="item.value"></el-option>
       </el-select>
     </el-form-item>
@@ -19,6 +19,8 @@
     setup(props, context){
       const { currentElement } = useEditModel();
 
+      const element = currentElement.value as ILiquidElementMetadata;
+
       const cardStyles = [
         {key:'primary', value: 'bg-primary text-white'},
         {key:'secondary', value: 'bg-secondary text-white'},
@@ -32,7 +34,7 @@
 
       return {
         cardStyles,
-        currentElement
+        element
       }
     }
   });

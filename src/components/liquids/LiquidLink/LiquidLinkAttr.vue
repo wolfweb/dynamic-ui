@@ -1,12 +1,12 @@
 <template>
   <el-form ref="form" label-width="20%">
     <el-form-item label="样式">
-      <el-select v-model="currentElement.attributes.class">
+      <el-select v-model="element.attributes.class">
         <el-option v-for="(item, index) in linkStyles" :key="item.value" :label="item.key" :value="item.value"></el-option>
       </el-select>
     </el-form-item>
     <el-form-item label="内容">
-      <el-input v-model="currentElement.attributes.content" />
+      <el-input v-model="element.attributes.content" />
     </el-form-item>
   </el-form>
 </template>
@@ -17,6 +17,8 @@
     name: "LiquidLinkAttr",
     setup(props, context){
       const { currentElement } = useEditModel();
+
+      const element = currentElement.value as ILiquidElementMetadata;
 
       const linkStyles = [
         {key:'Primary', value: 'btn btn-primary'},
@@ -32,7 +34,7 @@
 
       return {
         linkStyles,
-        currentElement
+        element
       }
     }
   });  

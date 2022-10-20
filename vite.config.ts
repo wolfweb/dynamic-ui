@@ -15,7 +15,7 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
 
 const CWD = process.cwd()
 
-const prefix = `monaco-editor/esm/vs`
+const prefix = `monaco-editor/esm/vs`;
 
 const rawSvgPlugin : Plugin = {
   name: 'raw-svg-file-loader',
@@ -132,7 +132,12 @@ export default ({ mode }: ConfigEnv): UserConfig => {
         '@vueuse/core', 
         'element-plus', 
         'lodash-es', 
-        'vuedraggable'
+        'vuedraggable',
+        `monaco-editor/esm/vs/language/json/json.worker`,
+        `monaco-editor/esm/vs/language/css/css.worker`,
+        `monaco-editor/esm/vs/language/html/html.worker`,
+        `monaco-editor/esm/vs/language/typescript/ts.worker`,
+        `monaco-editor/esm/vs/editor/editor.worker`
       ],
       exclude: ['vue-demi']
     },

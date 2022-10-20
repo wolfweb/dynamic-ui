@@ -12,7 +12,6 @@
       meta: null
     },
     setup(props, context){
-      console.log("title");
       return {
 
       }

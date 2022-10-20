@@ -51,7 +51,10 @@
         type: Object,
         default: null
       },
-      showAdv: false
+      showAdv: {
+        type: Boolean,
+        default: false
+      }
     },
     setup(props, context) {
       const collapseModel = ref(props.showAdv? 'adv' : null);
