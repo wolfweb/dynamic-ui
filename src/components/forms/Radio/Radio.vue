@@ -14,7 +14,7 @@
 </template>
 <script lang="ts">
   import { useEditModel } from '@/models/schema';
-  import { defineComponent, computed } from 'vue';
+  import { defineComponent } from 'vue';
   export default defineComponent({
     name: "Radio",
     props: {
@@ -23,9 +23,7 @@
     setup(props, context) {
       const { editerModel } = useEditModel();
 
-      const descriptor = computed(()=>{
-        return props.meta.validation.map(x=>x.rule);
-      }).value;
+      const descriptor = props.meta.validation.map(x=>x.rule);
 
       if(props.meta){
         editerModel.emitter.emit("onElementLoading", props.meta);

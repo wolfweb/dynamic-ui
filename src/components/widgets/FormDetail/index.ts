@@ -11,8 +11,7 @@ meta.attributes = {
   column: 3,
   direction: "horizontal",
   icon: ViewGridDetail,
+  columns: []
 };
-
-meta.columns = [];
 
 export default meta

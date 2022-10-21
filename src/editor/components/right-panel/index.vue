@@ -21,13 +21,13 @@
   import { isEmpty } from "lodash-es";
   import styles from './index.module.scss';
   import { useEditModel } from '@/models/schema';
-  import { defineComponent, reactive, watch, toRefs } from 'vue';
+  import { defineComponent, reactive, toRefs } from 'vue';
   import { findElementSettings, getElementSettingName } from '@/components/component.config';
 
   export default defineComponent({
     name: "RightPanel",
     setup(props, context) {
-      const { currentElement } = useEditModel();
+      const { editerModel } = useEditModel();
 
       const state = reactive({
         activeName: '',
@@ -35,11 +35,9 @@
         settings: []
       })
 
-      const containerStyle  = () => [styles.drawer, { [styles.isOpen]: state.isOpen }]
+      const containerStyle  = () => [styles.drawer, { [styles.isOpen]: state.isOpen }];
 
-      watch(
-        ()=> currentElement.value,
-        (v)=>{
+      editerModel.emitter.on('onElementSelected', v=> {
           if(v && v && !isEmpty(v)){
             if(state.activeName && state.activeName.startsWith(v.key)) return;
 
@@ -50,9 +48,8 @@
             state.isOpen = false;
             state.settings = [];
             state.activeName = '';
-          }
-        }
-      )
+          }        
+      });
 
       return { 
         ...toRefs(state),

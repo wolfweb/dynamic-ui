@@ -48,13 +48,11 @@
 <script lang="ts">
   import draggable from 'vuedraggable';
   import { useEditModel } from '@/models/schema';
-  import { defineComponent, computed } from 'vue';
-  import Validation from '@/components/common/Validation.vue';
+  import { defineComponent } from 'vue';
   export default defineComponent({
     name: "CollapseAttr",
     components:{
-      draggable,
-      Validation
+      draggable
     },
     methods:{
       removeChild(idx)  {
@@ -67,10 +65,7 @@
     setup(props, context) {
       const { currentElement } = useEditModel();
 
-      const element = computed(()=> {
-        // @ts-ignore
-        return currentElement as IFormElementMetadata;
-      }).value;
+      const element = currentElement.value as IFormElementMetadata;
 
       return {
         element

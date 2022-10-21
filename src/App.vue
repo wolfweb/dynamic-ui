@@ -1,8 +1,9 @@
 <template>
   <el-config-provider :locale="zhCn">
-    
+    <!-- 
       <router-link to="/">view</router-link>
-      <router-link to="/form">design</router-link> 
+      <router-link to="/form">design</router-link>  
+    -->
    
     <Suspense>
       <AppProvider>

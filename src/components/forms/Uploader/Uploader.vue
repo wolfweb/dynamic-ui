@@ -24,7 +24,7 @@
 <script lang="ts">
   import httpFactory from '@/utils/http';
   import { useEditModel } from '@/models/schema';
-  import { defineComponent, computed } from 'vue';
+  import { defineComponent } from 'vue';
   import { useMessage } from '@/hooks/web/useMessage';
   export default defineComponent({
     name: "Uploader",
@@ -71,9 +71,7 @@
         return true;
       }
 
-      const descriptor = computed(()=>{
-        return props.meta.validation.map(x=>x.rule);
-      }).value;
+      const descriptor = props.meta.validation.map(x=>x.rule);
 
       return {
         formModel,

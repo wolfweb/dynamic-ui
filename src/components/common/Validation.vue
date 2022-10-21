@@ -23,7 +23,7 @@
   import validators from '@/utils/validators';
   import { useEditModel } from '@/models/schema';
   import { filter, some, isEqual } from 'lodash-es';
-  import { defineComponent, watch, reactive, computed } from 'vue';
+  import { defineComponent, watch, reactive } from 'vue';
   export default defineComponent({
     name: "Validation",
     setup(props, context) {
@@ -72,10 +72,7 @@
         });
       }
 
-      const element = computed(()=> {
-        // @ts-ignore
-        return currentElement as IFormElementMetadata;
-      }).value;
+      const element = currentElement.value as IFormElementMetadata;
 
       watch(
         // @ts-ignore

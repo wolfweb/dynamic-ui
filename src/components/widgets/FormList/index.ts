@@ -9,8 +9,7 @@ meta.attributes = {
   icon: Table,
   border: false,
   stripe: true,
+  columns: []
 };
-
-meta.columns = [];
 
 export default meta

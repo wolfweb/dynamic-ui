@@ -5,7 +5,7 @@
     :border="meta.attributes.border"
     :direction="meta.attributes.direction"
   >
-  <template v-for="(item,index) in meta.columns">
+  <template v-for="(item,index) in meta.attributes.columns">
     <el-descriptions-item v-if="item.enable" :label="item.label">
       {{ formModel[item.name] }}
     </el-descriptions-item>
@@ -13,8 +13,7 @@
   </el-descriptions>
 </template>
 <script lang="ts">
-  import { some } from 'lodash-es';
-  import { defineComponent, watch }  from 'vue';
+  import { defineComponent }  from 'vue';
   import { useEditModel } from '@/models/schema';
 
   export default defineComponent({
@@ -23,32 +22,11 @@
       meta:null
     },
     setup(props, context) {
-      const { editerModel, recursionFind } = useEditModel();
+      console.log(props.meta);
+      
+      const { editerModel } = useEditModel();
 
       const formModel = editerModel.attributes.formViewAttr.model;
-
-      const addOrUpdateColumns = (element) => {
-        const fields = recursionFind(element.formSchema, x => x.hasOwnProperty('dataBinder') && x.hasOwnProperty('validation'));
-        for(var i=0; i<fields.length; i++){
-          if(!some(element.columns, x=> x.id == fields[i].id)){
-            element.columns.push({
-              id: fields[i].id,
-              label: fields[i].attributes.label,
-              name: fields[i].dataBinder.name,
-              enable: true
-            });
-          }
-        }
-      }
-
-      addOrUpdateColumns(props.meta);
-
-      watch(
-        ()=> props.meta.formSchema,
-        (v)=>{
-          addOrUpdateColumns(props.meta);
-        },{deep: true}
-      )
 
       return {
         formModel

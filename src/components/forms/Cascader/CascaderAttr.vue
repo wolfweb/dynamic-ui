@@ -78,7 +78,7 @@
   import draggable from 'vuedraggable';
   import { useEditModel } from '@/models/schema';
   import { showDialog } from '@/hooks/web/useDialog';
-  import { defineComponent, reactive, computed } from 'vue';
+  import { defineComponent, reactive } from 'vue';
   import { ElForm, ElFormItem, ElInput } from 'element-plus';
   import { useContextMenu } from '@/hooks/web/useContextMenu';
 
@@ -160,10 +160,7 @@
 
       const [createContextMenu] = useContextMenu();
 
-      const element = computed(()=> {
-        // @ts-ignore
-        return currentElement as IFormElementMetadata;
-      }).value;
+      const element = currentElement.value as IFormElementMetadata;
 
       return {
         element,

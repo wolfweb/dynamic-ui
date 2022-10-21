@@ -75,7 +75,6 @@ export const initEditorPlus = (app: App) => {
   for (const k in components.widgets) {
     for (const it in components.widgets[k]) {
       const widget = components.widgets[k][it];
-      console.log(`register comp=>${widget.name}`);
       app.component(widget.name!, widget);
     }
   }

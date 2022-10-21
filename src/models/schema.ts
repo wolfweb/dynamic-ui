@@ -107,16 +107,6 @@ const ModelContext = ({ title, callback }) => {
     schemaStore.updateSchema(state.viewSchema);
   }
 
-  const recursionFind = (collection: Array<any> , predict : (block: IElementMetadata) => Boolean) => {
-    let res = collection.map(child=>{
-      if(predict(child)) return child;
-      if(child.childes && child.childes.length>0) {
-        return recursionFind(child.childes, predict);
-      }
-    });
-    return flatMap(res).filter(x => !!x);
-  }
-
   const findAndSetCurrentElement = (id: string) => {
     if(state.currentElement && state.currentElement.id == id) return;
 
@@ -198,10 +188,12 @@ const ModelContext = ({ title, callback }) => {
 
   return {
     editerModel: state,
-    viewSchema: computed(() => state.viewSchema),
+    viewSchema: computed({
+      get: () => state.viewSchema, 
+      set: (v) => {  }
+    }),
     currentElement: computed(() => state.currentElement),
     addValidation,
-    recursionFind,
     sortViewSchema,
     removeValidation,
     setCurrentElement,

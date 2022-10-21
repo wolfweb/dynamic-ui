@@ -92,7 +92,7 @@
 <script lang="ts">
   import draggable from 'vuedraggable';
   import { useEditModel } from '@/models/schema';
-  import { defineComponent, computed } from 'vue';
+  import { defineComponent } from 'vue';
   export default defineComponent({
     name: "TabsAttr",
     components:{
@@ -109,10 +109,7 @@
     setup(props, context) {
       const { currentElement } = useEditModel();
 
-      const element = computed(()=> {
-        // @ts-ignore
-        return currentElement as IFormElementMetadata;
-      }).value;
+      const element = currentElement.value as IFormElementMetadata;;
 
       return {
         element

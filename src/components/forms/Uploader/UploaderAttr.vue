@@ -118,7 +118,7 @@
   import draggable from 'vuedraggable';
   import { ElIcons } from '@/models/common';
   import { useEditModel } from '@/models/schema';
-  import { defineComponent, computed } from 'vue';
+  import { defineComponent } from 'vue';
   import { useMessage } from '@/hooks/web/useMessage';
   import { useAppStore } from '@/store/modules/appStore';
   import Validation from '@/components/common/Validation.vue';
@@ -143,10 +143,7 @@
 
       const app = useAppStore().AppContext;
 
-      const element = computed(()=> {
-        // @ts-ignore
-        return currentElement as IFormElementMetadata;
-      }).value;
+      const element = currentElement.value as IFormElementMetadata;;
 
       if(app == null){
         message.error("请先配置应用信息");

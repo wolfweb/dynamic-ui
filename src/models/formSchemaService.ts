@@ -1,7 +1,7 @@
 import { App, markRaw, computed } from 'vue';
 import { Emitter } from "mitt";
 import { nanoid } from 'nanoid';
-import { find, isNil } from 'lodash-es';
+import { find, isNil, flatMap, some } from 'lodash-es';
 import validators from '@/utils/validators';
 import { DisplayElementMetadata, EditorModel, FormElementMetadata, SchemaEvent } from "./schema";
 
@@ -37,6 +37,7 @@ const primaryKey = () :FormElementMetadata => {
 
 const detailContainer = (): DisplayElementMetadata => {
   let meta = new DisplayElementMetadata();
+  meta.id = nanoid();
   meta.key = "FormDetail";
   meta.display = "详情";
   meta.formSchema = [],
@@ -45,21 +46,22 @@ const detailContainer = (): DisplayElementMetadata => {
     border: true,
     column: 3,
     direction: "horizontal",
+    columns: []
   };
-  meta.columns = [];
   return meta;
 }
 
 const listContainer = (): DisplayElementMetadata => {
   let meta = new DisplayElementMetadata();
+  meta.id = nanoid();
   meta.key = "FormList";
   meta.display = "列表";
   meta.formSchema = [],
   meta.attributes = {
     border: false,
     stripe: true,
+    columns: []
   };
-  meta.columns = [];
   return meta;
 }
 
@@ -105,9 +107,9 @@ export const formInitialize = (app : App, editorModel : EditorModel) => {
   emitter.on("onElementAdded", (element) => {
     if (element instanceof FormElementMetadata && element.dataBinder) {
       editorModel.attributes.formViewAttr.model[element.dataBinder.name] = element.dataBinder.value;
-      editorModel.attributes.formViewAttr.listSchema.formSchema = editorModel.viewSchema;
-      editorModel.attributes.formViewAttr.detailSchema.formSchema = editorModel.viewSchema;
-      console.log("onElementAdded");
+      editorModel.attributes.formViewAttr.listSchema.formSchema = editorModel.attributes.formViewAttr.detailSchema.formSchema = editorModel.viewSchema;
+      addOrUpdateColumns(editorModel.attributes.formViewAttr.listSchema);
+      addOrUpdateColumns(editorModel.attributes.formViewAttr.detailSchema);
     }
   });
 
@@ -124,7 +126,7 @@ export const formInitialize = (app : App, editorModel : EditorModel) => {
   });
 
   emitter.on("onElementSelected", (element) => {
-    console.log("an element selected");
+    
   });
   
   emitter.on("onParseSchema", (schema)=>{
@@ -137,15 +139,41 @@ export const formInitialize = (app : App, editorModel : EditorModel) => {
     if(v === 'detail'){
       setTimeout(()=>{
         editorModel.currentElement = editorModel.attributes.formViewAttr.detailSchema;
+        emitter.emit("onElementSelected", editorModel.currentElement);
       }, 0);
     }else if(v === 'list'){
       setTimeout(()=>{
         editorModel.currentElement = editorModel.attributes.formViewAttr.listSchema;
+        emitter.emit("onElementSelected", editorModel.currentElement);
       }, 0);
     }else{
       //editorModel.currentElement = null;
     }
   });
+
+  const recursionFind = (collection: Array<any> , predict : (block: IElementMetadata) => Boolean) => {
+    let res = collection.map(child=>{
+      if(predict(child)) return child;
+      if(child.childes && child.childes.length>0) {
+        return recursionFind(child.childes, predict);
+      }
+    });
+    return flatMap(res).filter(x => !!x);
+  }
+
+  const addOrUpdateColumns = (element: DisplayElementMetadata) => {
+    const fields = recursionFind(element.formSchema, x => x.hasOwnProperty('dataBinder') && x.hasOwnProperty('validation'));
+    for(var i=0; i<fields.length; i++){
+      if(!some(element.attributes.columns, x=> x.id == fields[i].id)){
+        element.attributes.columns.push({
+          id: fields[i].id,
+          label: fields[i].attributes.label,
+          name: fields[i].dataBinder.name,
+          enable: true
+        });
+      }
+    }
+  }
 
   const ensureFormModelInit = (element: FormElementMetadata) => {
     if (!editorModel.attributes.formViewAttr.model[element.dataBinder!.name]) {

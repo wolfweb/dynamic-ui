@@ -10,7 +10,7 @@ meta.attributes = {
   label: "多行输入",
   required: false,
   minlength: 0,
-  maxlength: 255,
+  maxlength: 1000,
   placeholder: "",
   'show-word-limit': false,
   icon: MusicList

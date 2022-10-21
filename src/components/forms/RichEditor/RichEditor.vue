@@ -32,9 +32,7 @@
       }).value;
 
 
-      const descriptor = computed(()=>{
-        return props.meta.validation.map(x=>x.rule);
-      }).value;
+      const descriptor = props.meta.validation.map(x=>x.rule);
 
       return {
         editorContent,
