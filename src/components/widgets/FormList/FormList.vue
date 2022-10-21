@@ -1,7 +1,7 @@
 <template>
   <el-table :data="tableData">
     <template v-for="(item,index) in meta.attributes.columns">
-      <el-table-column v-if="item.enable" :prop="item.name" :label="item.label"></el-table-column>
+      <el-table-column v-if="item.enable" :prop="item.element.dataBinder.name" :label="item.element.attributes.label"></el-table-column>
     </template>
   </el-table>
 </template>

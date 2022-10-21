@@ -54,7 +54,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="16">
-            <el-form-item>{{element.label}}</el-form-item>
+            <el-form-item>{{element.element.attributes.label}}</el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item>

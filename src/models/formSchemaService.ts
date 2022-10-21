@@ -163,8 +163,9 @@ export const formInitialize = (app : App, editorModel : EditorModel) => {
       if(!some(element.attributes.columns, x=> x.id == fields[i].id)){
         element.attributes.columns.push({
           id: fields[i].id,
-          label: fields[i].attributes.label,
-          name: fields[i].dataBinder.name,
+          // label: fields[i].attributes.label,
+          // name: fields[i].dataBinder.name,
+          element: fields[i],
           enable: true
         });
       }

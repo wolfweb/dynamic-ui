@@ -6,8 +6,8 @@
     :direction="meta.attributes.direction"
   >
   <template v-for="(item,index) in meta.attributes.columns">
-    <el-descriptions-item v-if="item.enable" :label="item.label">
-      {{ formModel[item.name] }}
+    <el-descriptions-item v-if="item.enable" :label="item.element.attributes.label">
+      {{ formModel[item.element.dataBinder.name] }}
     </el-descriptions-item>
   </template>
   </el-descriptions>
