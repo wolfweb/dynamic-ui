@@ -11,9 +11,10 @@
       :stretch="meta.attributes.stretch">
       <el-tab-pane v-for="(item, index) in meta.childes" :key="index" :label="item.display" :name="item.name" style="min-height: 80px;">
         <draggable 
-          class="form-element-block"
           animation="200" 
+          @change="onChange"
           v-model="item.childes" 
+          class="form-element-block"
           v-bind="{
             group: {
               name: 'widget',
@@ -32,7 +33,8 @@
 </template>
 <script lang="ts">
   import draggable from 'vuedraggable';
-  import { defineComponent } from 'vue'
+  import { defineComponent } from 'vue';
+  import { useEditModel } from '@/models/schema';
   export default defineComponent({
     name: "Tabs",
     components: { draggable },
@@ -44,11 +46,18 @@
       },
     },
     setup(props, context) {
-      if (props.meta) {
-        props.meta.attributes.active = props.meta.childes[0].name;
-      }
+      const { editerModel } = useEditModel();
+      
+      props.meta.attributes.active = props.meta.childes[0].name;
+
+      const onChange = (e) =>{
+        if(e.added){
+          editerModel.emitter.emit("onElementAdded", e.added.element);
+        }
+      };
+      
       return {
-        
+        onChange,
       }
     }
   })

@@ -10,8 +10,9 @@
   <draggable
       animation="200" 
       class="stage"
-      v-model="meta.childes"
       item-key="id"
+      @change="onChange"
+      v-model="meta.childes"
       v-bind="{
         group: {
           name: 'widget',
@@ -43,7 +44,14 @@
 
       const formModel = editerModel.attributes.formViewAttr.model;
 
+      const onChange = (e) =>{
+        if(e.added){
+          editerModel.emitter.emit("onElementAdded", e.added.element);
+        }
+      };
+
       return {
+        onChange,
         formModel
       }
     }

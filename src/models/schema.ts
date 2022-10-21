@@ -32,7 +32,6 @@ export class DisplayElementMetadata implements IDisplayElementMetadata{
   key: string;
   display: string;
   attributes: Dictionary<any>;
-  formSchema: Array<FormElementMetadata | LayoutElementMetadata>;
   formSchemaId: string;
   columns: Array<FormElementMetadata>;
 }

@@ -1,12 +1,14 @@
-import { App, markRaw, computed } from 'vue';
-import { Emitter } from "mitt";
-import { nanoid } from 'nanoid';
-import { find, isNil, flatMap, some } from 'lodash-es';
 import validators from '@/utils/validators';
-import { DisplayElementMetadata, EditorModel, FormElementMetadata, SchemaEvent } from "./schema";
 
 import FormDataList from '@/components/forms/FormDataList.vue';
 import FormDataDetail from '@/components/forms/FormDataDetail.vue';
+
+import { Emitter } from "mitt";
+import { nanoid } from 'nanoid';
+import { App, markRaw, computed } from 'vue';
+import { find, isNil, remove, some } from 'lodash-es';
+import { recursionFind } from '@/components/component.config';
+import { DisplayElementMetadata, EditorModel, FormElementMetadata, SchemaEvent } from "./schema";
 
 const primaryKey = () :FormElementMetadata => {
   let meta = new FormElementMetadata();
@@ -40,7 +42,6 @@ const detailContainer = (): DisplayElementMetadata => {
   meta.id = nanoid();
   meta.key = "FormDetail";
   meta.display = "详情";
-  meta.formSchema = [],
   meta.attributes = {
     title: "测试",
     border: true,
@@ -56,7 +57,6 @@ const listContainer = (): DisplayElementMetadata => {
   meta.id = nanoid();
   meta.key = "FormList";
   meta.display = "列表";
-  meta.formSchema = [],
   meta.attributes = {
     border: false,
     stripe: true,
@@ -107,9 +107,8 @@ export const formInitialize = (app : App, editorModel : EditorModel) => {
   emitter.on("onElementAdded", (element) => {
     if (element instanceof FormElementMetadata && element.dataBinder) {
       editorModel.attributes.formViewAttr.model[element.dataBinder.name] = element.dataBinder.value;
-      editorModel.attributes.formViewAttr.listSchema.formSchema = editorModel.attributes.formViewAttr.detailSchema.formSchema = editorModel.viewSchema;
-      addOrUpdateColumns(editorModel.attributes.formViewAttr.listSchema);
-      addOrUpdateColumns(editorModel.attributes.formViewAttr.detailSchema);
+      addOrUpdateColumns(editorModel.viewSchema, editorModel.attributes.formViewAttr.listSchema);
+      addOrUpdateColumns(editorModel.viewSchema, editorModel.attributes.formViewAttr.detailSchema);
     }
   });
 
@@ -121,7 +120,9 @@ export const formInitialize = (app : App, editorModel : EditorModel) => {
   
   emitter.on("onElementRemoved", (element)=> {
     if (element instanceof FormElementMetadata && element.dataBinder) {
-      delete editorModel.attributes.formViewAttr.model[element.dataBinder.name]
+      delete editorModel.attributes.formViewAttr.model[element.dataBinder.name];
+      removeColumn(element, editorModel.attributes.formViewAttr.listSchema);
+      removeColumn(element, editorModel.attributes.formViewAttr.detailSchema);
     }
   });
 
@@ -151,18 +152,13 @@ export const formInitialize = (app : App, editorModel : EditorModel) => {
     }
   });
 
-  const recursionFind = (collection: Array<any> , predict : (block: IElementMetadata) => Boolean) => {
-    let res = collection.map(child=>{
-      if(predict(child)) return child;
-      if(child.childes && child.childes.length>0) {
-        return recursionFind(child.childes, predict);
-      }
-    });
-    return flatMap(res).filter(x => !!x);
-  }
+  const removeColumn = (elm: FormElementMetadata, element: DisplayElementMetadata) => {
+    // @ts-ignore
+    remove(element.attributes.columns, x=> x.id == elm.id);
+  };
 
-  const addOrUpdateColumns = (element: DisplayElementMetadata) => {
-    const fields = recursionFind(element.formSchema, x => x.hasOwnProperty('dataBinder') && x.hasOwnProperty('validation'));
+  const addOrUpdateColumns = (formSchema: Array<IElementMetadata>, element: DisplayElementMetadata) => {
+    const fields = recursionFind(formSchema, x => x.hasOwnProperty('dataBinder') && x.hasOwnProperty('validation'));
     for(var i=0; i<fields.length; i++){
       if(!some(element.attributes.columns, x=> x.id == fields[i].id)){
         element.attributes.columns.push({

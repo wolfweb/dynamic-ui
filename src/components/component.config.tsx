@@ -6,7 +6,7 @@ import { SchemaMode } from "@/enums/schemaMode";
 import { ElementSettings } from "@/models/common";
 import { DEFAULT_CACHE_TIME } from "@/utils/cache";
 import dynamicComponent from "@/components/dynamicComponent.vue";
-import { isObject, isArray, isBoolean, isString, isNumber, isUndefined, indexOf, } from "lodash-es";
+import { isObject, isArray, isBoolean, isString, isNumber, isUndefined, indexOf, flatMap, } from "lodash-es";
 
 let components : any = null;
 const cache = new Memory(DEFAULT_CACHE_TIME);
@@ -26,6 +26,16 @@ export const findElementSettings = (meta: IElementMetadata) => {
   }
   return [];
 };
+
+export const recursionFind = (collection: Array<any> , predict : (block: IElementMetadata) => Boolean) => {
+  let res = collection.map(child=>{
+    if(predict(child)) return child;
+    if(child.childes && child.childes.length>0) {
+      return recursionFind(child.childes, predict);
+    }
+  });
+  return flatMap(res).filter(x => !!x);
+}
 
 export const getElementCode = (
   meta: IElementMetadata
