@@ -117,7 +117,7 @@
 <script lang="ts">
   import { ElIcons } from '@/models/common';
   import { useEditModel } from '@/models/schema';
-  import { defineComponent } from 'vue';
+  import { defineComponent, reactive } from 'vue';
   import Validation from '@/components/common/Validation.vue';
   export default defineComponent({
     name: "InputAttr",
@@ -145,7 +145,10 @@
         { value: "hidden"  , label: "隐藏域" },
       ];
 
-      const element = currentElement.value as IFormElementMetadata;;
+      const element = reactive(
+        // @ts-ignore
+        currentElement as IFormElementMetadata
+      );
 
       return {
         element,

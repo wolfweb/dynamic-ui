@@ -44,7 +44,7 @@
   import draggable from 'vuedraggable';
   import { nanoid } from 'nanoid';
   import { useEditModel } from '@/models/schema';
-  import { defineComponent } from 'vue';
+  import { defineComponent, reactive } from 'vue';
   export default defineComponent({
     name: "RowAttr",
     components:{
@@ -61,7 +61,10 @@
     setup(props, context) {
       const { currentElement } = useEditModel();
 
-      const element = currentElement.value as ILayoutElementMetadata;;
+      const element = reactive(
+        // @ts-ignore
+        currentElement.value as ILayoutElementMetadata
+      );
 
       return {
         element,

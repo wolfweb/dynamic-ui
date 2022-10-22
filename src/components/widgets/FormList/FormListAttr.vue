@@ -52,7 +52,7 @@
 <script lang="ts">
   import draggable from 'vuedraggable';
   import { useEditModel } from '@/models/schema';
-  import { defineComponent } from 'vue';
+  import { defineComponent, reactive } from 'vue';
   import type { DisplayElementMetadata } from '@/models/schema';
 
   export default defineComponent({
@@ -63,7 +63,10 @@
     setup(props, context){
       const { currentElement } = useEditModel();
 
-      const element = currentElement.value as DisplayElementMetadata;
+      const element = reactive(
+        // @ts-ignore
+        currentElement.value as DisplayElementMetadata
+      );
 
       return {
         element

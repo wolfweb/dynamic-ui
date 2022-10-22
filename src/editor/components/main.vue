@@ -74,7 +74,7 @@
         watch(
           ()=> activeName.value,
           (v)=>{
-            editerModel.emitter.emit('onOtherCommand', v);
+            editerModel.emitter.emit("onOtherCommand", v);
           }
         )
       }

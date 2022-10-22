@@ -48,7 +48,7 @@
 <script lang="ts">
   import draggable from 'vuedraggable';
   import { useEditModel } from '@/models/schema';
-  import { defineComponent } from 'vue';
+  import { defineComponent, reactive } from 'vue';
   export default defineComponent({
     name: "CollapseAttr",
     components:{
@@ -65,7 +65,10 @@
     setup(props, context) {
       const { currentElement } = useEditModel();
 
-      const element = currentElement.value as IFormElementMetadata;
+      const element = reactive(
+        // @ts-ignore
+        currentElement.value as IFormElementMetadata
+      );
 
       return {
         element

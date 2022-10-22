@@ -63,15 +63,19 @@
     padding: 0.2rem!important;
     text-align: right!important;
 
-    &_handle{
+    legend {
       display: none;
+    }
+
+    &_handle{
+      display: inline-block;
       padding: 2px;
       margin: 0 2px;
       cursor: grab;
     }
 
     &_actions{
-      display: none;
+      display: inline-block;
       cursor: pointer;
       margin: 0 2px;
       right: 8px;
@@ -91,9 +95,8 @@
       border-color: rgba(18, 98, 226,0.5);
       background: rgba(0,0,0,0.02);
 
-      & .editable_handle,
-      & .editable_actions {
-        display: inline-block;
+      > legend:first-child {
+        display: block;
       }
     }
   }

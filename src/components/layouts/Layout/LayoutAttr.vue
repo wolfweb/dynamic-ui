@@ -24,14 +24,17 @@
   </el-form>
 </template>
 <script lang="ts">
-  import { defineComponent } from 'vue';
+  import { defineComponent, reactive } from 'vue';
   import { useEditModel } from '@/models/schema';
   export default defineComponent({
     name: "LayoutAttr",
     setup(props, context) {
       const { currentElement } = useEditModel();
 
-      const element = currentElement.value as ILayoutElementMetadata;
+      const element = reactive(
+        // @ts-ignore
+        currentElement.value as ILayoutElementMetadata
+      );
 
       return {
         element,

@@ -38,14 +38,17 @@
   </el-form>
 </template>
 <script lang="ts">
-  import { defineComponent , PropType} from 'vue';
+  import { defineComponent, reactive } from 'vue';
   import { useEditModel } from '@/models/schema';
   export default defineComponent({
     name: "FormAttr",
     setup(props, context) {
       const { currentElement } = useEditModel();
 
-      const element = currentElement.value as ILayoutElementMetadata;
+      const element = reactive(
+        // @ts-ignore
+        currentElement.value as ILayoutElementMetadata
+      );
 
       return {
         element

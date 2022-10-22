@@ -7,6 +7,7 @@ import { Emitter } from "mitt";
 import { nanoid } from 'nanoid';
 import { App, markRaw, computed } from 'vue';
 import { find, isNil, remove, some } from 'lodash-es';
+import { useDebounceFn, useThrottleFn } from '@vueuse/core';
 import { recursionFind } from '@/components/component.config';
 import { DisplayElementMetadata, EditorModel, FormElementMetadata, SchemaEvent } from "./schema";
 
@@ -138,17 +139,17 @@ export const formInitialize = (app : App, editorModel : EditorModel) => {
 
   emitter.on("onOtherCommand", (v)=> {
     if(v === 'detail'){
-      setTimeout(()=>{
+      useDebounceFn(()=>{
         editorModel.currentElement = editorModel.attributes.formViewAttr.detailSchema;
-        emitter.emit("onElementSelected", editorModel.currentElement);
-      }, 0);
+      }, 200)();
     }else if(v === 'list'){
-      setTimeout(()=>{
+      useDebounceFn(()=>{
         editorModel.currentElement = editorModel.attributes.formViewAttr.listSchema;
-        emitter.emit("onElementSelected", editorModel.currentElement);
-      }, 0);
+      }, 200)();
     }else{
-      //editorModel.currentElement = null;
+      useDebounceFn(()=>{
+        editorModel.currentElement = null;
+      }, 200)();
     }
   });
 

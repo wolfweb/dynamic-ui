@@ -10,7 +10,7 @@ $boxShadow: -2px 0 4px 0 rgb(0 0 0 / 10%);
   background-color: white;
   transform: translateX(100%);
   box-shadow: $boxShadow;
-  transition: transform 0.5s ease-in-out;
+  transition: transform 0.3s ease-in-out;
   contain: layout;
 
   &.is-open {
@@ -39,7 +39,7 @@ $boxShadow: -2px 0 4px 0 rgb(0 0 0 / 10%);
   background: #fff;
   transform: translateX(-20px);
   box-shadow: $boxShadow;
-  transition: transform 0.5s ease-in-out;
+  transition: transform 0.1s ease-in-out;
   justify-content: center;
   align-items: center;
   border-radius: 10px 0 0 10px;

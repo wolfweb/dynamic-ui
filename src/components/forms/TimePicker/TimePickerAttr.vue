@@ -45,7 +45,7 @@
 </template>
 <script lang="ts">
   import { useEditModel } from '@/models/schema';
-  import { defineComponent } from 'vue';
+  import { defineComponent, reactive } from 'vue';
   import Validation from '@/components/common/Validation.vue';
   export default defineComponent({
     name: "TimePickerAttr",
@@ -55,7 +55,10 @@
     setup(props, context) {
       const { currentElement, requireChangeHandler } = useEditModel();
 
-      const element = currentElement.value as IFormElementMetadata;;
+      const element = reactive(
+        // @ts-ignore
+        currentElement.value as IFormElementMetadata
+      );
 
       return {
         element,

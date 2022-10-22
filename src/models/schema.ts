@@ -2,8 +2,9 @@ import type { InjectionKey } from 'vue';
 
 import mitt, { Emitter } from "mitt";
 import { CacheType } from '@/enums/cache';
-import { useSchemaStore } from '@/store/modules/schemaStore';
 import { flatMap, remove } from 'lodash-es';
+import { useDebounceFn, useThrottleFn } from '@vueuse/core';
+import { useSchemaStore } from '@/store/modules/schemaStore';
 import { reactive, inject, provide, readonly, computed } from 'vue';
 
 const editInjectKey: InjectionKey<ReturnType<typeof ModelContext>> = Symbol();
@@ -101,13 +102,17 @@ const ModelContext = ({ title, callback }) => {
   }
 
   const setCurrentElement = (block: IElementMetadata | null) => {
-    state.currentElement = block;
-    emitter.emit("onElementSelected", block);
-    schemaStore.updateSchema(state.viewSchema);
+    useDebounceFn(()=>{
+      state.currentElement = block;
+      emitter.emit("onElementSelected", block);
+      schemaStore.updateSchema(state.viewSchema);
+    }, 200)();
   }
 
   const findAndSetCurrentElement = (id: string) => {
     if(state.currentElement && state.currentElement.id == id) return;
+    state.currentElement = null;
+    emitter.emit("onElementSelected", null);
 
     const _recursion = (childes, id): IElementMetadata => {
       let res = childes.map((child) => {
@@ -129,6 +134,9 @@ const ModelContext = ({ title, callback }) => {
   }
 
   const findAndRemoveElement = (id: string) => {
+    state.currentElement = null;
+    emitter.emit("onElementSelected", null);
+
     const _recursion = (childes, id) => {
       let idx = childes.findIndex(x => x.id == id)
       if (idx > -1) {
@@ -142,11 +150,10 @@ const ModelContext = ({ title, callback }) => {
       });
       if(res.length) return res[0];
     }
+    
     let result = _recursion(state.viewSchema, id);
 
     emitter.emit("onElementRemoved", result);
-
-    state.currentElement = null
     return result;
   }
 

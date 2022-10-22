@@ -144,7 +144,10 @@
 
       const [createContextMenu] = useContextMenu();
 
-      const element = currentElement.value as IFormElementMetadata;;
+      const element = reactive(
+        // @ts-ignore
+        currentElement.value as IFormElementMetadata
+      );
       
       return {
         element,
